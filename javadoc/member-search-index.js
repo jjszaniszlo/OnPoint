@@ -1,1 +1,1 @@
-memberSearchIndex = [{"p":"com.ateam.onpoint","c":"ApplicationEntry","l":"ApplicationEntry()","u":"%3Cinit%3E()"},{"p":"com.ateam.onpoint","c":"ApplicationEntry","l":"main(String[])","u":"main(java.lang.String[])"}];updateSearchResults();
+memberSearchIndex = [{"p":"com.ateam.onpoint","c":"ApplicationEntry","l":"ApplicationEntry()","u":"%3Cinit%3E()"},{"p":"com.ateam.onpoint","c":"ApplicationEntry","l":"main(String[])","u":"main(java.lang.String[])"},{"p":"com.ateam.onpoint","c":"ApplicationEntry","l":"start(Stage)","u":"start(javafx.stage.Stage)"}];updateSearchResults();
