@@ -1,8 +1,6 @@
 package com.ateam.onpoint;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
@@ -20,7 +18,7 @@ public class ApplicationEntry extends Application {
     /**
      * The start point for the primary JavaFX stage.
      * @param stage the primary stage
-     * @throws Exception
+     * @throws Exception can throw any kind of exception
      */
     @Override
     public void start(Stage stage) throws Exception {
@@ -28,12 +26,7 @@ public class ApplicationEntry extends Application {
 
         Button btn = new Button();
         btn.setText("Say 'Hello World!'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                System.out.println("Hello World!");
-            }
-        });
+        btn.setOnAction(actionEvent -> System.out.println("Hello World!"));
 
         StackPane root = new StackPane();
         root.getChildren().add(btn);
