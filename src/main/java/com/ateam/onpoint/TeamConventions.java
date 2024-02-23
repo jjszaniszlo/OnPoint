@@ -1,4 +1,4 @@
-package main;
+package com.ateam.onpoint;
 
 /**
  * <b>[THIS IS THE CLASS FILE SUMMARY]</b>
