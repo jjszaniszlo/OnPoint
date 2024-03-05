@@ -36,7 +36,8 @@ public class TeamConventions {
         s = "This is a reset of string s";
 
         // Add to global variable s
-        s += ", with additions";
+        s += ", with additions!";
+
 
         // Print the built string here
         System.out.println(s);
