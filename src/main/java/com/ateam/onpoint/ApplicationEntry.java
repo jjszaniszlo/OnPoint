@@ -1,8 +1,12 @@
 package com.ateam.onpoint;
 
 import javafx.application.Application;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -24,13 +28,9 @@ public class ApplicationEntry extends Application {
     public void start(Stage stage) throws Exception {
         stage.setTitle("OnPoint");
 
-        Button btn = new Button();
-        btn.setText("Say 'Hello World!'");
-        btn.setOnAction(actionEvent -> System.out.println("Hello World!"));
+        Parent root = FXMLLoader.load(getClass().getResource("main_layout.fxml"));
 
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-        stage.setScene(new Scene(root, 300, 250));
+        stage.setScene(new Scene(root, 840, 640));
         stage.show();
     }
 }
