@@ -28,7 +28,7 @@ public class ApplicationEntry extends Application {
     public void start(Stage stage) throws Exception {
         stage.setTitle("OnPoint");
 
-        Parent root = FXMLLoader.load(getClass().getResource("main_layout.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/main_layout.fxml"));
 
         stage.setScene(new Scene(root, 840, 640));
         stage.show();
