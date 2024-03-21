@@ -3,6 +3,7 @@
     <option name="MAIN_CLASS_NAME" value="com.ateam.onpoint.ApplicationEntry" />
     <module name="onpoint" />
     <option name="VM_PARAMETERS" value="--module-path $ProjectFileDir$/deps/macos_x64/javafx-sdk-21.0.2/lib --add-modules javafx.controls,javafx.fxml" />
+    <option name="WORKING_DIRECTORY" value="$ContentRoot$" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
