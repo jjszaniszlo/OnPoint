@@ -71,8 +71,11 @@ public class NavTree extends TreeView<NavTree.ContentRecord> {
 
             if (rec == null || empty) {
                 this.setGraphic(null);
+
+                this.name.setText(null);
             } else {
                 this.setGraphic(root);
+
                 this.name.setText(rec.name);
             }
         }
