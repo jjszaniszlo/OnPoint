@@ -1,7 +1,6 @@
 package com.ateam.onpoint;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -30,10 +29,6 @@ public class ApplicationEntry extends Application {
         Scene rootScene = new Scene(root, 840, 640);
 
         stage.setScene(rootScene);
-
-        Platform.runLater(() -> {
-            stage.show();
-            stage.requestFocus();
-        });
+        stage.show();
     }
 }
