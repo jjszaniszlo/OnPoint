@@ -1,12 +1,9 @@
 package com.ateam.onpoint;
 
-import com.ateam.onpoint.gui.Dashboard;
 import com.ateam.onpoint.gui.OnPointGUI;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
