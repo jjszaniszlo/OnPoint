@@ -10,7 +10,7 @@ public class ContentView {
     private Class<? extends IContent> selectedContent;
     private final NavTree.NavItem navTreeRoot;
 
-    public NavTree.NavItem getRoot() {
+    public NavTree.NavItem getNavTreeRoot() {
         return navTreeRoot;
     }
 

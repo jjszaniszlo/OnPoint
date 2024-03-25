@@ -22,7 +22,7 @@ public class NavTree extends TreeView<NavTree.ContentRecord> {
 
         this.setShowRoot(false);
         this.setStyle("-fx-border-width: 0;");
-        this.setRoot(view.getRoot());
+        this.setRoot(view.getNavTreeRoot());
         // pass in a callback with param TreeView
         this.setCellFactory((v) -> new NavCell());
     }
