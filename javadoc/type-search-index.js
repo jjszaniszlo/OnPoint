@@ -1,1 +1,1 @@
-typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"com.ateam.onpoint","l":"ApplicationEntry"}];updateSearchResults();
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"com.ateam.onpoint","l":"ApplicationEntry"},{"p":"com.ateam.onpoint.gui","l":"OnPointGUI"},{"p":"com.ateam.onpoint","l":"TeamConventions"}];updateSearchResults();
