@@ -14,7 +14,7 @@ public class OnPointGUI extends AnchorPane {
 
     public OnPointGUI() {
         StackPane body = new StackPane(new Dashboard());
-        body.getStyleClass().add("body");  // add css to all children of the stack pane
+        body.getStyleClass().add("body");
 
         this.getChildren().add(body);
     }
