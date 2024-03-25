@@ -8,14 +8,13 @@ import javafx.scene.layout.StackPane;
  * Manages all the components specific to the application
  */
 public class OnPointGUI extends AnchorPane {
-    public int MIN_WINDOW_WIDTH = 1200;
-    public int SIDEBAR_WIDTH = 300;
+    public static final int MIN_WINDOW_WIDTH = 840;
+    public static final int MIN_WINDOW_HEIGHT = 420;
+    public static final int SIDEBAR_WIDTH = 200;
 
     public OnPointGUI() {
-        StackPane body = new StackPane();
+        StackPane body = new StackPane(new Dashboard());
         body.getStyleClass().add("body");  // add css to all children of the stack pane
-
-        body.getChildren().add(new Dashboard());
 
         this.getChildren().add(body);
     }
