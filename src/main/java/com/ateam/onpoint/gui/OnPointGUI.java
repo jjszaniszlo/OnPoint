@@ -4,7 +4,7 @@ package com.ateam.onpoint.gui;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 
-/*
+/**
  * Manages all the components specific to the application
  */
 public class OnPointGUI extends AnchorPane {

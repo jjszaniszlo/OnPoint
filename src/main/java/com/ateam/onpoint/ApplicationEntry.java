@@ -8,10 +8,9 @@ import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-/*
- * The class which the application is launched from.
+/**
+ * The ApplicationEntry class is responsible for launching the application and all necessary resources and subsystems.
  */
-
 public class ApplicationEntry extends Application {
     public static void main(String[] args) {
         launch(args);

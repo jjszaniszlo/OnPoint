@@ -8,11 +8,16 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-/*
+/**
  * Contains the user account snippet, and the navbar for app navigation.
  */
 public class Sidebar extends VBox {
     private final NavTree navTree;
+
+    /**
+     * construct the sidebar associated with a content view
+     * @param view the content view which the sidebar is attached to.
+     */
     public Sidebar(ContentView view) {
         super();
 
@@ -21,11 +26,14 @@ public class Sidebar extends VBox {
         this.getChildren().addAll(new Header(), navTree);
     }
 
-    /*
+    /**
      * The header has the user's name and profile photo, alongside the open settings functionality
      */
     private class Header extends HBox {
         private final Button openProfile;
+        /**
+         * construct the header for the sidebar
+         */
         public Header() {
             super();
 

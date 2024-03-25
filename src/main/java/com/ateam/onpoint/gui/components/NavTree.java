@@ -13,6 +13,10 @@ import javafx.scene.layout.HBox;
  * The nav tree lets users select what content should be shown in the content view.
  */
 public class NavTree extends TreeView<NavTree.ContentRecord> {
+    /**
+     * Builds the NavTree and the factor for the cell constructor.
+     * @param view
+     */
     public NavTree(ContentView view) {
         super();
 
@@ -23,34 +27,65 @@ public class NavTree extends TreeView<NavTree.ContentRecord> {
         this.setCellFactory((v) -> new NavCell());
     }
 
-    /*
-     * the ContentRecord keeps track of the association between the name, icon and ContentView.
+    /**
+     * The content record holds the necessary information to link the name in the navtree with the content view.
+     * @param name
+     * @param content
      */
     record ContentRecord(String name, Class<? extends  IContent> content) {}
 
+    /**
+     * the node used for the navtree structure.
+     */
     public static class NavItem extends TreeItem<ContentRecord> {
         ContentRecord record;
+
+        /**
+         * construct a new navitem with the content record passed in.
+         * @param record
+         */
         private NavItem(ContentRecord record) {
             this.record = record;
             this.setValue(record);
         }
 
+        /**
+         * retrieve the content view associated with this navitem.
+         * @return the content view
+         */
         public Class<? extends IContent> getContentView() {
             return this.record.content;
         }
 
+        /**
+         * construct a new root navitem.
+         * @return the constructed navitem
+         */
         public static NavItem makeRoot() {
             return new NavItem(new ContentRecord("ROOT", null));
         }
 
-        public static NavItem makeContent(String title, Class<? extends IContent> content) {
-            return new NavItem(new ContentRecord(title, content));
+        /**
+         * construct a new content navitem
+         * @param name the name to associate with a given content view
+         * @param content the content view to associate with the name
+         * @return the constructed navitem
+         */
+        public static NavItem makeContent(String name, Class<? extends IContent> content) {
+            return new NavItem(new ContentRecord(name, content));
         }
     }
 
+    /**
+     * the displayed structures for each navitem in the navtree.
+     */
     public static class NavCell extends TreeCell<ContentRecord> {
         private final HBox root;
         private final Label name;
+
+        /**
+         * construct a new navcell
+         */
         public NavCell() {
             super();
 
@@ -64,6 +99,13 @@ public class NavTree extends TreeView<NavTree.ContentRecord> {
             this.getStyleClass().add("nav-tree-cell");
         }
 
+        /**
+         * this is the callback for updating a cell if an item is updated.
+         * @param rec The new item for the cell.
+         * @param empty whether or not this cell represents data from the list. If it
+         *        is empty, then it does not represent any domain data, but is a cell
+         *        being used to render an "empty" row.
+         */
         @Override
         protected void updateItem(ContentRecord rec, boolean empty) {
             super.updateItem(rec, empty);
