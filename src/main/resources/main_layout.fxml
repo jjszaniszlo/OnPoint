@@ -1,26 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane fx:id="main_view" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ateam.onpoint.gui.OnPointGUI">
+<Pane fx:id="main_view" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Pane fx:id="content_view" layoutX="177.0" prefHeight="400.0" prefWidth="423.0">
          <children>
-            <Pane fx:id="task_view" prefHeight="400.0" prefWidth="423.0">
+            <Pane fx:id="task_view">
                <children>
-                  <Button fx:id="btn_new_task" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="New Task" />
-                  <ListView fx:id="task_list" layoutX="14.0" layoutY="50.0" prefHeight="337.0" prefWidth="396.0" />
+                  <Label layoutX="30.0" layoutY="15.0" styleClass="header" text="Tasks">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <ToolBar layoutX="25.0" layoutY="50.0">
+                    <items>
+                      <Button mnemonicParsing="false" style="-fx-underline: false;" styleClass="flat" text="New" />
+                    </items>
+                  </ToolBar>
                </children>
             </Pane>
          </children>
       </Pane>
-      <Pane fx:id="side_view" prefHeight="400.0" prefWidth="177.0">
+      <Pane fx:id="side_view">
          <children>
-            <VBox prefHeight="398.0" prefWidth="182.0">
+            <VBox prefHeight="400.0" prefWidth="177.0">
                <children>
                   <Pane prefHeight="55.0" prefWidth="182.0">
                      <children>
@@ -29,13 +39,20 @@
                               <Image url="@img/placeholder.png" />
                            </image>
                         </ImageView>
-                        <Label layoutX="76.0" layoutY="20.0" text="YOUR NAME" />
+                        <Label fx:id="account_id" layoutX="76.0" layoutY="20.0" text="YOUR NAME" />
                      </children>
+                     <VBox.margin>
+                        <Insets left="-10.0" />
+                     </VBox.margin>
                   </Pane>
-                  <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="175.0" text="Tasks" />
+                  <Button contentDisplay="CENTER" mnemonicParsing="false" prefWidth="177.0" style="-fx-underline: false;" styleClass="flat" text="Tasks" />
                </children>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
             </VBox>
          </children>
       </Pane>
+      <Separator layoutX="177.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="20.0" />
    </children>
 </Pane>

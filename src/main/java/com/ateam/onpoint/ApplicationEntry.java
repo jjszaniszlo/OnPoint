@@ -24,6 +24,7 @@ public class ApplicationEntry extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
+        Application.setUserAgentStylesheet(getClass().getResource("/css/cupertino-dark.css").toString());
         stage.setTitle("OnPoint");
       
         Parent root = FXMLLoader.load(getClass().getResource("/main_layout.fxml"));
