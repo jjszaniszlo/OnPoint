@@ -11,8 +11,7 @@ public class Dashboard extends BorderPane {
     public Dashboard() {
         super();
 
-        sidebar.setMinWidth(177);
-        sidebar.setMaxWidth(177);
+        sidebar.setPrefWidth(OnPointGUI.SIDEBAR_WIDTH);
 
         this.setLeft(sidebar);
     }
