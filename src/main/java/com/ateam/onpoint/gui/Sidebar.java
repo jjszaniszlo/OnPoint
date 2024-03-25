@@ -18,7 +18,7 @@ public class Sidebar extends VBox {
      * construct the sidebar associated with a content view
      * @param view the content view which the sidebar is attached to.
      */
-    public Sidebar(ContentView view) {
+    public Sidebar(ApplicationView view) {
         super();
 
         this.navTree = new NavTree(view);

@@ -1,6 +1,6 @@
 package com.ateam.onpoint.gui.components;
 
-import com.ateam.onpoint.gui.ContentView;
+import com.ateam.onpoint.gui.ApplicationView;
 import com.ateam.onpoint.gui.content.IContent;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -17,7 +17,7 @@ public class NavTree extends TreeView<NavTree.ContentRecord> {
      * Builds the NavTree and the factor for the cell constructor.
      * @param view
      */
-    public NavTree(ContentView view) {
+    public NavTree(ApplicationView view) {
         super();
 
         this.setShowRoot(false);

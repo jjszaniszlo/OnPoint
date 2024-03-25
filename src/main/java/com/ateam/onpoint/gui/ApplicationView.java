@@ -6,7 +6,7 @@ import com.ateam.onpoint.gui.content.IContent;
 /**
  * Content view contains the panel where all the application's functionality will dynamically be made available through the sidebar.
  */
-public class ContentView {
+public class ApplicationView {
     private Class<? extends IContent> selectedContent;
     private final NavTree.NavItem navTreeRoot;
 
@@ -17,7 +17,7 @@ public class ContentView {
     /**
      * construct the content view of the application
      */
-    public ContentView() {
+    public ApplicationView() {
         navTreeRoot = NavTree.NavItem.makeRoot();
         navTreeRoot.getChildren().setAll(
                 NavTree.NavItem.makeContent("Tasks", null),
