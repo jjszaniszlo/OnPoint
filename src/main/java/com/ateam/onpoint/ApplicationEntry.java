@@ -1,10 +1,12 @@
 package com.ateam.onpoint;
 
+import com.ateam.onpoint.gui.Dashboard;
+import com.ateam.onpoint.gui.OnPointGUI;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -25,12 +27,12 @@ public class ApplicationEntry extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
+        Application.setUserAgentStylesheet(getClass().getResource("/css/cupertino-dark.css").toString());
         stage.setTitle("OnPoint");
-      
-        Parent root = FXMLLoader.load(getClass().getResource("/main_layout.fxml"));
-        Scene rootScene = new Scene(root, 840, 640);
 
-        stage.setScene(rootScene);
+        OnPointGUI guiHandle = new OnPointGUI();
+
+        stage.setScene(new Scene(guiHandle, guiHandle.MIN_WINDOW_WIDTH, 840));
 
         Platform.runLater(() -> {
             stage.show();
