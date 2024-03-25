@@ -1,5 +1,6 @@
 package com.ateam.onpoint.gui;
 
+import com.ateam.onpoint.gui.components.NavTree;
 import com.ateam.onpoint.gui.content.IContent;
 
 /*
@@ -7,4 +8,18 @@ import com.ateam.onpoint.gui.content.IContent;
  */
 public class ContentView {
     private Class<? extends IContent> selectedContent;
+
+    private final NavTree.NavItem navTreeRoot;
+
+    public NavTree.NavItem getRoot() {
+        return navTreeRoot;
+    }
+
+    public ContentView() {
+        navTreeRoot = NavTree.NavItem.makeRoot();
+        navTreeRoot.getChildren().setAll(
+                NavTree.NavItem.makeContent("Tasks", null),
+                NavTree.NavItem.makeContent("Schedule", null)
+        );
+    }
 }
