@@ -29,7 +29,9 @@ public class ApplicationEntry extends Application {
 
         OnPointGUI guiHandle = new OnPointGUI();
 
-        stage.setScene(new Scene(guiHandle, guiHandle.MIN_WINDOW_WIDTH, 840));
+        stage.setScene(new Scene(guiHandle, guiHandle.MIN_WINDOW_WIDTH, guiHandle.MIN_WINDOW_HEIGHT + 200));
+        stage.setMinWidth(guiHandle.MIN_WINDOW_WIDTH);
+        stage.setMinHeight(guiHandle.MIN_WINDOW_HEIGHT);
 
         Platform.runLater(() -> {
             stage.show();
