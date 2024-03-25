@@ -3,7 +3,6 @@ package com.ateam.onpoint.gui.components;
 import com.ateam.onpoint.gui.ContentView;
 import com.ateam.onpoint.gui.content.IContent;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
@@ -11,7 +10,7 @@ import javafx.scene.control.TreeView;
 import javafx.scene.layout.HBox;
 
 /*
- * The nav tree acts as an interactable component where the user is able to select what content is shown.
+ * The nav tree lets users select what content should be shown in the content view.
  */
 public class NavTree extends TreeView<NavTree.ContentRecord> {
     public NavTree(ContentView view) {
