@@ -27,8 +27,8 @@ We will likely interface with exceptions very rarely (only for antiquated APIs t
 public ClassName {
     /*
      * This method performs magic (please create an actual good description)
-     * @param a magic number 1
-     * @param b magic number 2
+     * @param a magic number which applies a factor to a weighted calculation
+     * @param b magic number which applies a secondary factor to a weighted calculation
      * @return the output of magic
      */
     public int doMagic(int a, int b) {
