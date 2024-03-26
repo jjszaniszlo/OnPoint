@@ -91,6 +91,7 @@ public class NavTree extends TreeView<NavTree.ContentRecord> {
 
             this.name = new Label();
             this.name.setGraphicTextGap(5);
+            this.name.setStyle("-fx-font-weight: 600;");
 
             this.root = new HBox();
             this.root.setAlignment(Pos.CENTER_LEFT);

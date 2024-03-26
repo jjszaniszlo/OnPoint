@@ -15,8 +15,8 @@ public class TaskView implements IContent {
     @Override
     public Parent getContentView() {
         VBox vbox = new VBox();
-        vbox.getChildren().add(
-                new Label("Tasks")
+        vbox.getChildren().addAll(
+                new ContentHeader("Tasks")
         );
         return vbox;
     }
