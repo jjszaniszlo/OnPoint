@@ -1,18 +1,16 @@
 package com.ateam.onpoint;
 
+import com.ateam.onpoint.gui.OnPointGUI;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-/*
- * The class which the application is launched from.
+/**
+ * The ApplicationEntry class is responsible for launching the application and all necessary resources and subsystems.
  */
-
 public class ApplicationEntry extends Application {
     public static void main(String[] args) {
         launch(args);
@@ -27,11 +25,12 @@ public class ApplicationEntry extends Application {
     public void start(Stage stage) throws Exception {
         Application.setUserAgentStylesheet(getClass().getResource("/css/cupertino-dark.css").toString());
         stage.setTitle("OnPoint");
-      
-        Parent root = FXMLLoader.load(getClass().getResource("/main_layout.fxml"));
-        Scene rootScene = new Scene(root, 840, 640);
 
-        stage.setScene(rootScene);
+        OnPointGUI guiHandle = new OnPointGUI();
+
+        stage.setScene(new Scene(guiHandle, guiHandle.MIN_WINDOW_WIDTH, guiHandle.MIN_WINDOW_HEIGHT + 200));
+        stage.setMinWidth(guiHandle.MIN_WINDOW_WIDTH);
+        stage.setMinHeight(guiHandle.MIN_WINDOW_HEIGHT);
 
         Platform.runLater(() -> {
             stage.show();
