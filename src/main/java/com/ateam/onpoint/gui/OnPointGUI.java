@@ -13,7 +13,7 @@ public class OnPointGUI extends AnchorPane {
     public static final int SIDEBAR_WIDTH = 200;
 
     public OnPointGUI() {
-        StackPane body = new StackPane(new Dashboard());
+        StackPane body = new StackPane(new Dashboard(new ApplicationView()));
         body.getStyleClass().add("body");
 
         this.getChildren().add(body);
