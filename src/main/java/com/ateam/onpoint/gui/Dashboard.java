@@ -2,7 +2,6 @@ package com.ateam.onpoint.gui;
 
 import com.ateam.onpoint.gui.content.IContent;
 import com.ateam.onpoint.gui.content.TaskView;
-import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
@@ -10,20 +9,20 @@ import javafx.scene.layout.Pane;
  * The MainLayout class contains the content view and sidebar
  */
 public class Dashboard extends BorderPane {
-    private final ApplicationView applicationView;
+    private final OnPointGUI onPointGUI;
     private final Sidebar sidebar;
     private final Pane content = new Pane();
 
     /**
      * Construct the dashboard and all of its components
      */
-    public Dashboard(ApplicationView applicationView) {
+    public Dashboard(OnPointGUI onPointGUI) {
         super();
 
-        this.applicationView = applicationView;
-        this.sidebar = new Sidebar(applicationView);
+        this.onPointGUI = onPointGUI;
+        this.sidebar = new Sidebar(onPointGUI);
 
-        sidebar.setPrefWidth(OnPointGUI.SIDEBAR_WIDTH);
+        sidebar.setPrefWidth(WindowPane.SIDEBAR_WIDTH);
 
         this.setLeft(sidebar);
 

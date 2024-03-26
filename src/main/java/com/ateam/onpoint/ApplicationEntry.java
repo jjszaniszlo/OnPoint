@@ -1,6 +1,6 @@
 package com.ateam.onpoint;
 
-import com.ateam.onpoint.gui.OnPointGUI;
+import com.ateam.onpoint.gui.WindowPane;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -26,7 +26,7 @@ public class ApplicationEntry extends Application {
         Application.setUserAgentStylesheet(getClass().getResource("/css/cupertino-dark.css").toString());
         stage.setTitle("OnPoint");
 
-        OnPointGUI guiHandle = new OnPointGUI();
+        WindowPane guiHandle = new WindowPane();
 
         stage.setScene(new Scene(guiHandle, guiHandle.MIN_WINDOW_WIDTH, guiHandle.MIN_WINDOW_HEIGHT + 200));
         stage.setMinWidth(guiHandle.MIN_WINDOW_WIDTH);

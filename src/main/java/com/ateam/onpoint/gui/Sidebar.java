@@ -18,7 +18,7 @@ public class Sidebar extends VBox {
      * construct the sidebar associated with a content view
      * @param view the content view which the sidebar is attached to.
      */
-    public Sidebar(ApplicationView view) {
+    public Sidebar(OnPointGUI view) {
         super();
 
         this.navTree = new NavTree(view);
@@ -40,7 +40,7 @@ public class Sidebar extends VBox {
             this.openProfile = new Button("YOUR NAME");
             this.openProfile.setContentDisplay(ContentDisplay.LEFT);
             this.openProfile.setAlignment(Pos.BASELINE_LEFT);
-            this.openProfile.setPrefWidth(OnPointGUI.SIDEBAR_WIDTH);
+            this.openProfile.setPrefWidth(WindowPane.SIDEBAR_WIDTH);
             this.openProfile.setPrefHeight(60);
             this.openProfile.getStyleClass().add("flat");
             this.openProfile.setStyle("-fx-underline: false");

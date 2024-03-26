@@ -1,21 +1,33 @@
 package com.ateam.onpoint.gui;
 
-
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
+import com.ateam.onpoint.gui.components.NavTree;
+import com.ateam.onpoint.gui.content.IContent;
+import com.ateam.onpoint.gui.content.ScheduleView;
+import com.ateam.onpoint.gui.content.TaskView;
 
 /**
- * Manages all the components specific to the application
+ * ApplicationView contains the panel where all the application's functionality will dynamically be made available through the sidebar.
  */
-public class OnPointGUI extends AnchorPane {
-    public static final int MIN_WINDOW_WIDTH = 840;
-    public static final int MIN_WINDOW_HEIGHT = 420;
-    public static final int SIDEBAR_WIDTH = 200;
+public class OnPointGUI {
+    private IContent selectedContent;
+    private final NavTree.NavItem navTreeRoot;
 
+    public NavTree.NavItem getNavTreeRoot() {
+        return navTreeRoot;
+    }
+
+    /**
+     * construct the content view of the application
+     */
     public OnPointGUI() {
-        StackPane body = new StackPane(new Dashboard(new ApplicationView()));
-        body.getStyleClass().add("body");
+        navTreeRoot = NavTree.NavItem.makeRoot();
+        navTreeRoot.getChildren().setAll(
+                NavTree.NavItem.makeContent("Tasks", TaskView.class),
+                NavTree.NavItem.makeContent("Schedule", ScheduleView.class)
+        );
+    }
 
-        this.getChildren().add(body);
+    public void selectContent(IContent content) {
+        selectedContent = content;
     }
 }
