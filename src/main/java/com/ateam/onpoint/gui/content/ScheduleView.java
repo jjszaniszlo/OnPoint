@@ -4,19 +4,12 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
-/**
- * The task view is responsible for the nodes used to display tasks.
- */
-public class TaskView implements IContent {
-    /**
-     * build and return the content view for the task system
-     * @return the parent node for the task system
-     */
+public class ScheduleView implements IContent {
     @Override
     public Parent getContentView() {
         VBox vbox = new VBox();
         vbox.getChildren().add(
-                new Label("Tasks")
+                new Label("Schedule")
         );
         return vbox;
     }
