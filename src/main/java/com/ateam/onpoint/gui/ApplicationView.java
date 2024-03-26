@@ -2,9 +2,12 @@ package com.ateam.onpoint.gui;
 
 import com.ateam.onpoint.gui.components.NavTree;
 import com.ateam.onpoint.gui.content.IContent;
+import com.ateam.onpoint.gui.content.ScheduleView;
+import com.ateam.onpoint.gui.content.TaskView;
+import javafx.scene.Parent;
 
 /**
- * Content view contains the panel where all the application's functionality will dynamically be made available through the sidebar.
+ * ApplicationView contains the panel where all the application's functionality will dynamically be made available through the sidebar.
  */
 public class ApplicationView {
     private Class<? extends IContent> selectedContent;
@@ -20,8 +23,8 @@ public class ApplicationView {
     public ApplicationView() {
         navTreeRoot = NavTree.NavItem.makeRoot();
         navTreeRoot.getChildren().setAll(
-                NavTree.NavItem.makeContent("Tasks", null),
-                NavTree.NavItem.makeContent("Schedule", null)
+                NavTree.NavItem.makeContent("Tasks", TaskView.class),
+                NavTree.NavItem.makeContent("Schedule", ScheduleView.class)
         );
     }
 }
