@@ -1,6 +1,7 @@
 package com.ateam.onpoint.gui;
 
 import com.ateam.onpoint.gui.content.IContent;
+import com.ateam.onpoint.gui.content.TaskView;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -9,26 +10,30 @@ import javafx.scene.layout.Pane;
  * The MainLayout class contains the content view and sidebar
  */
 public class Dashboard extends BorderPane {
-    private final ApplicationView applicationView = new ApplicationView();
-    private final Sidebar sidebar = new Sidebar(applicationView);
+    private final ApplicationView applicationView;
+    private final Sidebar sidebar;
     private final Pane content = new Pane();
 
     /**
      * Construct the dashboard and all of its components
      */
-    public Dashboard() {
+    public Dashboard(ApplicationView applicationView) {
         super();
+
+        this.applicationView = applicationView;
+        this.sidebar = new Sidebar(applicationView);
 
         sidebar.setPrefWidth(OnPointGUI.SIDEBAR_WIDTH);
 
         this.setLeft(sidebar);
-        this.setCenter(content);
+
+        // temporary hard code since I haven't yet decided how to do content switching
+        this.setCenter(new TaskView().getContentView());
     }
 
-    private void loadContentView(Class<? extends IContent> content) throws Exception {
+    private void loadContentView(IContent content) throws Exception {
         try {
-            final Parent contentView = content.getDeclaredConstructor().newInstance().getContentView();
-            this.content.getChildren().setAll(contentView);
+            this.content.getChildren().setAll(content.getContentView());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
