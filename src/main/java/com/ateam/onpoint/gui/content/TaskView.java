@@ -1,6 +1,9 @@
 package com.ateam.onpoint.gui.content;
 
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
+import javafx.scene.control.ToolBar;
 import javafx.scene.layout.VBox;
 
 /**
@@ -13,10 +16,16 @@ public class TaskView implements IContent {
      */
     @Override
     public Parent getContentView() {
-        VBox vbox = new VBox();
-        vbox.getChildren().addAll(
-                new ContentHeader("Tasks")
-        );
-        return vbox;
+        VBox parent = new VBox();
+
+        ContentHeader header = new ContentHeader("Tasks");
+
+        ToolBar toolbar = new ToolBar();
+        toolbar.getItems().addAll(new Button("New Task"));
+
+        parent.getChildren().addAll(header, toolbar);
+
+        return parent;
     }
+
 }

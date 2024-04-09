@@ -10,7 +10,6 @@ public class TaskManager {
 
     private static class Task {
         private String description;
-        private final ReadOnlyObjectWrapper<Boolean> isComplete = new ReadOnlyObjectWrapper<>(false);
         public Task(String desc) {
             this.description = desc;
         }
