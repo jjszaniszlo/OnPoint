@@ -63,6 +63,7 @@ class ApplicationEntryTest {
         VerifyClass(curPath = "com.ateam.onpoint.gui.content.ContentHeader", FAIL_GUI + curPath);
         VerifyClass(curPath = "com.ateam.onpoint.gui.content.ScheduleView", FAIL_GUI + curPath);
         VerifyClass(curPath = "com.ateam.onpoint.gui.content.TaskView", FAIL_GUI + curPath);
+        System.out.println("ApplicationEntry.java GUI dependencies are successfully installed!");
         return;
     }
 
@@ -80,7 +81,7 @@ class ApplicationEntryTest {
         {
             fail("Unrecognized OS Platform");
         }
-        System.out.println("Running on" + curOS + " successfully!");
+        System.out.println("Running on " + curOS + " successfully!");
         return;
     }
 }
