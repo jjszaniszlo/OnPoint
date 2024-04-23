@@ -8,6 +8,8 @@ import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.net.URL;
+
 /**
  * The ApplicationEntry class is responsible for launching the application and all necessary resources and subsystems.
  */
@@ -21,9 +23,11 @@ public class ApplicationEntry extends Application {
      * @param stage the primary stage
      * @throws Exception can throw any kind of exception
      */
+    public String agentStylesheet = getClass().getResource("/css/cupertino-dark.css").toString();
+
     @Override
     public void start(Stage stage) throws Exception {
-        Application.setUserAgentStylesheet(getClass().getResource("/css/cupertino-dark.css").toString());
+        Application.setUserAgentStylesheet(agentStylesheet.toString());
         stage.setTitle("OnPoint");
 
         WindowPane guiHandle = new WindowPane();
