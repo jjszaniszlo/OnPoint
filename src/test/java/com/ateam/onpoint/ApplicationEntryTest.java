@@ -2,12 +2,6 @@
 package com.ateam.onpoint;
 
 // For testing classes (run through IntelliJ in JUnit)
-/*
-import com.ateam.onpoint.gui.OnPointGUI;
-import com.ateam.onpoint.gui.Sidebar;
-import com.ateam.onpoint.gui.WindowPane;
-*/
-
 import org.junit.jupiter.api.Test;
 
 // Include all assertions (throw/catch for JUnit Test
@@ -22,8 +16,13 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class ApplicationEntryTest {
 
-    private final String FAIL_GUI = "ERR - Null Component in GUI";
-    private final String FAIL_ENTRY = "ERR - Null Component in GUI";
+    /*
+     * The following strings are to return fail messages in the case an
+     * assertion must be passed.
+     */
+    private final String FAIL_GUI = "ERR - Null Component in GUI. See Console";
+    private final String FAIL_ENTRY = "ERR - Null Component in GUI. See Console";
+    private final String FAIL_PLATFORM = "ERR - Failure in Platform verification. See Console";
 
     /**
      * Basic verification to be used within the test code in verifying a path to class
@@ -44,6 +43,10 @@ class ApplicationEntryTest {
         return;
     }
 
+    /**
+     * Make sure all currently implemented GUI components that the
+     * ApplicationEntry.java must use (javafx dependencies)
+     */
     @Test
     public void VerifyGUIComponents() {
         String curPath;
@@ -63,6 +66,13 @@ class ApplicationEntryTest {
         return;
     }
 
+    /**
+     * Simple check
+     * <br>
+     * Later implementation could include the required compiler, renderer,
+     * and file types in order to affirm that ApplicationEntry will function
+     * as intended on the current platform
+     */
     @Test
     public void VerifyPlatformFunctionality() {
         String curOS;
