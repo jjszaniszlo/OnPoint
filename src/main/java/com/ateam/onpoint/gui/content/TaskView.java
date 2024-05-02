@@ -27,5 +27,4 @@ public class TaskView implements IContent {
 
         return parent;
     }
-
 }
