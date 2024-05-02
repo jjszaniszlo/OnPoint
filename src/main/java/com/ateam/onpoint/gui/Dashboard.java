@@ -40,8 +40,6 @@ public class Dashboard extends BorderPane {
         try {
             final IContent content = contentClass.getDeclaredConstructor().newInstance();
             this.setCenter(content.getContentView());
-
-            System.out.println("Loaded Content!");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
