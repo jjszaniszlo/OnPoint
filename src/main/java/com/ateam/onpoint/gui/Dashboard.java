@@ -11,8 +11,6 @@ import javafx.scene.layout.Pane;
 public class Dashboard extends BorderPane {
     private final OnPointGUI onPointGUI;
     private final Sidebar sidebar;
-    private final Pane content = new Pane();
-
     /**
      * Construct the dashboard and all of its components
      */
@@ -24,15 +22,26 @@ public class Dashboard extends BorderPane {
 
         sidebar.setPrefWidth(WindowPane.SIDEBAR_WIDTH);
 
-        this.setLeft(sidebar);
+        loadListeners();
 
-        // temporary hard code since I haven't yet decided how to do content switching
-        this.setCenter(new TaskView().getContentView());
+        this.setLeft(sidebar);
+        this.onPointGUI.navigate(OnPointGUI.DEFAULT_CONTENT);
     }
 
-    private void loadContentView(IContent content) throws Exception {
+    private void loadListeners() {
+        onPointGUI.getContentProperty().addListener((obs, old, val) -> {
+            if (val != null) {
+                loadContent(val);
+            }
+        });
+    }
+
+    private void loadContent(Class<? extends IContent> contentClass) {
         try {
-            this.content.getChildren().setAll(content.getContentView());
+            final IContent content = contentClass.getDeclaredConstructor().newInstance();
+            this.setCenter(content.getContentView());
+
+            System.out.println("Loaded Content!");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -20,9 +20,17 @@ public class NavTree extends TreeView<NavTree.ContentRecord> {
     public NavTree(OnPointGUI view) {
         super();
 
+        getSelectionModel().selectedItemProperty().addListener((obs, old, val) -> {
+            if (!(val instanceof NavItem item)) {
+                return;
+            }
+            view.navigate(item.getContentClass());
+        });
+
         this.setShowRoot(false);
         this.setStyle("-fx-border-width: 0;");
         this.setRoot(view.getNavTreeRoot());
+
         // pass in a callback with param TreeView
         this.setCellFactory((v) -> new NavCell());
     }
@@ -53,7 +61,7 @@ public class NavTree extends TreeView<NavTree.ContentRecord> {
          * retrieve the content view associated with this navitem.
          * @return the content view
          */
-        public Class<? extends IContent> getContentView() {
+        public Class<? extends IContent> getContentClass() {
             return this.record.content;
         }
 
