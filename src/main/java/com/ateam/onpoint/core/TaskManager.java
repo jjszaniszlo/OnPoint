@@ -1,7 +1,15 @@
 package com.ateam.onpoint.core;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.ListCell;
+
+import java.util.ArrayList;
+
 public class TaskManager {
     private static TaskManager instance;
+
+    private final ObservableList<Task> tasks = FXCollections.observableArrayList();
 
     private TaskManager() {}
 
@@ -12,7 +20,6 @@ public class TaskManager {
         return instance;
     }
 
-    private static class Task {
-        private TaskInfo info;
+    public static class Task {
     }
 }

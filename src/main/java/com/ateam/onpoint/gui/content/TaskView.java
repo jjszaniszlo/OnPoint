@@ -1,9 +1,19 @@
 package com.ateam.onpoint.gui.content;
 
+import com.ateam.onpoint.core.TaskManager;
+import com.ateam.onpoint.gui.components.TaskList;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ToolBar;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.VBox;
 
 /**
@@ -17,14 +27,18 @@ public class TaskView implements IContent {
     @Override
     public Parent getContentView() {
         VBox parent = new VBox();
-
         ContentHeader header = new ContentHeader("Tasks");
 
         ToolBar toolbar = new ToolBar();
-        toolbar.getItems().addAll(new Button("New Task"));
+        Button newButton = new Button("New Task");
+        Button archiveButton = new Button("Archive Finished Tasks");
+        toolbar.getItems().addAll(newButton, archiveButton);
 
-        parent.getChildren().addAll(header, toolbar);
+        TaskList taskList = new TaskList();
+        taskList.setCellFactory(p -> new TaskList.TaskCell());
+        taskList.setPrefWidth(400);
 
+        parent.getChildren().addAll(header, toolbar, taskList);
         return parent;
     }
 }
