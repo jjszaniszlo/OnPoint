@@ -10,11 +10,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ToolBar;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.VBox;
+
+import java.util.Objects;
 
 /**
  * The task view is responsible for the nodes used to display tasks.
@@ -30,8 +34,20 @@ public class TaskView implements IContent {
         ContentHeader header = new ContentHeader("Tasks");
 
         ToolBar toolbar = new ToolBar();
-        Button newButton = new Button("New Task");
-        Button archiveButton = new Button("Archive Finished Tasks");
+        Button newButton = new Button();
+        Image plusIcon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/plus_white_32.png")));
+        ImageView plusIconView = new ImageView(plusIcon);
+        newButton.setGraphic(plusIconView);
+        newButton.setPrefSize(24, 24);
+        newButton.setPadding(new Insets(1, 1, 1, 1));
+
+        Button archiveButton = new Button();
+        Image archiveIcon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/archive_white_24.png")));
+        ImageView archiveIconView = new ImageView(archiveIcon);
+        archiveButton.setGraphic(archiveIconView);
+        archiveButton.setPrefSize(24, 24);
+        archiveButton.setPadding(new Insets(1, 1, 1 , 1));
+
         toolbar.getItems().addAll(newButton, archiveButton);
 
         TaskList taskList = new TaskList();
