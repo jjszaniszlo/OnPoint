@@ -2,6 +2,7 @@ package com.ateam.onpoint.gui.content;
 
 import com.ateam.onpoint.core.TaskManager;
 import com.ateam.onpoint.gui.components.TaskList;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -21,6 +22,7 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.VBox;
 
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * The task view is responsible for the nodes used to display tasks.
@@ -32,6 +34,15 @@ public class TaskView implements IContent {
         this.taskList = new TaskList();
         this.taskList.setCellFactory(p -> new TaskList.TaskCell());
         this.taskList.setPrefWidth(400);
+
+        ObservableList<TaskList.TaskRecord> tasks = FXCollections.observableArrayList();
+
+        for (int i = 0; i < TaskManager.getInstance().getTaskList().size(); i++) {
+            System.out.println(TaskManager.getInstance().getTaskList().get(i).getDescription());
+            tasks.add(new TaskList.TaskRecord(i, TaskManager.getInstance().getTaskList().get(i).getDescription()));
+        }
+
+        this.taskList.setItems(tasks);
     }
     /**
      * build and return the content view for the task system
@@ -51,7 +62,8 @@ public class TaskView implements IContent {
         newButton.setPadding(new Insets(1, 1, 1, 1));
 
         EventHandler<ActionEvent> addTaskButtonEventHandler = e -> {
-            TaskManager.getInstance().addTask(new TaskManager.Task());
+            TaskManager.getInstance().addTask(new TaskManager.Task(""));
+            this.taskList.getSelectionModel().selectLast();
         };
 
         newButton.setOnAction(addTaskButtonEventHandler);
