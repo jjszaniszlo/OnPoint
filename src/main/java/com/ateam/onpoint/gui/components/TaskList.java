@@ -5,6 +5,7 @@ import com.ateam.onpoint.core.TaskManager;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 
 public class TaskList extends ListView<TaskList.TaskRecord> {
@@ -41,6 +42,8 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
         public TaskCell() {
             super();
 
+            this.root = new HBox();
+
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
             setAlignment(Pos.CENTER);
 
@@ -51,8 +54,18 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
             this.checkBox = new CheckBox();
 
             this.descriptionField = new TextField();
+            this.descriptionField.setOnKeyPressed(e -> {
+                if (e.getCode() == KeyCode.ENTER) {
+                    this.descriptionField.setEditable(false);
 
-            this.root = new HBox();
+                    this.getItem().description = this.descriptionField.getText();
+                    this.descriptionField.setDisable(true);
+
+                    this.root.getChildren().remove(this.descriptionField);
+                    this.root.getChildren().add(this.description);
+                }
+            });
+
             this.root.setAlignment(Pos.CENTER_LEFT);
             this.root.prefHeight(15);
             this.root.prefWidth(400);

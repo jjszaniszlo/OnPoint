@@ -26,6 +26,13 @@ import java.util.Objects;
  * The task view is responsible for the nodes used to display tasks.
  */
 public class TaskView implements IContent {
+    private TaskList taskList;
+
+    public TaskView() {
+        this.taskList = new TaskList();
+        this.taskList.setCellFactory(p -> new TaskList.TaskCell());
+        this.taskList.setPrefWidth(400);
+    }
     /**
      * build and return the content view for the task system
      * @return the parent node for the task system
@@ -58,11 +65,7 @@ public class TaskView implements IContent {
 
         toolbar.getItems().addAll(newButton, archiveButton);
 
-        TaskList taskList = new TaskList();
-        taskList.setCellFactory(p -> new TaskList.TaskCell());
-        taskList.setPrefWidth(400);
-
-        parent.getChildren().addAll(header, toolbar, taskList);
+        parent.getChildren().addAll(header, toolbar, this.taskList);
         return parent;
     }
 }
