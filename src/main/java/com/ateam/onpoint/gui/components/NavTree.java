@@ -40,7 +40,11 @@ public class NavTree extends TreeView<NavTree.ContentRecord> {
      * @param name
      * @param content
      */
-    record ContentRecord(String name, Class<? extends  IContent> content) {}
+    public record ContentRecord(String name, Class<? extends  IContent> content) {
+        public Class<? extends IContent> getContent() {
+            return this.content;
+        }
+    }
 
     /**
      * the node used for the navtree structure.

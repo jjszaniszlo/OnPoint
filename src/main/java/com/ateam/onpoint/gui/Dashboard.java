@@ -25,7 +25,7 @@ public class Dashboard extends BorderPane {
         loadListeners();
 
         this.setLeft(sidebar);
-        this.onPointGUI.navigate(OnPointGUI.DEFAULT_CONTENT);
+        sidebar.select(OnPointGUI.DEFAULT_CONTENT);
     }
 
     private void loadListeners() {

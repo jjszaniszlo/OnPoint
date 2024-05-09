@@ -6,6 +6,8 @@ import com.ateam.onpoint.gui.content.ScheduleView;
 import com.ateam.onpoint.gui.content.TaskView;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.collections.ObservableList;
+import javafx.scene.control.TreeItem;
 
 /**
  * ApplicationView contains the panel where all the application's functionality will dynamically be made available through the sidebar.

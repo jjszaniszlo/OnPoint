@@ -1,9 +1,12 @@
 package com.ateam.onpoint.gui;
 
 import com.ateam.onpoint.gui.components.NavTree;
+import com.ateam.onpoint.gui.content.IContent;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.TreeItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -24,6 +27,15 @@ public class Sidebar extends VBox {
         this.navTree = new NavTree(view);
 
         this.getChildren().addAll(new Header(), navTree);
+    }
+
+    public void select(Class<? extends IContent> content) {
+        ObservableList<TreeItem<NavTree.ContentRecord>> list = navTree.getRoot().getChildren();
+        list.forEach(c -> {
+            if (c.getValue().getContent() == content) {
+                navTree.getSelectionModel().select(c);
+            }
+        });
     }
 
     /**
