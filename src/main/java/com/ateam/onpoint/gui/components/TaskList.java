@@ -4,38 +4,60 @@ package com.ateam.onpoint.gui.components;
 import com.ateam.onpoint.core.TaskManager;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 
 public class TaskList extends ListView<TaskList.TaskRecord> {
     public TaskList() {
         super();
+
+        TaskManager.getInstance().tasksListAddListener(change -> {
+            while (change.next()) {
+                if (change.wasAdded()) {
+                    int st = change.getFrom();
+                    int ed = change.getTo();
+
+                    for (int i = st; i < ed; i++) {
+                        this.getItems().add(new TaskRecord("Task"));
+                    }
+                }
+            }
+        });
     }
 
     public static class TaskRecord {
         String description;
+        public TaskRecord(String description) {
+            this.description = description;
+        }
     }
 
     public static class TaskCell extends ListCell<TaskRecord> {
         private final HBox root;
         private final Label description;
+        private final TextField descriptionField;
+        private final CheckBox checkBox;
 
         public TaskCell() {
             super();
 
-            // setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-            // setAlignment(Pos.CENTER);
+            setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+            setAlignment(Pos.CENTER);
 
             this.description = new Label();
             this.description.setGraphicTextGap(5);
             this.description.setStyle("-fx-font-weight: 600;");
 
+            this.checkBox = new CheckBox();
+
+            this.descriptionField = new TextField();
+
             this.root = new HBox();
-            this.setAlignment(Pos.CENTER_LEFT);
-            this.root.getChildren().add(this.description);
+            this.root.setAlignment(Pos.CENTER_LEFT);
+            this.root.prefHeight(15);
+            this.root.prefWidth(400);
+
+            this.root.getChildren().addAll(this.checkBox, this.descriptionField);
 
             // wip dragging and moving around
             setOnDragDetected(event -> {
@@ -52,10 +74,9 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
 
             if (rec == null || empty) {
                 this.setGraphic(null);
-                this.description.setText(null);
             } else {
-                this.setGraphic(root);
                 this.description.setText(rec.description);
+                this.setGraphic(this.root);
             }
         }
     }

@@ -3,6 +3,8 @@ package com.ateam.onpoint.gui.content;
 import com.ateam.onpoint.core.TaskManager;
 import com.ateam.onpoint.gui.components.TaskList;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -40,6 +42,12 @@ public class TaskView implements IContent {
         newButton.setGraphic(plusIconView);
         newButton.setPrefSize(24, 24);
         newButton.setPadding(new Insets(1, 1, 1, 1));
+
+        EventHandler<ActionEvent> addTaskButtonEventHandler = e -> {
+            TaskManager.getInstance().addTask(new TaskManager.Task());
+        };
+
+        newButton.setOnAction(addTaskButtonEventHandler);
 
         Button archiveButton = new Button();
         Image archiveIcon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/archive_white_24.png")));
