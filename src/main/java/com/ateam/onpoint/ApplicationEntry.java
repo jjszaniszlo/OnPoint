@@ -4,13 +4,7 @@ import com.ateam.onpoint.gui.WindowPane;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-
-import java.util.Objects;
-
-import java.net.URL;
 
 /**
  * The ApplicationEntry class is responsible for launching the application and all necessary resources and subsystems.

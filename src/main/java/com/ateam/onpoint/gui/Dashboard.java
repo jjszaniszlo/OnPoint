@@ -1,9 +1,7 @@
 package com.ateam.onpoint.gui;
 
 import com.ateam.onpoint.gui.content.IContent;
-import com.ateam.onpoint.gui.content.TaskView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 
 /**
  * The MainLayout class contains the content view and sidebar
