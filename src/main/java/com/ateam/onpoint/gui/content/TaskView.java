@@ -20,7 +20,7 @@ import java.util.Objects;
  * The task view is responsible for the nodes used to display tasks.
  */
 public class TaskView implements IContent {
-    private TaskList taskList;
+    private final TaskList taskList;
 
     public TaskView() {
         this.taskList = new TaskList();

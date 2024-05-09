@@ -11,6 +11,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.util.Objects;
+
 /**
  * Contains the user account snippet, and the navbar for app navigation.
  */
@@ -41,7 +43,7 @@ public class Sidebar extends VBox {
     /**
      * The header has the user's name and profile photo, alongside the open settings functionality
      */
-    private class Header extends HBox {
+    private static class Header extends HBox {
         private final Button openProfile;
         /**
          * construct the header for the sidebar
@@ -57,7 +59,7 @@ public class Sidebar extends VBox {
             this.openProfile.getStyleClass().add("flat");
             this.openProfile.setStyle("-fx-underline: false");
 
-            ImageView img = new ImageView(getClass().getResource("/img/placeholder.png").toExternalForm());
+            ImageView img = new ImageView(Objects.requireNonNull(getClass().getResource("/img/placeholder.png")).toExternalForm());
             img.setPreserveRatio(true);
             img.fitWidthProperty().bind(this.openProfile.widthProperty().divide(6));
             this.openProfile.setGraphic(img);

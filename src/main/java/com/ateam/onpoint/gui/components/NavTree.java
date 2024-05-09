@@ -15,7 +15,7 @@ import javafx.scene.layout.HBox;
 public class NavTree extends TreeView<NavTree.ContentRecord> {
     /**
      * Builds the NavTree and the factor for the cell constructor.
-     * @param view
+     * @param view the instance of OnPointsGui
      */
     public NavTree(OnPointGUI view) {
         super();
@@ -54,7 +54,7 @@ public class NavTree extends TreeView<NavTree.ContentRecord> {
 
         /**
          * construct a new navitem with the content record passed in.
-         * @param record
+         * @param record a record contain required data
          */
         private NavItem(ContentRecord record) {
             this.record = record;
