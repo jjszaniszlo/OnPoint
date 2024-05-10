@@ -94,7 +94,10 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
                 this.descriptionField.requestFocus();
             });
 
-            contextMenu.getItems().addAll(changeDescriptionMenuItem);
+            MenuItem deleteTaskMenuItem = new MenuItem("Delete");
+            deleteTaskMenuItem.setOnAction(e -> {});
+
+            contextMenu.getItems().addAll(changeDescriptionMenuItem, deleteTaskMenuItem);
             return contextMenu;
         }
 
