@@ -88,6 +88,7 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
                     this.getItem().description = descriptionField.getText();
                 }
             });
+
             descriptionField.setOnMouseClicked(e -> {
                 if (descriptionField.isEditable()) {
                     this.getListView().getSelectionModel().select(this.getItem());

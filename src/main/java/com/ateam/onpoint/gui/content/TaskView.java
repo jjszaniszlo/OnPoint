@@ -30,8 +30,6 @@ public class TaskView implements IContent {
         ObservableList<TaskList.TaskRecord> tasks = FXCollections.observableArrayList();
 
         for (int i = 0; i < TaskManager.getInstance().getInboxTaskList().size(); i++) {
-            System.out.println(TaskManager.getInstance().getInboxTaskList().get(i).getDescription());
-
             TaskList.TaskRecord rec = new TaskList.TaskRecord(i);
             rec.description = TaskManager.getInstance().getInboxTaskList().get(i).getDescription();
             rec.completed = TaskManager.getInstance().getInboxTaskList().get(i).getCompleted();
