@@ -2,8 +2,11 @@ package com.ateam.onpoint.gui.components;
 
 
 import com.ateam.onpoint.core.TaskManager;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
@@ -57,11 +60,8 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
             setAlignment(Pos.CENTER);
 
-            this.checkBox = getCheckBox();
-
-            this.descriptionField = getTextField();
-            this.descriptionField.setStyle("-fx-font-weight: 600;");
-
+            this.checkBox = createCheckBox();
+            this.descriptionField = createTextField();
             this.contextMenu = createContextMenu();
 
             this.root.setAlignment(Pos.CENTER_LEFT);
@@ -87,7 +87,7 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
             return contextMenu;
         }
 
-        private @NotNull CheckBox getCheckBox() {
+        private @NotNull CheckBox createCheckBox() {
             CheckBox checkBox = new CheckBox();
             checkBox.selectedProperty().addListener(e -> {
                 TaskManager.getInstance().setTaskCompleted(this.getItem().index, checkBox.isSelected());
@@ -96,7 +96,8 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
             return checkBox;
         }
 
-        private @NotNull TextField getTextField() {
+        private ChangeListener<? super Scene> finalOnSceneChangeListener;
+        private @NotNull TextField createTextField() {
             TextField descriptionField = new TextField();
             descriptionField.setOnKeyPressed(e -> {
                 if (e.getCode() == KeyCode.ENTER) {
@@ -107,14 +108,23 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
                     this.getItem().description = descriptionField.getText();
                 }
             });
-
             descriptionField.setOnMouseExited(e -> {
                     descriptionField.setEditable(false);
                     descriptionField.setMouseTransparent(true);
                     TaskManager.getInstance().setTaskDescription(this.getItem().index, descriptionField.getText());
                     this.getItem().description = descriptionField.getText();
-
             });
+
+            this.finalOnSceneChangeListener = (obs, old, newScene) -> {
+                if (newScene != null) {
+                    descriptionField.requestFocus();
+                    descriptionField.sceneProperty().removeListener(finalOnSceneChangeListener);
+                }
+            };
+
+            descriptionField.sceneProperty().addListener(this.finalOnSceneChangeListener);
+            descriptionField.setStyle("-fx-font-weight: 600;");
+
             return descriptionField;
         }
 
