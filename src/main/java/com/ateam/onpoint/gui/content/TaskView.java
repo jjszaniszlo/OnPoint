@@ -49,6 +49,8 @@ public class TaskView implements IContent {
         ContentHeader header = new ContentHeader("Tasks");
 
         ToolBar toolbar = new ToolBar();
+        toolbar.setPrefWidth(400);
+
         Button newButton = new Button();
         Image plusIcon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/plus_white_32.png")));
         ImageView plusIconView = new ImageView(plusIcon);
