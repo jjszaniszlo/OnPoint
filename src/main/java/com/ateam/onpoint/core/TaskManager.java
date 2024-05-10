@@ -7,20 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class TaskManager {
     private static TaskManager instance;
-
-    private final ObservableList<Task> tasks = FXCollections.observableArrayList();
-
-    public void tasksListAddListener(ListChangeListener<? super Task> listener) {
-        tasks.addListener(listener);
-    }
-
-    public void changeTaskDescription(int index, String description) {
-        tasks.get(index).description = description;
-    }
-
-    public ObservableList<Task> getTaskList() {
-        return tasks;
-    }
+    private final ObservableList<Task> inboxTasks = FXCollections.observableArrayList();
 
     private TaskManager() {}
 
@@ -31,23 +18,38 @@ public class TaskManager {
         return instance;
     }
 
+    public void tasksListAddListener(ListChangeListener<? super Task> listener) {
+        inboxTasks.addListener(listener);
+    }
+
+    public ObservableList<Task> getInboxTaskList() {
+        return inboxTasks;
+    }
+
     public void addTask(Task task) {
-        tasks.add(task);
+        inboxTasks.add(task);
+    }
+
+    public void setTaskDescription(int index, String description) {
+        inboxTasks.get(index).description = description;
+    }
+
+    public void setTaskCompleted(int index, boolean value) {
+        inboxTasks.get(index).completed = value;
     }
 
     public static class Task {
         private String description;
+        private boolean completed;
 
-        public Task(String description) {
-            this.description = description;
-        }
-
-        public void setDescription(@NotNull String description) {
-            this.description = description;
-        }
+        public Task() {}
 
         public String getDescription() {
             return description;
+        }
+
+        public boolean getCompleted() {
+            return completed;
         }
     }
 }

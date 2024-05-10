@@ -29,9 +29,14 @@ public class TaskView implements IContent {
 
         ObservableList<TaskList.TaskRecord> tasks = FXCollections.observableArrayList();
 
-        for (int i = 0; i < TaskManager.getInstance().getTaskList().size(); i++) {
-            System.out.println(TaskManager.getInstance().getTaskList().get(i).getDescription());
-            tasks.add(new TaskList.TaskRecord(i, TaskManager.getInstance().getTaskList().get(i).getDescription()));
+        for (int i = 0; i < TaskManager.getInstance().getInboxTaskList().size(); i++) {
+            System.out.println(TaskManager.getInstance().getInboxTaskList().get(i).getDescription());
+
+            TaskList.TaskRecord rec = new TaskList.TaskRecord(i);
+            rec.description = TaskManager.getInstance().getInboxTaskList().get(i).getDescription();
+            rec.completed = TaskManager.getInstance().getInboxTaskList().get(i).getCompleted();
+
+            tasks.add(rec);
         }
 
         this.taskList.setItems(tasks);
@@ -54,7 +59,7 @@ public class TaskView implements IContent {
         newButton.setPadding(new Insets(1, 1, 1, 1));
 
         EventHandler<ActionEvent> addTaskButtonEventHandler = e -> {
-            TaskManager.getInstance().addTask(new TaskManager.Task(""));
+            TaskManager.getInstance().addTask(new TaskManager.Task());
             this.taskList.getSelectionModel().selectLast();
         };
 

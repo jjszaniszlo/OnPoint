@@ -22,7 +22,11 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
                     ObservableList<TaskManager.Task> tasks = (ObservableList<TaskManager.Task>) change.getList();
 
                     for (int i = st; i < ed; i++) {
-                        this.getItems().add(new TaskRecord(i, tasks.get(i).getDescription()));
+                        TaskRecord rec = new TaskRecord(i);
+                        rec.description = tasks.get(i).getDescription();
+                        rec.completed = tasks.get(i).getCompleted();
+
+                        this.getItems().add(rec);
                     }
                 }
             }
@@ -32,10 +36,10 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
     public static class TaskRecord {
         public int index;
         public String description;
+        public boolean completed;
 
-        public TaskRecord(int index, String description) {
+        public TaskRecord(int index) {
             this.index = index;
-            this.description = description;
         }
     }
 
@@ -52,7 +56,7 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
             setAlignment(Pos.CENTER);
 
-            this.checkBox = new CheckBox();
+            this.checkBox = getCheckBox();
 
             this.descriptionField = getTextField();
             this.descriptionField.setStyle("-fx-font-weight: 600;");
@@ -64,6 +68,15 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
             this.root.getChildren().addAll(checkBox, descriptionField);
         }
 
+        private @NotNull CheckBox getCheckBox() {
+            CheckBox checkBox = new CheckBox();
+            checkBox.selectedProperty().addListener(e -> {
+                TaskManager.getInstance().setTaskCompleted(this.getItem().index, checkBox.isSelected());
+                this.getItem().completed = checkBox.isSelected();
+            });
+            return checkBox;
+        }
+
         private @NotNull TextField getTextField() {
             TextField descriptionField = new TextField();
             descriptionField.setOnKeyPressed(e -> {
@@ -71,7 +84,7 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
                     descriptionField.setEditable(false);
                     descriptionField.setMouseTransparent(true);
 
-                    TaskManager.getInstance().changeTaskDescription(this.getItem().index, descriptionField.getText());
+                    TaskManager.getInstance().setTaskDescription(this.getItem().index, descriptionField.getText());
                     this.getItem().description = descriptionField.getText();
                 }
             });
@@ -90,12 +103,13 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
             if (rec == null || empty) {
                 this.setGraphic(null);
             } else {
-                if (!this.descriptionField.getText().isBlank()) {
+                if (this.descriptionField.getText() != null && !this.descriptionField.getText().isBlank()) {
                     descriptionField.setEditable(false);
                     descriptionField.setMouseTransparent(true);
                 }
 
                 this.descriptionField.setText(rec.description);
+                this.checkBox.setSelected(rec.completed);
                 this.setGraphic(this.root);
             }
         }
