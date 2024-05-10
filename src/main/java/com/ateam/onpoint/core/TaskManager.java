@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 public class TaskManager {
     private static TaskManager instance;
     private final ObservableList<Task> inboxTasks = FXCollections.observableArrayList();
+    private final ObservableList<Task> archiveTasks = FXCollections.observableArrayList();
 
     private TaskManager() {}
 
