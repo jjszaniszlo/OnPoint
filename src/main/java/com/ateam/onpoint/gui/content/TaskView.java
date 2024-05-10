@@ -27,6 +27,26 @@ public class TaskView implements IContent {
         this.taskList.setCellFactory(p -> new TaskList.TaskCell());
         this.taskList.setPrefWidth(400);
 
+        // listen to when the TaskManager adds a new task.
+        TaskManager.getInstance().tasksListAddListener(change -> {
+            while (change.next()) {
+                if (change.wasAdded()) {
+                    int st = change.getFrom();
+                    int ed = change.getTo();
+                    ObservableList<TaskManager.Task> tasks = (ObservableList<TaskManager.Task>) change.getList();
+
+                    for (int i = st; i < ed; i++) {
+                        TaskList.TaskRecord rec = new TaskList.TaskRecord(i, true);
+                        rec.description = tasks.get(i).getDescription();
+                        rec.completed = tasks.get(i).getCompleted();
+
+                        this.taskList.getItems().add(rec);
+                    }
+                }
+            }
+        });
+
+        // copy and interpret data from the TaskManager
         ObservableList<TaskList.TaskRecord> tasks = FXCollections.observableArrayList();
 
         for (int i = 0; i < TaskManager.getInstance().getInboxTaskList().size(); i++) {

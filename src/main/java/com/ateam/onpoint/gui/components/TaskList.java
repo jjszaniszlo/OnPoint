@@ -14,27 +14,7 @@ import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unchecked")
 public class TaskList extends ListView<TaskList.TaskRecord> {
-    public TaskList() {
-        super();
-
-        TaskManager.getInstance().tasksListAddListener(change -> {
-            while (change.next()) {
-                if (change.wasAdded()) {
-                    int st = change.getFrom();
-                    int ed = change.getTo();
-                    ObservableList<TaskManager.Task> tasks = (ObservableList<TaskManager.Task>) change.getList();
-
-                    for (int i = st; i < ed; i++) {
-                        TaskRecord rec = new TaskRecord(i, true);
-                        rec.description = tasks.get(i).getDescription();
-                        rec.completed = tasks.get(i).getCompleted();
-
-                        this.getItems().add(rec);
-                    }
-                }
-            }
-        });
-    }
+    public TaskList() { super(); }
 
     public static class TaskRecord {
         public int index;
