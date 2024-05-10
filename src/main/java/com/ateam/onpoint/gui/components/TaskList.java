@@ -75,7 +75,7 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
 
             this.root.setAlignment(Pos.CENTER_LEFT);
             this.root.prefHeight(15);
-            this.root.prefWidth(400);
+            this.root.prefWidth(450);
 
             this.root.setOnContextMenuRequested(e -> {
                 this.contextMenu.show(this.root.getScene().getWindow(), e.getScreenX(), e.getScreenY());
@@ -122,13 +122,12 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
             });
 
             descriptionField.setOnMouseExited(e -> {
-                    descriptionField.setEditable(false);
-                    descriptionField.setMouseTransparent(true);
-                    TaskManager.getInstance().setTaskDescription(this.getItem().index, descriptionField.getText());
-                    this.getItem().description = descriptionField.getText();
+                TaskManager.getInstance().setTaskDescription(this.getItem().index, descriptionField.getText());
+                this.getItem().description = descriptionField.getText();
             });
 
             descriptionField.setStyle("-fx-font-weight: 600;");
+            descriptionField.setPrefWidth(350);
 
             return descriptionField;
         }
