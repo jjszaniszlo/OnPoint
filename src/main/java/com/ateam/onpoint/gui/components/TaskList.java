@@ -89,13 +89,12 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
                 }
             });
 
-            descriptionField.focusedProperty().addListener((obs, oldVal, newVal) -> {
-                if (!newVal) { // If TextField loses focus save description
+            descriptionField.setOnMouseExited(e -> {
                     descriptionField.setEditable(false);
                     descriptionField.setMouseTransparent(true);
                     TaskManager.getInstance().setTaskDescription(this.getItem().index, descriptionField.getText());
                     this.getItem().description = descriptionField.getText();
-                }
+
             });
             return descriptionField;
         }
