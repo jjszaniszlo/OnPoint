@@ -47,6 +47,7 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
         private final HBox root;
         private final TextField descriptionField;
         private final CheckBox checkBox;
+        private final ContextMenu contextMenu;
 
         public TaskCell() {
             super();
@@ -61,11 +62,29 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
             this.descriptionField = getTextField();
             this.descriptionField.setStyle("-fx-font-weight: 600;");
 
+            this.contextMenu = createContextMenu();
+
             this.root.setAlignment(Pos.CENTER_LEFT);
             this.root.prefHeight(15);
             this.root.prefWidth(400);
 
+            this.root.setOnContextMenuRequested(e -> {
+                this.contextMenu.show(this.root.getScene().getWindow(), e.getScreenX(), e.getScreenY());
+            });
+
             this.root.getChildren().addAll(checkBox, descriptionField);
+        }
+
+        private @NotNull ContextMenu createContextMenu() {
+            ContextMenu contextMenu = new ContextMenu();
+
+            MenuItem changeDescriptionMenuItem = new MenuItem("Change Description");
+            changeDescriptionMenuItem.setOnAction(e -> {
+                System.out.println("Change Description");
+            });
+            contextMenu.getItems().add(changeDescriptionMenuItem);
+
+            return contextMenu;
         }
 
         private @NotNull CheckBox getCheckBox() {
