@@ -25,7 +25,7 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
                     ObservableList<TaskManager.Task> tasks = (ObservableList<TaskManager.Task>) change.getList();
 
                     for (int i = st; i < ed; i++) {
-                        TaskRecord rec = new TaskRecord(i);
+                        TaskRecord rec = new TaskRecord(i, true);
                         rec.description = tasks.get(i).getDescription();
                         rec.completed = tasks.get(i).getCompleted();
 
@@ -41,8 +41,16 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
         public String description;
         public boolean completed;
 
+        public final boolean isNewTask;
+
         public TaskRecord(int index) {
             this.index = index;
+            this.isNewTask = false;
+        }
+
+        public TaskRecord(int index, boolean isNewTask) {
+            this.index = index;
+            this.isNewTask = isNewTask;
         }
     }
 
@@ -62,6 +70,7 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
 
             this.checkBox = createCheckBox();
             this.descriptionField = createTextField();
+
             this.contextMenu = createContextMenu();
 
             this.root.setAlignment(Pos.CENTER_LEFT);
@@ -72,7 +81,7 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
                 this.contextMenu.show(this.root.getScene().getWindow(), e.getScreenX(), e.getScreenY());
             });
 
-            this.root.getChildren().addAll(checkBox, descriptionField);
+            this.root.getChildren().addAll(this.checkBox, this.descriptionField);
         }
 
         private @NotNull ContextMenu createContextMenu() {
@@ -80,10 +89,12 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
 
             MenuItem changeDescriptionMenuItem = new MenuItem("Change Description");
             changeDescriptionMenuItem.setOnAction(e -> {
-                System.out.println("Change Description");
+                this.descriptionField.setEditable(true);
+                this.descriptionField.setMouseTransparent(false);
+                this.descriptionField.requestFocus();
             });
-            contextMenu.getItems().add(changeDescriptionMenuItem);
 
+            contextMenu.getItems().addAll(changeDescriptionMenuItem);
             return contextMenu;
         }
 
@@ -99,6 +110,7 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
         private ChangeListener<? super Scene> finalOnSceneChangeListener;
         private @NotNull TextField createTextField() {
             TextField descriptionField = new TextField();
+
             descriptionField.setOnKeyPressed(e -> {
                 if (e.getCode() == KeyCode.ENTER) {
                     descriptionField.setEditable(false);
@@ -108,6 +120,7 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
                     this.getItem().description = descriptionField.getText();
                 }
             });
+
             descriptionField.setOnMouseExited(e -> {
                     descriptionField.setEditable(false);
                     descriptionField.setMouseTransparent(true);
@@ -115,14 +128,6 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
                     this.getItem().description = descriptionField.getText();
             });
 
-            this.finalOnSceneChangeListener = (obs, old, newScene) -> {
-                if (newScene != null) {
-                    descriptionField.requestFocus();
-                    descriptionField.sceneProperty().removeListener(finalOnSceneChangeListener);
-                }
-            };
-
-            descriptionField.sceneProperty().addListener(this.finalOnSceneChangeListener);
             descriptionField.setStyle("-fx-font-weight: 600;");
 
             return descriptionField;
@@ -135,7 +140,15 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
             if (rec == null || empty) {
                 this.setGraphic(null);
             } else {
-                if (this.descriptionField.getText() != null && !this.descriptionField.getText().isBlank()) {
+                if (this.getItem() != null && this.getItem().isNewTask) {
+                    this.finalOnSceneChangeListener = (obs, old, newScene) -> {
+                        if (newScene != null) {
+                            descriptionField.requestFocus();
+                            descriptionField.sceneProperty().removeListener(this.finalOnSceneChangeListener);
+                        }
+                    };
+                    descriptionField.sceneProperty().addListener(this.finalOnSceneChangeListener);
+                } else {
                     descriptionField.setEditable(false);
                     descriptionField.setMouseTransparent(true);
                 }
