@@ -15,14 +15,22 @@ import javafx.scene.layout.HBox;
 public class NavTree extends TreeView<NavTree.ContentRecord> {
     /**
      * Builds the NavTree and the factor for the cell constructor.
-     * @param view
+     * @param view the instance of OnPointsGui
      */
     public NavTree(OnPointGUI view) {
         super();
 
+        getSelectionModel().selectedItemProperty().addListener((obs, old, val) -> {
+            if (!(val instanceof NavItem item)) {
+                return;
+            }
+            view.navigate(item.getContentClass());
+        });
+
         this.setShowRoot(false);
         this.setStyle("-fx-border-width: 0;");
         this.setRoot(view.getNavTreeRoot());
+
         // pass in a callback with param TreeView
         this.setCellFactory((v) -> new NavCell());
     }
@@ -32,7 +40,11 @@ public class NavTree extends TreeView<NavTree.ContentRecord> {
      * @param name
      * @param content
      */
-    record ContentRecord(String name, Class<? extends  IContent> content) {}
+    public record ContentRecord(String name, Class<? extends  IContent> content) {
+        public Class<? extends IContent> getContent() {
+            return this.content;
+        }
+    }
 
     /**
      * the node used for the navtree structure.
@@ -42,7 +54,7 @@ public class NavTree extends TreeView<NavTree.ContentRecord> {
 
         /**
          * construct a new navitem with the content record passed in.
-         * @param record
+         * @param record a record contain required data
          */
         private NavItem(ContentRecord record) {
             this.record = record;
@@ -53,7 +65,7 @@ public class NavTree extends TreeView<NavTree.ContentRecord> {
          * retrieve the content view associated with this navitem.
          * @return the content view
          */
-        public Class<? extends IContent> getContentView() {
+        public Class<? extends IContent> getContentClass() {
             return this.record.content;
         }
 

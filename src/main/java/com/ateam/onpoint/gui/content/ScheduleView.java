@@ -8,8 +8,11 @@ public class ScheduleView implements IContent {
     @Override
     public Parent getContentView() {
         VBox vbox = new VBox();
+
+        ContentHeader header = new ContentHeader("Schedule");
+
         vbox.getChildren().add(
-                new Label("Schedule")
+                header
         );
         return vbox;
     }

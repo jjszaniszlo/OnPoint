@@ -1,12 +1,17 @@
 package com.ateam.onpoint.gui;
 
 import com.ateam.onpoint.gui.components.NavTree;
+import com.ateam.onpoint.gui.content.IContent;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.TreeItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+
+import java.util.Objects;
 
 /**
  * Contains the user account snippet, and the navbar for app navigation.
@@ -26,10 +31,19 @@ public class Sidebar extends VBox {
         this.getChildren().addAll(new Header(), navTree);
     }
 
+    public void select(Class<? extends IContent> content) {
+        ObservableList<TreeItem<NavTree.ContentRecord>> list = navTree.getRoot().getChildren();
+        list.forEach(c -> {
+            if (c.getValue().getContent() == content) {
+                navTree.getSelectionModel().select(c);
+            }
+        });
+    }
+
     /**
      * The header has the user's name and profile photo, alongside the open settings functionality
      */
-    private class Header extends HBox {
+    private static class Header extends HBox {
         private final Button openProfile;
         /**
          * construct the header for the sidebar
@@ -45,7 +59,7 @@ public class Sidebar extends VBox {
             this.openProfile.getStyleClass().add("flat");
             this.openProfile.setStyle("-fx-underline: false");
 
-            ImageView img = new ImageView(getClass().getResource("/img/placeholder.png").toExternalForm());
+            ImageView img = new ImageView(Objects.requireNonNull(getClass().getResource("/img/placeholder.png")).toExternalForm());
             img.setPreserveRatio(true);
             img.fitWidthProperty().bind(this.openProfile.widthProperty().divide(6));
             this.openProfile.setGraphic(img);
