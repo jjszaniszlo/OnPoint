@@ -35,7 +35,11 @@ public class TaskList extends ListView<TaskList.Task> {
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
             setAlignment(Pos.CENTER);
 
-            this.checkBox = createCheckBox();
+            this.checkBox = new CheckBox();
+            this.checkBox.setOnMouseClicked(e -> {
+                this.getItem().isComplete = this.checkBox.isSelected();
+            });
+
             this.descriptionField = createTextField();
 
             this.contextMenu = createContextMenu();
@@ -62,40 +66,29 @@ public class TaskList extends ListView<TaskList.Task> {
 
             MenuItem deleteTaskMenuItem = new MenuItem("Delete");
             deleteTaskMenuItem.setOnAction(e -> {
-                //TaskManager.getInstance().deleteTaskFromInbox(this.getItem());
-                this.getListView().getItems().remove(this.getItem());
+                this.getListView().getItems().remove(this.getListView().getSelectionModel().getSelectedItem());
             });
 
             contextMenu.getItems().addAll(changeDescriptionMenuItem, deleteTaskMenuItem);
             return contextMenu;
         }
 
-        private @NotNull CheckBox createCheckBox() {
-            CheckBox checkBox = new CheckBox();
-            checkBox.selectedProperty().addListener(e -> {
-                //TaskManager.getInstance().setTaskCompleted(this.getItem(), checkBox.isSelected());
-            });
-            return checkBox;
-        }
-
         private @NotNull TextField createTextField() {
             TextField descriptionField = new TextField();
 
+            // save description on enter.
             descriptionField.setOnKeyPressed(e -> {
                 if (e.getCode() == KeyCode.ENTER) {
                     descriptionField.setEditable(false);
                     descriptionField.setMouseTransparent(true);
-
-                    //TaskManager.getInstance().setTaskDescription(this.getItem(), descriptionField.getText());
+                    this.getItem().description = descriptionField.getText();
                 }
             });
 
-            descriptionField.setOnMousePressed(e -> {
+            // save description if clicked off
+            descriptionField.setOnMouseClicked(e -> {
+                this.getItem().description = descriptionField.getText();
                 this.getListView().getSelectionModel().select(this.getItem());
-            });
-
-            descriptionField.setOnMouseExited(e -> {
-                //TaskManager.getInstance().setTaskDescription(this.getItem(), descriptionField.getText());
             });
 
             descriptionField.setStyle("-fx-font-weight: 600;");
@@ -112,13 +105,10 @@ public class TaskList extends ListView<TaskList.Task> {
                 this.descriptionField.setText(null);
                 this.setGraphic(null);
             } else {
-                /*if (index >= 0 && index < TaskManager.getInstance().getInboxTaskList().size()) {
-                    this.descriptionField.setText(TaskManager.getInstance().getTaskDescription(index));
-                    this.checkBox.setSelected(TaskManager.getInstance().getTaskCompleted(index));
-                }*/
-
                 Platform.runLater(descriptionField::requestFocus);
 
+                this.descriptionField.setText(task.description);
+                this.checkBox.setSelected(task.isComplete);
                 this.setGraphic(this.root);
             }
         }
