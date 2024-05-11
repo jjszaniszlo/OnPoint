@@ -1,12 +1,10 @@
 package com.ateam.onpoint.gui.content;
 
-import com.ateam.onpoint.core.TaskManager;
 import com.ateam.onpoint.gui.components.TaskList;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
@@ -19,33 +17,26 @@ import java.util.Objects;
 /**
  * The task view is responsible for the nodes used to display tasks.
  */
-public class TaskView implements IContent {
-    private final TaskList taskList;
+public class TaskView extends VBox implements IContent {
+    private static TaskList taskList;
 
     public TaskView() {
-        this.taskList = new TaskList();
-        this.taskList.setCellFactory(p -> new TaskList.TaskCell());
-        this.taskList.setPrefWidth(400);
+        super();
 
-        ObservableList<TaskList.TaskRecord> tasks = FXCollections.observableArrayList();
-
-        for (int i = 0; i < TaskManager.getInstance().getTaskList().size(); i++) {
-            System.out.println(TaskManager.getInstance().getTaskList().get(i).getDescription());
-            tasks.add(new TaskList.TaskRecord(i, TaskManager.getInstance().getTaskList().get(i).getDescription()));
+        if (taskList == null) {
+            taskList = new TaskList();
+            taskList.setCellFactory(p -> new TaskList.TaskCell());
+            taskList.setPrefWidth(400);
         }
 
-        this.taskList.setItems(tasks);
-    }
-    /**
-     * build and return the content view for the task system
-     * @return the parent node for the task system
-     */
-    @Override
-    public Parent getContentView() {
-        VBox parent = new VBox();
+        this.setPadding(new Insets(0, 0, 0, 10));
+
         ContentHeader header = new ContentHeader("Tasks");
 
         ToolBar toolbar = new ToolBar();
+        toolbar.setPrefWidth(400);
+        toolbar.setPrefHeight(40);
+
         Button newButton = new Button();
         Image plusIcon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/plus_white_32.png")));
         ImageView plusIconView = new ImageView(plusIcon);
@@ -54,8 +45,8 @@ public class TaskView implements IContent {
         newButton.setPadding(new Insets(1, 1, 1, 1));
 
         EventHandler<ActionEvent> addTaskButtonEventHandler = e -> {
-            TaskManager.getInstance().addTask(new TaskManager.Task(""));
-            this.taskList.getSelectionModel().selectLast();
+            taskList.getItems().add(new TaskList.Task());
+            taskList.getSelectionModel().selectLast();
         };
 
         newButton.setOnAction(addTaskButtonEventHandler);
@@ -69,7 +60,14 @@ public class TaskView implements IContent {
 
         toolbar.getItems().addAll(newButton, archiveButton);
 
-        parent.getChildren().addAll(header, toolbar, this.taskList);
-        return parent;
+        this.getChildren().addAll(header, toolbar, taskList);
+    }
+    /**
+     * build and return the content view for the task system
+     * @return the parent node for the task system
+     */
+    @Override
+    public Parent getContentView() {
+        return this;
     }
 }

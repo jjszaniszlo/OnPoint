@@ -28,9 +28,10 @@ public class ApplicationEntry extends Application {
 
         WindowPane guiHandle = new WindowPane();
 
-        stage.setScene(new Scene(guiHandle, WindowPane.MIN_WINDOW_WIDTH, WindowPane.MIN_WINDOW_HEIGHT + 200));
-        stage.setMinWidth(WindowPane.MIN_WINDOW_WIDTH);
-        stage.setMinHeight(WindowPane.MIN_WINDOW_HEIGHT);
+        stage.setScene(new Scene(guiHandle, WindowPane.MIN_WINDOW_WIDTH, WindowPane.MIN_WINDOW_HEIGHT));
+        stage.setWidth(WindowPane.MIN_WINDOW_WIDTH);
+        stage.setHeight(WindowPane.MIN_WINDOW_HEIGHT);
+        stage.setResizable(false);
 
         Platform.runLater(() -> {
             stage.show();
