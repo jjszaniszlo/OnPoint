@@ -2,11 +2,14 @@ package com.ateam.onpoint.gui.components;
 
 import com.ateam.onpoint.gui.OnPointGUI;
 import com.ateam.onpoint.gui.content.IContent;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 /*
@@ -40,7 +43,7 @@ public class NavTree extends TreeView<NavTree.ContentRecord> {
      * @param name
      * @param content
      */
-    public record ContentRecord(String name, Class<? extends  IContent> content) {
+    public record ContentRecord(String name, Class<? extends  IContent> content, Image image) {
         public Class<? extends IContent> getContent() {
             return this.content;
         }
@@ -74,7 +77,7 @@ public class NavTree extends TreeView<NavTree.ContentRecord> {
          * @return the constructed navitem
          */
         public static NavItem makeRoot() {
-            return new NavItem(new ContentRecord("ROOT", null));
+            return new NavItem(new ContentRecord("ROOT", null, null));
         }
 
         /**
@@ -83,8 +86,8 @@ public class NavTree extends TreeView<NavTree.ContentRecord> {
          * @param content the content view to associate with the name
          * @return the constructed navitem
          */
-        public static NavItem makeContent(String name, Class<? extends IContent> content) {
-            return new NavItem(new ContentRecord(name, content));
+        public static NavItem makeContent(String name, Class<? extends IContent> content, Image image) {
+            return new NavItem(new ContentRecord(name, content, image));
         }
     }
 
@@ -93,6 +96,7 @@ public class NavTree extends TreeView<NavTree.ContentRecord> {
      */
     public static class NavCell extends TreeCell<ContentRecord> {
         private final HBox root;
+        private final ImageView icon;
         private final Label name;
 
         /**
@@ -104,10 +108,15 @@ public class NavTree extends TreeView<NavTree.ContentRecord> {
             this.name = new Label();
             this.name.setGraphicTextGap(5);
             this.name.setStyle("-fx-font-weight: 600;");
+            this.name.setPadding(new Insets(0, 0, 0, 10));
+
+            this.icon = new ImageView();
+            this.icon.setFitHeight(20);
+            this.icon.setFitWidth(20);
 
             this.root = new HBox();
             this.root.setAlignment(Pos.CENTER_LEFT);
-            this.root.getChildren().add(this.name);
+            this.root.getChildren().addAll(this.icon, this.name);
 
             this.getStyleClass().add("nav-tree-cell");
         }
@@ -128,9 +137,10 @@ public class NavTree extends TreeView<NavTree.ContentRecord> {
 
                 this.name.setText(null);
             } else {
-                this.setGraphic(root);
-
                 this.name.setText(rec.name);
+                this.icon.setImage(rec.image);
+
+                this.setGraphic(root);
             }
         }
     }

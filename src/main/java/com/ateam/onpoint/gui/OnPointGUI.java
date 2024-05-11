@@ -6,6 +6,9 @@ import com.ateam.onpoint.gui.content.ScheduleView;
 import com.ateam.onpoint.gui.content.TaskView;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.scene.image.Image;
+
+import java.util.Objects;
 
 /**
  * ApplicationView contains the panel where all the application's functionality will dynamically be made available through the sidebar.
@@ -25,8 +28,8 @@ public class OnPointGUI {
     public OnPointGUI() {
         navTreeRoot = NavTree.NavItem.makeRoot();
         navTreeRoot.getChildren().setAll(
-                NavTree.NavItem.makeContent("Tasks", TaskView.class),
-                NavTree.NavItem.makeContent("Schedule", ScheduleView.class)
+                NavTree.NavItem.makeContent("Tasks", TaskView.class, new Image(Objects.requireNonNull(getClass().getResource("/img/inbox_52.png")).toString())),
+                NavTree.NavItem.makeContent("Schedule", ScheduleView.class, new Image(Objects.requireNonNull(getClass().getResource("/img/calandar_64.png")).toString()))
         );
     }
 
