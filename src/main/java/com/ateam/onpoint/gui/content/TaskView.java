@@ -20,44 +20,26 @@ import java.util.Objects;
  * The task view is responsible for the nodes used to display tasks.
  */
 public class TaskView implements IContent {
-    private final TaskList taskList;
+    private static TaskList taskList;
 
     public TaskView() {
-        this.taskList = new TaskList();
-        this.taskList.setCellFactory(p -> new TaskList.TaskCell());
-        this.taskList.setPrefWidth(400);
+        if (taskList == null) {
+            taskList = new TaskList();
+            taskList.setCellFactory(p -> new TaskList.TaskCell());
+            taskList.setPrefWidth(400);
 
-        // listen to when the TaskManager adds a new task.
-        TaskManager.getInstance().tasksListAddListener(change -> {
-            while (change.next()) {
-                if (change.wasAdded()) {
-                    int st = change.getFrom();
-                    int ed = change.getTo();
-                    ObservableList<TaskManager.Task> tasks = (ObservableList<TaskManager.Task>) change.getList();
-
-                    for (int i = st; i < ed; i++) {
-                        TaskList.TaskRecord rec = new TaskList.TaskRecord(i, true);
-                        rec.description = tasks.get(i).getDescription();
-                        rec.completed = tasks.get(i).getCompleted();
-
-                        this.taskList.getItems().add(rec);
+            TaskManager.getInstance().tasksListAddListener(change -> {
+                while (change.next()) {
+                    if (change.wasAdded()) {
+                        int st = change.getFrom();
+                        int end = change.getTo();
+                        for (int i = st; i < end; i++) {
+                            taskList.getItems().add(i);
+                        }
                     }
                 }
-            }
-        });
-
-        // copy and interpret data from the TaskManager
-        ObservableList<TaskList.TaskRecord> tasks = FXCollections.observableArrayList();
-
-        for (int i = 0; i < TaskManager.getInstance().getInboxTaskList().size(); i++) {
-            TaskList.TaskRecord rec = new TaskList.TaskRecord(i);
-            rec.description = TaskManager.getInstance().getInboxTaskList().get(i).getDescription();
-            rec.completed = TaskManager.getInstance().getInboxTaskList().get(i).getCompleted();
-
-            tasks.add(rec);
+            });
         }
-
-        this.taskList.setItems(tasks);
     }
     /**
      * build and return the content view for the task system
@@ -82,8 +64,10 @@ public class TaskView implements IContent {
         newButton.setPadding(new Insets(1, 1, 1, 1));
 
         EventHandler<ActionEvent> addTaskButtonEventHandler = e -> {
+            System.out.println("added 1");
             TaskManager.getInstance().addTask(new TaskManager.Task());
-            this.taskList.getSelectionModel().selectLast();
+            taskList.getSelectionModel().selectLast();
+            taskList.setAddedNewTask();
         };
 
         newButton.setOnAction(addTaskButtonEventHandler);
@@ -97,7 +81,7 @@ public class TaskView implements IContent {
 
         toolbar.getItems().addAll(newButton, archiveButton);
 
-        parent.getChildren().addAll(header, toolbar, this.taskList);
+        parent.getChildren().addAll(header, toolbar, taskList);
         return parent;
     }
 }

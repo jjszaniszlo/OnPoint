@@ -2,10 +2,13 @@ package com.ateam.onpoint.gui.components;
 
 
 import com.ateam.onpoint.core.TaskManager;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -13,28 +16,27 @@ import javafx.scene.layout.HBox;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unchecked")
-public class TaskList extends ListView<TaskList.TaskRecord> {
-    public TaskList() { super(); }
+public class TaskList extends ListView<Integer> {
+    private boolean addedNewTask = false;
 
-    public static class TaskRecord {
-        public int index;
-        public String description;
-        public boolean completed;
-
-        public final boolean isNewTask;
-
-        public TaskRecord(int index) {
-            this.index = index;
-            this.isNewTask = false;
-        }
-
-        public TaskRecord(int index, boolean isNewTask) {
-            this.index = index;
-            this.isNewTask = isNewTask;
-        }
+    public TaskList() {
+        super();
     }
 
-    public static class TaskCell extends ListCell<TaskRecord> {
+    public void setAddedNewTask() {
+        addedNewTask = true;
+    }
+
+    private void resolveAddedTask() {
+        addedNewTask = false;
+    }
+
+    public boolean wasTaskAdded() {
+        return addedNewTask;
+    }
+
+
+    public static class TaskCell extends ListCell<Integer> {
         private final HBox root;
         private final TextField descriptionField;
         private final CheckBox checkBox;
@@ -63,7 +65,6 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
 
             this.root.getChildren().addAll(this.checkBox, this.descriptionField);
         }
-
         private @NotNull ContextMenu createContextMenu() {
             ContextMenu contextMenu = new ContextMenu();
 
@@ -75,7 +76,10 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
             });
 
             MenuItem deleteTaskMenuItem = new MenuItem("Delete");
-            deleteTaskMenuItem.setOnAction(e -> {});
+            deleteTaskMenuItem.setOnAction(e -> {
+                TaskManager.getInstance().deleteTaskFromInbox(this.getItem());
+                this.getListView().getItems().remove(this.getItem());
+            });
 
             contextMenu.getItems().addAll(changeDescriptionMenuItem, deleteTaskMenuItem);
             return contextMenu;
@@ -84,8 +88,7 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
         private @NotNull CheckBox createCheckBox() {
             CheckBox checkBox = new CheckBox();
             checkBox.selectedProperty().addListener(e -> {
-                TaskManager.getInstance().setTaskCompleted(this.getItem().index, checkBox.isSelected());
-                this.getItem().completed = checkBox.isSelected();
+                TaskManager.getInstance().setTaskCompleted(this.getItem(), checkBox.isSelected());
             });
             return checkBox;
         }
@@ -99,14 +102,12 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
                     descriptionField.setEditable(false);
                     descriptionField.setMouseTransparent(true);
 
-                    TaskManager.getInstance().setTaskDescription(this.getItem().index, descriptionField.getText());
-                    this.getItem().description = descriptionField.getText();
+                    TaskManager.getInstance().setTaskDescription(this.getItem(), descriptionField.getText());
                 }
             });
 
             descriptionField.setOnMouseExited(e -> {
-                TaskManager.getInstance().setTaskDescription(this.getItem().index, descriptionField.getText());
-                this.getItem().description = descriptionField.getText();
+                TaskManager.getInstance().setTaskDescription(this.getItem(), descriptionField.getText());
             });
 
             descriptionField.setStyle("-fx-font-weight: 600;");
@@ -116,27 +117,20 @@ public class TaskList extends ListView<TaskList.TaskRecord> {
         }
 
         @Override
-        protected void updateItem(TaskRecord rec, boolean empty) {
-            super.updateItem(rec, empty);
+        protected void updateItem(Integer index, boolean empty) {
+            super.updateItem(index, empty);
 
-            if (rec == null || empty) {
+            if (index == null || empty) {
+                this.descriptionField.setText(null);
                 this.setGraphic(null);
             } else {
-                if (this.getItem() != null && this.getItem().isNewTask) {
-                    this.finalOnSceneChangeListener = (obs, old, newScene) -> {
-                        if (newScene != null) {
-                            descriptionField.requestFocus();
-                            descriptionField.sceneProperty().removeListener(this.finalOnSceneChangeListener);
-                        }
-                    };
-                    descriptionField.sceneProperty().addListener(this.finalOnSceneChangeListener);
-                } else {
-                    descriptionField.setEditable(false);
-                    descriptionField.setMouseTransparent(true);
+                if (index >= 0 && index < TaskManager.getInstance().getInboxTaskList().size()) {
+                    this.descriptionField.setText(TaskManager.getInstance().getTaskDescription(index));
+                    this.checkBox.setSelected(TaskManager.getInstance().getTaskCompleted(index));
                 }
 
-                this.descriptionField.setText(rec.description);
-                this.checkBox.setSelected(rec.completed);
+                Platform.runLater(descriptionField::requestFocus);
+
                 this.setGraphic(this.root);
             }
         }
