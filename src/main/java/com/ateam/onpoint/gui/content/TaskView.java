@@ -66,10 +66,13 @@ public class TaskView implements IContent {
     @Override
     public Parent getContentView() {
         VBox parent = new VBox();
+        parent.setPadding(new Insets(0, 0, 0, 10));
+
         ContentHeader header = new ContentHeader("Tasks");
 
         ToolBar toolbar = new ToolBar();
         toolbar.setPrefWidth(400);
+        toolbar.setPrefHeight(40);
 
         Button newButton = new Button();
         Image plusIcon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/plus_white_32.png")));
