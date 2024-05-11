@@ -146,10 +146,14 @@ public class TaskEditor extends Stage {
         this.setY(winPosY);
 
         this.descriptionField.setText(this.currentTask.getDescription());
-        this.datePicker.setValue(this.currentTask.getCreationDate());
+        if (this.currentTask.getCompletionDate() == null) {
+            this.datePicker.setValue(this.currentTask.getCreationDate());
+        } else {
+            this.datePicker.setValue(this.currentTask.getCompletionDate());
+        }
 
         int hours, minutes;
-        if (this.currentTask.getCompletionDate() == null) {
+        if (this.currentTask.getCompletionTime() == null) {
             hours = this.currentTask.getCreationTime().getHour();
             minutes = this.currentTask.getCreationTime().getMinute();
         } else {
