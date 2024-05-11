@@ -20,4 +20,25 @@ public class Spacer extends Region {
             case VERTICAL -> VBox.setVgrow(this, Priority.ALWAYS);
         }
     }
+
+    public Spacer(int fixedWidth) {
+        this(Orientation.HORIZONTAL, fixedWidth);
+    }
+
+    public Spacer(Orientation orientation, int fixedWidth) {
+        super();
+
+        switch(orientation) {
+            case HORIZONTAL -> {
+                setMinWidth(fixedWidth);
+                setPrefWidth(fixedWidth);
+                setMaxWidth(fixedWidth);
+            }
+            case VERTICAL -> {
+                setMinHeight(fixedWidth);
+                setPrefWidth(fixedWidth);
+                setMaxWidth(fixedWidth);
+            }
+        }
+    }
 }
