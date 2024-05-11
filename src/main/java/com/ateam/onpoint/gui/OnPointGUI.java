@@ -1,11 +1,15 @@
 package com.ateam.onpoint.gui;
 
 import com.ateam.onpoint.gui.components.NavTree;
+import com.ateam.onpoint.gui.components.Spacer;
+import com.ateam.onpoint.gui.content.ArchiveView;
 import com.ateam.onpoint.gui.content.IContent;
 import com.ateam.onpoint.gui.content.ScheduleView;
 import com.ateam.onpoint.gui.content.TaskView;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.geometry.Orientation;
+import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 
 import java.util.Objects;
