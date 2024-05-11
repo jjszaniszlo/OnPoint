@@ -1,5 +1,7 @@
 package com.ateam.onpoint.core;
 
+import javafx.collections.ObservableList;
+
 import java.util.Date;
 
 /*
@@ -7,8 +9,9 @@ import java.util.Date;
  */
 public class TaskDatabase {
     private static TaskDatabase instance;
-
     private TaskDatabase() {}
+
+    private ObservableList<Task> tasks;
 
     public TaskDatabase getInstance() {
         if (instance == null) {
@@ -17,9 +20,7 @@ public class TaskDatabase {
         return instance;
     }
 
-    private static class TaskRecord {
-        private String description;
-        private Date creationDate;
-        private Date completionDate;
+    public ObservableList<Task> getTasks() {
+        return tasks;
     }
 }

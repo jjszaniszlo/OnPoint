@@ -1,5 +1,6 @@
 package com.ateam.onpoint.gui.content;
 
+import com.ateam.onpoint.core.Task;
 import com.ateam.onpoint.gui.components.TaskList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -61,7 +62,7 @@ public class TaskView extends VBox implements IContent {
             LocalDate creationDate = LocalDate.now();
             LocalTime creationTime = LocalTime.now();
 
-            taskList.getItems().add(new TaskList.Task(tid, creationDate, creationTime));
+            taskList.getItems().add(new Task(tid, creationDate, creationTime));
             taskList.getSelectionModel().selectLast();
         };
 

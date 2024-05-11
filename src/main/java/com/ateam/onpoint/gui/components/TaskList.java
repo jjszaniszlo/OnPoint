@@ -1,6 +1,7 @@
 package com.ateam.onpoint.gui.components;
 
 
+import com.ateam.onpoint.core.Task;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.SnapshotParameters;
@@ -8,75 +9,16 @@ import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
 import org.jetbrains.annotations.NotNull;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.*;
 
-public class TaskList extends ListView<TaskList.Task> {
+public class TaskList extends ListView<Task> {
     public final static Set<Integer> exitingTaskIds = new HashSet<>();
 
     public TaskList() {
         super();
     }
 
-    public static class Task {
-        private int taskID;
-        private LocalDate creationDate;
-        private LocalTime creationTime;
-        private LocalDate completionDate;
-        private LocalTime completionTime;
-        private String description;
-        private boolean isComplete;
-
-        public Task(int tid, LocalDate creationDate, LocalTime creationTime) {
-            this.taskID = tid;
-            this.creationDate = creationDate;
-            this.creationTime = creationTime;
-        }
-
-        public int getTaskID() {
-            return taskID;
-        }
-
-        public LocalDate getCreationDate() {
-            return creationDate;
-        }
-
-        public LocalTime getCreationTime() {
-            return creationTime;
-        }
-
-        public LocalDate getCompletionDate() {
-            return completionDate;
-        }
-
-        public  LocalTime getCompletionTime() {
-            return completionTime;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public boolean isComplete() {
-            return isComplete;
-        }
-
-        public void setCompletionTime(LocalTime completionTime) {
-            this.completionTime = completionTime;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
-
-        public void setCompletionDate(LocalDate completionDate) {
-            this.completionDate = completionDate;
-        }
-    }
-
-    public static class TaskCell extends ListCell<TaskList.Task> {
+    public static class TaskCell extends ListCell<Task> {
         private final HBox root;
         private final TextField descriptionField;
         private final CheckBox checkBox;
@@ -91,7 +33,7 @@ public class TaskList extends ListView<TaskList.Task> {
             setAlignment(Pos.CENTER);
 
             this.checkBox = new CheckBox();
-            this.checkBox.setOnMouseClicked(e -> this.getItem().isComplete = this.checkBox.isSelected());
+            this.checkBox.setOnMouseClicked(e -> this.getItem().isCompletedProperty().set(this.checkBox.isSelected()));
 
             this.descriptionField = createTextField();
             this.contextMenu = createContextMenu();
@@ -115,7 +57,7 @@ public class TaskList extends ListView<TaskList.Task> {
 
                 final var dragBoard = startDragAndDrop(TransferMode.MOVE);
                 final var clipBoard = new ClipboardContent();
-                clipBoard.putString(this.getItem().description);
+                clipBoard.putString(this.getItem().getDescription());
                 dragBoard.setDragView(this.root.snapshot(new SnapshotParameters(), null));
                 dragBoard.setContent(clipBoard);
 
@@ -152,7 +94,7 @@ public class TaskList extends ListView<TaskList.Task> {
                 if (dragboard.hasString()) {
                     final var items = getListView().getItems();
                     final var draggedItem = items.stream()
-                            .filter(c -> c.description.compareTo(dragboard.getString()) == 0)
+                            .filter(c -> c.getDescription().compareTo(dragboard.getString()) == 0)
                             .findFirst()
                             .orElse(null);
                     Objects.requireNonNull(draggedItem);
@@ -199,13 +141,13 @@ public class TaskList extends ListView<TaskList.Task> {
                 if (e.getCode() == KeyCode.ENTER) {
                     descriptionField.setEditable(false);
                     descriptionField.setMouseTransparent(true);
-                    this.getItem().description = descriptionField.getText();
+                    this.getItem().descriptionProperty().set(descriptionField.getText());
                 }
             });
 
             // save description if clicked off
             descriptionField.setOnMouseClicked(e -> {
-                this.getItem().description = descriptionField.getText();
+                this.getItem().descriptionProperty().set(descriptionField.getText());
                 this.getListView().getSelectionModel().select(this.getItem());
             });
 
@@ -225,8 +167,8 @@ public class TaskList extends ListView<TaskList.Task> {
             } else {
                 Platform.runLater(descriptionField::requestFocus);
 
-                this.descriptionField.setText(task.description);
-                this.checkBox.setSelected(task.isComplete);
+                this.descriptionField.setText(task.descriptionProperty().get());
+                this.checkBox.setSelected(task.isCompletedProperty().get());
                 this.setGraphic(this.root);
             }
         }

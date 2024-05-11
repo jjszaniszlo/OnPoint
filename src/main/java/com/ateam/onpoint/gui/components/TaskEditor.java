@@ -1,8 +1,8 @@
 package com.ateam.onpoint.gui.components;
 
+import com.ateam.onpoint.core.Task;
 import com.ateam.onpoint.gui.content.TaskView;
 import javafx.application.Platform;
-import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -15,10 +15,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.StringConverter;
 import org.jetbrains.annotations.NotNull;
-
-import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Objects;
 
 public class TaskEditor extends Stage {
     final static int WINDOW_WIDTH = 400;
@@ -32,7 +29,7 @@ public class TaskEditor extends Stage {
     private final Spinner<Integer> hoursSpinner = new Spinner<>();
     private final Spinner<Integer> minutesSpinner = new Spinner<>();
 
-    private TaskList.Task currentTask;
+    private Task currentTask;
 
     public static TaskEditor getInstance() {
         if (instance == null) {
@@ -92,9 +89,9 @@ public class TaskEditor extends Stage {
     }
 
     private void saveToCurrentTask() {
-        this.currentTask.setDescription(this.descriptionField.getText());
-        this.currentTask.setCompletionDate(this.datePicker.getValue());
-        this.currentTask.setCompletionTime(LocalTime.of(hoursSpinner.getValue(), minutesSpinner.getValue()));
+        this.currentTask.descriptionProperty().set(this.descriptionField.getText());
+        this.currentTask.completionDateProperty().set(this.datePicker.getValue());
+        this.currentTask.completionTimeProperty().set(LocalTime.of(hoursSpinner.getValue(), minutesSpinner.getValue()));
 
         var index = TaskView.getTaskList().getItems().indexOf(this.currentTask);
         TaskView.getTaskList().getItems().remove(this.currentTask);
@@ -135,7 +132,7 @@ public class TaskEditor extends Stage {
         return hoursSpinnerFactory;
     }
 
-    public void openTaskEditor(Window win, TaskList.Task task) {
+    public void openTaskEditor(Window win, Task task) {
         this.currentTask = task;
         final var centerPosX = win.getX() + win.getWidth()/2;
         final var centerPosY = win.getY() + win.getHeight()/2;
@@ -146,14 +143,14 @@ public class TaskEditor extends Stage {
         this.setY(winPosY);
 
         this.descriptionField.setText(this.currentTask.getDescription());
-        if (this.currentTask.getCompletionDate() == null) {
+        if (this.currentTask.completionDateProperty().get() == null) {
             this.datePicker.setValue(this.currentTask.getCreationDate());
         } else {
             this.datePicker.setValue(this.currentTask.getCompletionDate());
         }
 
         int hours, minutes;
-        if (this.currentTask.getCompletionTime() == null) {
+        if (this.currentTask.completionTimeProperty().get() == null) {
             hours = this.currentTask.getCreationTime().getHour();
             minutes = this.currentTask.getCreationTime().getMinute();
         } else {
