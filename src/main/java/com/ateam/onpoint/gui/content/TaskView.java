@@ -1,9 +1,6 @@
 package com.ateam.onpoint.gui.content;
 
-import com.ateam.onpoint.core.TaskManager;
 import com.ateam.onpoint.gui.components.TaskList;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -27,18 +24,6 @@ public class TaskView implements IContent {
             taskList = new TaskList();
             taskList.setCellFactory(p -> new TaskList.TaskCell());
             taskList.setPrefWidth(400);
-
-            TaskManager.getInstance().tasksListAddListener(change -> {
-                while (change.next()) {
-                    if (change.wasAdded()) {
-                        int st = change.getFrom();
-                        int end = change.getTo();
-                        for (int i = st; i < end; i++) {
-                            taskList.getItems().add(i);
-                        }
-                    }
-                }
-            });
         }
     }
     /**
@@ -64,9 +49,8 @@ public class TaskView implements IContent {
         newButton.setPadding(new Insets(1, 1, 1, 1));
 
         EventHandler<ActionEvent> addTaskButtonEventHandler = e -> {
-            TaskManager.getInstance().addTask(new TaskManager.Task());
+            taskList.getItems().add(new TaskList.Task());
             taskList.getSelectionModel().selectLast();
-            taskList.setAddedNewTask();
         };
 
         newButton.setOnAction(addTaskButtonEventHandler);

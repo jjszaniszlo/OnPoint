@@ -1,42 +1,27 @@
 package com.ateam.onpoint.gui.components;
 
 
-import com.ateam.onpoint.core.TaskManager;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unchecked")
-public class TaskList extends ListView<Integer> {
-    private boolean addedNewTask = false;
-
+public class TaskList extends ListView<TaskList.Task> {
     public TaskList() {
         super();
     }
 
-    public void setAddedNewTask() {
-        addedNewTask = true;
+    public static class Task {
+          private String description;
+          private boolean isComplete;
+
+          public Task() { }
     }
 
-    private void resolveAddedTask() {
-        addedNewTask = false;
-    }
-
-    public boolean wasTaskAdded() {
-        return addedNewTask;
-    }
-
-
-    public static class TaskCell extends ListCell<Integer> {
+    public static class TaskCell extends ListCell<TaskList.Task> {
         private final HBox root;
         private final TextField descriptionField;
         private final CheckBox checkBox;
@@ -77,7 +62,7 @@ public class TaskList extends ListView<Integer> {
 
             MenuItem deleteTaskMenuItem = new MenuItem("Delete");
             deleteTaskMenuItem.setOnAction(e -> {
-                TaskManager.getInstance().deleteTaskFromInbox(this.getItem());
+                //TaskManager.getInstance().deleteTaskFromInbox(this.getItem());
                 this.getListView().getItems().remove(this.getItem());
             });
 
@@ -88,12 +73,11 @@ public class TaskList extends ListView<Integer> {
         private @NotNull CheckBox createCheckBox() {
             CheckBox checkBox = new CheckBox();
             checkBox.selectedProperty().addListener(e -> {
-                TaskManager.getInstance().setTaskCompleted(this.getItem(), checkBox.isSelected());
+                //TaskManager.getInstance().setTaskCompleted(this.getItem(), checkBox.isSelected());
             });
             return checkBox;
         }
 
-        private ChangeListener<? super Scene> finalOnSceneChangeListener;
         private @NotNull TextField createTextField() {
             TextField descriptionField = new TextField();
 
@@ -102,7 +86,7 @@ public class TaskList extends ListView<Integer> {
                     descriptionField.setEditable(false);
                     descriptionField.setMouseTransparent(true);
 
-                    TaskManager.getInstance().setTaskDescription(this.getItem(), descriptionField.getText());
+                    //TaskManager.getInstance().setTaskDescription(this.getItem(), descriptionField.getText());
                 }
             });
 
@@ -111,7 +95,7 @@ public class TaskList extends ListView<Integer> {
             });
 
             descriptionField.setOnMouseExited(e -> {
-                TaskManager.getInstance().setTaskDescription(this.getItem(), descriptionField.getText());
+                //TaskManager.getInstance().setTaskDescription(this.getItem(), descriptionField.getText());
             });
 
             descriptionField.setStyle("-fx-font-weight: 600;");
@@ -121,17 +105,17 @@ public class TaskList extends ListView<Integer> {
         }
 
         @Override
-        protected void updateItem(Integer index, boolean empty) {
-            super.updateItem(index, empty);
+        protected void updateItem(Task task, boolean empty) {
+            super.updateItem(task, empty);
 
-            if (index == null || empty) {
+            if (task == null || empty) {
                 this.descriptionField.setText(null);
                 this.setGraphic(null);
             } else {
-                if (index >= 0 && index < TaskManager.getInstance().getInboxTaskList().size()) {
+                /*if (index >= 0 && index < TaskManager.getInstance().getInboxTaskList().size()) {
                     this.descriptionField.setText(TaskManager.getInstance().getTaskDescription(index));
                     this.checkBox.setSelected(TaskManager.getInstance().getTaskCompleted(index));
-                }
+                }*/
 
                 Platform.runLater(descriptionField::requestFocus);
 
