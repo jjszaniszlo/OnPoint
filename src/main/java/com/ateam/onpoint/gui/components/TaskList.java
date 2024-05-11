@@ -9,6 +9,8 @@ import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
 import org.jetbrains.annotations.NotNull;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 public class TaskList extends ListView<TaskList.Task> {
@@ -20,14 +22,57 @@ public class TaskList extends ListView<TaskList.Task> {
 
     public static class Task {
         private int taskID;
-        private Date creationDate;
-        private Date completionDate;
+        private LocalDate creationDate;
+        private LocalTime creationTime;
+        private LocalDate completionDate;
+        private LocalTime completionTime;
         private String description;
         private boolean isComplete;
 
-        public Task(int tid, Date creationDate) {
+        public Task(int tid, LocalDate creationDate, LocalTime creationTime) {
             this.taskID = tid;
             this.creationDate = creationDate;
+            this.creationTime = creationTime;
+        }
+
+        public int getTaskID() {
+            return taskID;
+        }
+
+        public LocalDate getCreationDate() {
+            return creationDate;
+        }
+
+        public LocalTime getCreationTime() {
+            return creationTime;
+        }
+
+        public LocalDate getCompletionDate() {
+            return completionDate;
+        }
+
+        public  LocalTime getCompletionTime() {
+            return completionTime;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public boolean isComplete() {
+            return isComplete;
+        }
+
+        public void setCompletionTime(LocalTime completionTime) {
+            this.completionTime = completionTime;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public void setCompletionDate(LocalDate completionDate) {
+            this.completionDate = completionDate;
         }
     }
 
@@ -134,22 +179,15 @@ public class TaskList extends ListView<TaskList.Task> {
         private @NotNull ContextMenu createContextMenu() {
             final var contextMenu = new ContextMenu();
 
-            final var changeDescriptionMenuItem = new MenuItem("Change Description");
-            changeDescriptionMenuItem.setOnAction(e -> {
-                this.descriptionField.setEditable(true);
-                this.descriptionField.setMouseTransparent(false);
-                this.descriptionField.requestFocus();
+            final var editTaskMenuItem = new MenuItem("Edit Task");
+            editTaskMenuItem.setOnAction(e -> {
+                TaskEditor.getInstance().openTaskEditor(getScene().getWindow(), this.getItem());
             });
 
             final var deleteTaskMenuItem = new MenuItem("Delete");
             deleteTaskMenuItem.setOnAction(e -> this.getListView().getItems().remove(this.getListView().getSelectionModel().getSelectedItem()));
 
-            final var assignDateMenuItem = new MenuItem("Edit Task");
-            assignDateMenuItem.setOnAction(e -> {
-                TaskEditor.getInstance().openTaskEditor(getScene().getWindow(), this.getItem().taskID);
-            });
-
-            contextMenu.getItems().addAll(changeDescriptionMenuItem, deleteTaskMenuItem, assignDateMenuItem);
+            contextMenu.getItems().addAll(editTaskMenuItem, deleteTaskMenuItem);
             return contextMenu;
         }
 

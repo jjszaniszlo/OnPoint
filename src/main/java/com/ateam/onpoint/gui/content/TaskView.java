@@ -11,7 +11,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Objects;
 import java.util.Random;
 
@@ -20,6 +21,10 @@ import java.util.Random;
  */
 public class TaskView extends VBox implements IContent {
     private static TaskList taskList;
+
+    public static TaskList getTaskList() {
+        return taskList;
+    }
 
     public TaskView() {
         super();
@@ -53,9 +58,10 @@ public class TaskView extends VBox implements IContent {
                 tid = 10000 + random.nextInt(0, 90000);
             } while (TaskList.exitingTaskIds.contains(tid));
 
-            Date creationDate = new Date();
+            LocalDate creationDate = LocalDate.now();
+            LocalTime creationTime = LocalTime.now();
 
-            taskList.getItems().add(new TaskList.Task(tid, creationDate));
+            taskList.getItems().add(new TaskList.Task(tid, creationDate, creationTime));
             taskList.getSelectionModel().selectLast();
         };
 
