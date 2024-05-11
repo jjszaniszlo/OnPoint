@@ -29,7 +29,7 @@ public class OnPointGUI {
         navTreeRoot = NavTree.NavItem.makeRoot();
         navTreeRoot.getChildren().setAll(
                 NavTree.NavItem.makeContent("Tasks", TaskView.class, new Image(Objects.requireNonNull(getClass().getResource("/img/inbox_52.png")).toString())),
-                NavTree.NavItem.makeContent("Schedule", ScheduleView.class, new Image(Objects.requireNonNull(getClass().getResource("/img/calandar_64.png")).toString()))
+                NavTree.NavItem.makeContent("Schedule", ScheduleView.class, new Image(Objects.requireNonNull(getClass().getResource("/img/calendar_64.png")).toString()))
         );
     }
 
