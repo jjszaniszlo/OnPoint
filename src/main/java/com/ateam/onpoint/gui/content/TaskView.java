@@ -64,7 +64,6 @@ public class TaskView implements IContent {
         newButton.setPadding(new Insets(1, 1, 1, 1));
 
         EventHandler<ActionEvent> addTaskButtonEventHandler = e -> {
-            System.out.println("added 1");
             TaskManager.getInstance().addTask(new TaskManager.Task());
             taskList.getSelectionModel().selectLast();
             taskList.setAddedNewTask();
