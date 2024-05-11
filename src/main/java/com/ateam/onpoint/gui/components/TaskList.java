@@ -106,6 +106,10 @@ public class TaskList extends ListView<Integer> {
                 }
             });
 
+            descriptionField.setOnMousePressed(e -> {
+                this.getListView().getSelectionModel().select(this.getItem());
+            });
+
             descriptionField.setOnMouseExited(e -> {
                 TaskManager.getInstance().setTaskDescription(this.getItem(), descriptionField.getText());
             });
