@@ -16,24 +16,19 @@ import java.util.Objects;
 /**
  * The task view is responsible for the nodes used to display tasks.
  */
-public class TaskView implements IContent {
+public class TaskView extends VBox implements IContent {
     private static TaskList taskList;
 
     public TaskView() {
+        super();
+
         if (taskList == null) {
             taskList = new TaskList();
             taskList.setCellFactory(p -> new TaskList.TaskCell());
             taskList.setPrefWidth(400);
         }
-    }
-    /**
-     * build and return the content view for the task system
-     * @return the parent node for the task system
-     */
-    @Override
-    public Parent getContentView() {
-        VBox parent = new VBox();
-        parent.setPadding(new Insets(0, 0, 0, 10));
+
+        this.setPadding(new Insets(0, 0, 0, 10));
 
         ContentHeader header = new ContentHeader("Tasks");
 
@@ -64,7 +59,14 @@ public class TaskView implements IContent {
 
         toolbar.getItems().addAll(newButton, archiveButton);
 
-        parent.getChildren().addAll(header, toolbar, taskList);
-        return parent;
+        this.getChildren().addAll(header, toolbar, taskList);
+    }
+    /**
+     * build and return the content view for the task system
+     * @return the parent node for the task system
+     */
+    @Override
+    public Parent getContentView() {
+        return this;
     }
 }
