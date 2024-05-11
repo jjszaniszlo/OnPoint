@@ -11,7 +11,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
+import java.util.Date;
 import java.util.Objects;
+import java.util.Random;
 
 /**
  * The task view is responsible for the nodes used to display tasks.
@@ -44,7 +46,16 @@ public class TaskView extends VBox implements IContent {
         newButton.setPadding(new Insets(1, 1, 1, 1));
 
         EventHandler<ActionEvent> addTaskButtonEventHandler = e -> {
-            taskList.getItems().add(new TaskList.Task());
+            // generate unique ID.
+            Random random = new Random();
+            int tid;
+            do {
+                tid = 10000 + random.nextInt(0, 90000);
+            } while (TaskList.exitingTaskIds.contains(tid));
+
+            Date creationDate = new Date();
+
+            taskList.getItems().add(new TaskList.Task(tid, creationDate));
             taskList.getSelectionModel().selectLast();
         };
 

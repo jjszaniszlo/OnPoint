@@ -9,20 +9,26 @@ import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class TaskList extends ListView<TaskList.Task> {
+    public final static Set<Integer> exitingTaskIds = new HashSet<>();
+
     public TaskList() {
         super();
     }
 
     public static class Task {
-          private String description;
-          private boolean isComplete;
+        private int taskID;
+        private Date creationDate;
+        private Date completionDate;
+        private String description;
+        private boolean isComplete;
 
-          public Task() { }
+        public Task(int tid, Date creationDate) {
+            this.taskID = tid;
+            this.creationDate = creationDate;
+        }
     }
 
     public static class TaskCell extends ListCell<TaskList.Task> {
@@ -138,7 +144,15 @@ public class TaskList extends ListView<TaskList.Task> {
             final var deleteTaskMenuItem = new MenuItem("Delete");
             deleteTaskMenuItem.setOnAction(e -> this.getListView().getItems().remove(this.getListView().getSelectionModel().getSelectedItem()));
 
-            contextMenu.getItems().addAll(changeDescriptionMenuItem, deleteTaskMenuItem);
+            final var assignDateMenuItem = new MenuItem("Set Date/Time");
+            assignDateMenuItem.setOnAction(e -> {
+                Platform.runLater(() -> {
+                    DateSelector.getInstance().show();
+                    DateSelector.getInstance().requestFocus();
+                });
+            });
+
+            contextMenu.getItems().addAll(changeDescriptionMenuItem, deleteTaskMenuItem, assignDateMenuItem);
             return contextMenu;
         }
 
