@@ -61,7 +61,7 @@ public class Sidebar extends VBox {
             this.openProfile.getStyleClass().add("flat");
             this.openProfile.setStyle("-fx-underline: false");
 
-            ImageView img = new ImageView(Objects.requireNonNull(getClass().getResource("/img/placeholder.png")).toExternalForm());
+            var img = new ImageView(Objects.requireNonNull(getClass().getResource("/img/placeholder.png")).toExternalForm());
             img.setPreserveRatio(true);
             img.fitWidthProperty().bind(this.openProfile.widthProperty().divide(6));
             this.openProfile.setGraphic(img);

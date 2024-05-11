@@ -30,15 +30,15 @@ public class TaskView extends VBox implements IContent {
 
         this.setPadding(new Insets(0, 0, 0, 10));
 
-        ContentHeader header = new ContentHeader("Tasks");
+        var header = new ContentHeader("Tasks");
 
-        ToolBar toolbar = new ToolBar();
+        var toolbar = new ToolBar();
         toolbar.setPrefWidth(400);
         toolbar.setPrefHeight(40);
 
-        Button newButton = new Button();
-        Image plusIcon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/plus_white_32.png")));
-        ImageView plusIconView = new ImageView(plusIcon);
+        var newButton = new Button();
+        var plusIcon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/plus_white_32.png")));
+        var plusIconView = new ImageView(plusIcon);
         newButton.setGraphic(plusIconView);
         newButton.setPrefSize(24, 24);
         newButton.setPadding(new Insets(1, 1, 1, 1));
@@ -50,9 +50,9 @@ public class TaskView extends VBox implements IContent {
 
         newButton.setOnAction(addTaskButtonEventHandler);
 
-        Button archiveButton = new Button();
-        Image archiveIcon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/archive_white_24.png")));
-        ImageView archiveIconView = new ImageView(archiveIcon);
+        var archiveButton = new Button();
+        var archiveIcon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/archive_white_24.png")));
+        var archiveIconView = new ImageView(archiveIcon);
         archiveButton.setGraphic(archiveIconView);
         archiveButton.setPrefSize(24, 24);
         archiveButton.setPadding(new Insets(1, 1, 1 , 1));
@@ -61,6 +61,7 @@ public class TaskView extends VBox implements IContent {
 
         this.getChildren().addAll(header, toolbar, taskList);
     }
+
     /**
      * build and return the content view for the task system
      * @return the parent node for the task system

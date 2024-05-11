@@ -45,8 +45,8 @@ public class Dashboard extends BorderPane {
 
     private void loadContent(Class<? extends IContent> contentClass) {
         try {
-            final IContent prevContent = (IContent) this.contentLayer.getChildren().stream().filter(c -> c instanceof IContent).findFirst().orElse(null);
-            final IContent nextContent = contentClass.getDeclaredConstructor().newInstance();
+            var prevContent = (IContent) this.contentLayer.getChildren().stream().filter(c -> c instanceof IContent).findFirst().orElse(null);
+            var nextContent = contentClass.getDeclaredConstructor().newInstance();
 
             if (getScene() == null) {
                 this.contentLayer.getChildren().add(nextContent.getContentView());

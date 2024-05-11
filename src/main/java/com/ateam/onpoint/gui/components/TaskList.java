@@ -131,16 +131,16 @@ public class TaskList extends ListView<TaskList.Task> {
         }
 
         private @NotNull ContextMenu createContextMenu() {
-            ContextMenu contextMenu = new ContextMenu();
+            final var contextMenu = new ContextMenu();
 
-            MenuItem changeDescriptionMenuItem = new MenuItem("Change Description");
+            final var changeDescriptionMenuItem = new MenuItem("Change Description");
             changeDescriptionMenuItem.setOnAction(e -> {
                 this.descriptionField.setEditable(true);
                 this.descriptionField.setMouseTransparent(false);
                 this.descriptionField.requestFocus();
             });
 
-            MenuItem deleteTaskMenuItem = new MenuItem("Delete");
+            final var deleteTaskMenuItem = new MenuItem("Delete");
             deleteTaskMenuItem.setOnAction(e -> {
                 this.getListView().getItems().remove(this.getListView().getSelectionModel().getSelectedItem());
             });
@@ -150,7 +150,7 @@ public class TaskList extends ListView<TaskList.Task> {
         }
 
         private @NotNull TextField createTextField() {
-            TextField descriptionField = new TextField();
+            final var descriptionField = new TextField();
 
             // save description on enter.
             descriptionField.setOnKeyPressed(e -> {

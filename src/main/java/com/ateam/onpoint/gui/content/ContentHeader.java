@@ -9,7 +9,7 @@ public class ContentHeader extends HBox {
     public ContentHeader(String heading) {
         super();
 
-        Label headingLabel = new Label(heading);
+        final var headingLabel = new Label(heading);
         headingLabel.setPadding(new Insets(5, 0, 5, 20));
         headingLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 30;");
 

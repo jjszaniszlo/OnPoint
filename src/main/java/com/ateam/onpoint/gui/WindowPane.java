@@ -13,7 +13,7 @@ public class WindowPane extends AnchorPane {
     public static final int SIDEBAR_WIDTH = 200;
 
     public WindowPane() {
-        StackPane body = new StackPane(new Dashboard(new OnPointGUI()));
+        var body = new StackPane(new Dashboard(new OnPointGUI()));
         body.getStyleClass().add("body");
 
         this.getChildren().add(body);
