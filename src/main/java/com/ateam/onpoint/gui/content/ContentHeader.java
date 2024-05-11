@@ -3,7 +3,6 @@ package com.ateam.onpoint.gui.content;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Font;
 
 public class ContentHeader extends HBox {
     public ContentHeader(String heading) {

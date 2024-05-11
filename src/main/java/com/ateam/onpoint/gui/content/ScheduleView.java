@@ -1,11 +1,9 @@
 package com.ateam.onpoint.gui.content;
 
 import com.ateam.onpoint.gui.components.Spacer;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;

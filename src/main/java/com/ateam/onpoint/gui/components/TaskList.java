@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@SuppressWarnings("unchecked")
 public class TaskList extends ListView<TaskList.Task> {
     public TaskList() {
         super();
@@ -41,9 +40,7 @@ public class TaskList extends ListView<TaskList.Task> {
             setAlignment(Pos.CENTER);
 
             this.checkBox = new CheckBox();
-            this.checkBox.setOnMouseClicked(e -> {
-                this.getItem().isComplete = this.checkBox.isSelected();
-            });
+            this.checkBox.setOnMouseClicked(e -> this.getItem().isComplete = this.checkBox.isSelected());
 
             this.descriptionField = createTextField();
             this.contextMenu = createContextMenu();
@@ -52,9 +49,7 @@ public class TaskList extends ListView<TaskList.Task> {
             this.root.prefHeight(15);
             this.root.prefWidth(450);
 
-            this.root.setOnContextMenuRequested(e -> {
-                this.contextMenu.show(this.root.getScene().getWindow(), e.getScreenX(), e.getScreenY());
-            });
+            this.root.setOnContextMenuRequested(e -> this.contextMenu.show(this.root.getScene().getWindow(), e.getScreenX(), e.getScreenY()));
 
             setupDragAndDrop();
 
@@ -141,9 +136,7 @@ public class TaskList extends ListView<TaskList.Task> {
             });
 
             final var deleteTaskMenuItem = new MenuItem("Delete");
-            deleteTaskMenuItem.setOnAction(e -> {
-                this.getListView().getItems().remove(this.getListView().getSelectionModel().getSelectedItem());
-            });
+            deleteTaskMenuItem.setOnAction(e -> this.getListView().getItems().remove(this.getListView().getSelectionModel().getSelectedItem()));
 
             contextMenu.getItems().addAll(changeDescriptionMenuItem, deleteTaskMenuItem);
             return contextMenu;

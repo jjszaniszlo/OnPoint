@@ -3,7 +3,6 @@ package com.ateam.onpoint.gui;
 import com.ateam.onpoint.gui.content.IContent;
 import javafx.animation.FadeTransition;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
@@ -14,7 +13,6 @@ import java.util.Objects;
  */
 public class Dashboard extends BorderPane {
     private final OnPointGUI onPointGUI;
-    private final Sidebar sidebar;
     private final StackPane contentLayer = new StackPane();
     /**
      * Construct the dashboard and all of its components
@@ -23,7 +21,7 @@ public class Dashboard extends BorderPane {
         super();
 
         this.onPointGUI = onPointGUI;
-        this.sidebar = new Sidebar(onPointGUI);
+        var sidebar = new Sidebar(onPointGUI);
 
         sidebar.setPrefWidth(WindowPane.SIDEBAR_WIDTH);
 
