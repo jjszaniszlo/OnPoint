@@ -2,8 +2,6 @@ package com.ateam.onpoint.core;
 
 import javafx.collections.ObservableList;
 
-import java.util.Date;
-
 /*
  * Handles saving tasks alongside other kinds of data to a local file format.
  */
