@@ -144,12 +144,9 @@ public class TaskList extends ListView<TaskList.Task> {
             final var deleteTaskMenuItem = new MenuItem("Delete");
             deleteTaskMenuItem.setOnAction(e -> this.getListView().getItems().remove(this.getListView().getSelectionModel().getSelectedItem()));
 
-            final var assignDateMenuItem = new MenuItem("Set Date/Time");
+            final var assignDateMenuItem = new MenuItem("Edit Task");
             assignDateMenuItem.setOnAction(e -> {
-                Platform.runLater(() -> {
-                    DateSelector.getInstance().show();
-                    DateSelector.getInstance().requestFocus();
-                });
+                TaskEditor.getInstance().openTaskEditor(getScene().getWindow(), this.getItem().taskID);
             });
 
             contextMenu.getItems().addAll(changeDescriptionMenuItem, deleteTaskMenuItem, assignDateMenuItem);
