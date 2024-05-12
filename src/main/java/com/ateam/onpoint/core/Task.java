@@ -79,4 +79,24 @@ public class Task {
         }
         return isComplete;
     }
+
+    public String getDatabaseEntry() {
+        final var stringBuilder = new StringBuilder();
+
+        final var creationDate = creationDateProperty().get();
+        final var creationTime = creationTimeProperty().get();
+        final var startDate = startDateProperty().get();
+        final var startTime = startTimeProperty().get();
+        final var description = descriptionProperty().get();
+        final var isComplete = isCompletedProperty().get();
+
+        stringBuilder.append(creationDate != null ? creationDate.toString() : "").append(",");
+        stringBuilder.append(creationTime != null ? creationTime.toString() : "").append(",");
+        stringBuilder.append(startDate != null ? startDate.toString() : "").append(",");
+        stringBuilder.append(startTime != null ? startTime.toString() : "").append(",");
+        stringBuilder.append(description != null ? description : "").append(",");
+        stringBuilder.append(isComplete).append("\n");
+
+        return stringBuilder.toString();
+    }
 }
