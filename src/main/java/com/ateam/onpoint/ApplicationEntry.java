@@ -34,8 +34,6 @@ public class ApplicationEntry extends Application {
         stage.setHeight(WindowPane.MIN_WINDOW_HEIGHT);
         stage.setResizable(false);
 
-        TaskDatabase.getInstance().loadDatabase();
-
         stage.setOnCloseRequest(e -> {
             TaskDatabase.getInstance().saveDatabase();
         });

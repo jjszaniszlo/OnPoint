@@ -19,6 +19,8 @@ public class TaskDatabase {
 
     private TaskDatabase() {
         ensureDatabaseFileExists();
+
+        this.loadDatabase();
     }
 
     private static void ensureDatabaseFileExists() {
