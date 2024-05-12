@@ -8,7 +8,7 @@ import javafx.collections.ObservableList;
  */
 public class TaskDatabase {
     private static TaskDatabase instance;
-    private TaskDatabase() {}
+    public TaskDatabase() {}
 
     private ObservableList<Task> tasksList = FXCollections.observableArrayList(Task.extractor());
 
