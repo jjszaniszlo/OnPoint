@@ -6,12 +6,14 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.StringConverter;
 import org.jetbrains.annotations.NotNull;
 import java.time.LocalTime;
+import java.util.Objects;
 
 public class TaskEditor extends Stage {
     final static int WINDOW_WIDTH = 600;
@@ -99,6 +101,8 @@ public class TaskEditor extends Stage {
         });
 
         Scene scene = new Scene(this.root, 200, 200);
+
+        this.getIcons().add(new Image(Objects.requireNonNull(getClass().getResource("/img/logo-black.png")).toString()));
         this.setScene(scene);
     }
 

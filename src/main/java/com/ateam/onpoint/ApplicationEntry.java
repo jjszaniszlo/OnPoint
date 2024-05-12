@@ -5,6 +5,7 @@ import com.ateam.onpoint.gui.WindowPane;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.util.Objects;
@@ -26,6 +27,7 @@ public class ApplicationEntry extends Application {
     public void start(Stage stage) throws Exception {
         Application.setUserAgentStylesheet(Objects.requireNonNull(getClass().getResource("/css/cupertino-dark.css")).toString());
         stage.setTitle("OnPoint");
+        stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResource("/img/logo-black.png")).toString()));
 
 
         var guiHandle = new WindowPane();
