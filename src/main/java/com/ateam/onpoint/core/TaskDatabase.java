@@ -18,12 +18,10 @@ public class TaskDatabase {
     private final ObservableList<Task> tasksList = FXCollections.observableArrayList(Task.extractor());
 
     private TaskDatabase() {
-        ensureDatabaseFileExists();
-
-        this.loadDatabase();
+        TaskDatabase.ensureDatabaseFileExists();
     }
 
-    private static void ensureDatabaseFileExists() {
+    public static void ensureDatabaseFileExists() {
         File databaseFile = new File(ApplicationConfig.DATABASE_FILE);
         final var path = Paths.get(ApplicationConfig.DATABASE_FILE);
 
@@ -65,6 +63,7 @@ public class TaskDatabase {
 
     public void loadDatabase() {
         final var dbFile = new File(ApplicationConfig.DATABASE_FILE);
+        if (dbFile.length() < 1) return;
         try (final var istream = new ObjectInputStream(new FileInputStream(dbFile))) {
             List<Task> loaded = (List<Task>)istream.readObject();
             this.tasksList.setAll(loaded);
