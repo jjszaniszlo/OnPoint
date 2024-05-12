@@ -4,11 +4,15 @@ package com.ateam.onpoint.gui.content;
 // Package refs (com.ateam.onpoint.gui)
 import com.ateam.onpoint.gui.components.Spacer;
 import com.ateam.onpoint.gui.components.TaskList;
+import com.ateam.onpoint.gui.components.TaskList.Task;
+
 
 // javafx
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -23,7 +27,7 @@ public class ScheduleView extends VBox implements IContent {
         TaskList tl = new TaskList();
         tl.setCellFactory(p -> new TaskList.TaskCell());
         tl.setPrefWidth(130);
-        System.out.println("Successfully initialized " + tl.toString() + "!");
+        //System.out.println("Successfully initialized " + tl.toString() + "!");
         return tl;
     }
 
@@ -40,14 +44,10 @@ public class ScheduleView extends VBox implements IContent {
         {
             scheduleTLTomorrow = InitializeTL();
         }
-
         if(scheduleTLUpcoming == null)
         {
             scheduleTLUpcoming = InitializeTL();
         }
-
-
-
 
         this.setPrefWidth(400);
         this.setAlignment(Pos.TOP_CENTER);
@@ -64,8 +64,32 @@ public class ScheduleView extends VBox implements IContent {
         HBox scheduleTLs = new HBox();
         scheduleTLs.getChildren().addAll(scheduleTLToday, new Spacer(), scheduleTLTomorrow, new Spacer(), scheduleTLUpcoming);
 
+        HandleTLSync();
+
         this.getChildren().addAll(header, datesContainer, scheduleTLs);
     }
+
+    public void HandleTLSync()
+    {
+        System.out.println("Beginning sync");
+        ObservableList<Task> collection = TaskView.getTaskList().getItems();
+
+        int date = 1;
+        ScanAndAssign(collection, date);
+        ScanAndAssign(collection, date+1);
+        ScanAndAssignUpcoming(collection, date);
+    }
+
+    public void ScanAndAssign(ObservableList<Task> tl, int date)
+    {
+
+    }
+
+    public void ScanAndAssignUpcoming(ObservableList<Task> tl, int date)
+    {
+
+    }
+
 
     @Override
     public Parent getContentView() {
