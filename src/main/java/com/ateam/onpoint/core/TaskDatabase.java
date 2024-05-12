@@ -10,16 +10,20 @@ public class TaskDatabase {
     private static TaskDatabase instance;
     private TaskDatabase() {}
 
-    private ObservableList<Task> tasks = FXCollections.observableArrayList();
+    private ObservableList<Task> tasksList = FXCollections.observableArrayList(Task.extractor());
 
-    public TaskDatabase getInstance() {
+    public static TaskDatabase getInstance() {
         if (instance == null) {
             instance = new TaskDatabase();
         }
         return instance;
     }
 
-    public ObservableList<Task> getTasks() {
-        return tasks;
+    public void addTask(Task task) {
+        tasksList.add(task);
+    }
+
+    public ObservableList<Task> getTasksList() {
+        return tasksList;
     }
 }

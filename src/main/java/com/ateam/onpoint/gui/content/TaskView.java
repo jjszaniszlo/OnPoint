@@ -1,8 +1,10 @@
 package com.ateam.onpoint.gui.content;
 
 import com.ateam.onpoint.core.Task;
+import com.ateam.onpoint.core.TaskDatabase;
 import com.ateam.onpoint.gui.components.TaskCell;
 import com.ateam.onpoint.gui.components.TaskEditor;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -22,20 +24,13 @@ import java.util.Objects;
  * The task view is responsible for the nodes used to display tasks.
  */
 public class TaskView extends VBox implements IContent {
-    private static ListView<Task> taskList;
-
-    public static ListView<Task> getTaskList() {
-        return taskList;
-    }
+    private final ListView<Task> taskListView = new ListView<>();
 
     public TaskView() {
         super();
 
-        if (taskList == null) {
-            taskList = new ListView<>();
-            taskList.setCellFactory(p -> new TaskCell());
-            taskList.setPrefWidth(400);
-        }
+        taskListView.setCellFactory(p -> new TaskCell());
+        taskListView.setItems(TaskDatabase.getInstance().getTasksList());
 
         this.setPadding(new Insets(0, 0, 0, 10));
 
@@ -58,8 +53,8 @@ public class TaskView extends VBox implements IContent {
 
             Task task = new Task(creationDate, creationTime);
 
-            taskList.getItems().add(task);
-            taskList.getSelectionModel().selectLast();
+            TaskDatabase.getInstance().addTask(task);
+            taskListView.getSelectionModel().selectLast();
 
             TaskEditor.getInstance().openTaskEditor(getScene().getWindow(), task);
         };
@@ -75,7 +70,7 @@ public class TaskView extends VBox implements IContent {
 
         toolbar.getItems().addAll(newButton, archiveButton);
 
-        this.getChildren().addAll(header, toolbar, taskList);
+        this.getChildren().addAll(header, toolbar, taskListView);
     }
 
     /**

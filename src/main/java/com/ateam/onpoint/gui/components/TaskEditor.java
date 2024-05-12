@@ -134,10 +134,6 @@ public class TaskEditor extends Stage {
         this.currentTask.descriptionProperty().set(this.descriptionField.getText());
         this.currentTask.startDateProperty().set(this.datePicker.getValue());
         this.currentTask.startTimeProperty().set(LocalTime.of(hoursSpinner.getValue(), minutesSpinner.getValue()));
-
-        var index = TaskView.getTaskList().getItems().indexOf(this.currentTask);
-        TaskView.getTaskList().getItems().remove(this.currentTask);
-        TaskView.getTaskList().getItems().add(index, this.currentTask);
     }
 
     private static SpinnerValueFactory.@NotNull IntegerSpinnerValueFactory createMinutesSpinnerFactory() {
