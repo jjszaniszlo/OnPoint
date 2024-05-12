@@ -1,13 +1,14 @@
 package com.ateam.onpoint.gui.content;
 
 import com.ateam.onpoint.core.Task;
+import com.ateam.onpoint.gui.components.TaskCell;
 import com.ateam.onpoint.gui.components.TaskEditor;
-import com.ateam.onpoint.gui.components.TaskList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -16,15 +17,14 @@ import javafx.scene.layout.VBox;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
-import java.util.Random;
 
 /**
  * The task view is responsible for the nodes used to display tasks.
  */
 public class TaskView extends VBox implements IContent {
-    private static TaskList taskList;
+    private static ListView<Task> taskList;
 
-    public static TaskList getTaskList() {
+    public static ListView<Task> getTaskList() {
         return taskList;
     }
 
@@ -32,8 +32,8 @@ public class TaskView extends VBox implements IContent {
         super();
 
         if (taskList == null) {
-            taskList = new TaskList();
-            taskList.setCellFactory(p -> new TaskList.TaskCell());
+            taskList = new ListView<>();
+            taskList.setCellFactory(p -> new TaskCell());
             taskList.setPrefWidth(400);
         }
 
