@@ -6,20 +6,22 @@ import javafx.application.Platform;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.StringConverter;
 import org.jetbrains.annotations.NotNull;
+
+import java.time.Duration;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
+import java.time.temporal.TemporalUnit;
 
 public class TaskEditor extends Stage {
-    final static int WINDOW_WIDTH = 400;
-    final static int WINDOW_HEIGHT = 180;
+    final static int WINDOW_WIDTH = 600;
+    final static int WINDOW_HEIGHT = 220;
 
     private static TaskEditor instance;
 
@@ -28,6 +30,7 @@ public class TaskEditor extends Stage {
     private final DatePicker datePicker = new DatePicker();
     private final Spinner<Integer> hoursSpinner = new Spinner<>();
     private final Spinner<Integer> minutesSpinner = new Spinner<>();
+    private final Spinner<Integer> durationSpinner = new Spinner<>();
 
     private Task currentTask;
 
@@ -65,15 +68,32 @@ public class TaskEditor extends Stage {
         minutesSpinner.setPrefWidth(70);
         minutesSpinner.setPromptText("mm");
 
-        timeContainer.getChildren().addAll(hoursSpinner, new Spacer(20), minutesSpinner);
+        durationSpinner.setEditable(true);
+        var durationSpinnerFactory = createDurationSpinnerFactory();
+        durationSpinner.setValueFactory(durationSpinnerFactory);
+
+
+        timeContainer.getChildren().addAll(new Label("Start Time"), new Spacer(10), hoursSpinner, new Spacer(20), minutesSpinner);
+        timeContainer.setAlignment(Pos.CENTER);
+
+        var descContainer = new HBox(new Label("Description"), new Spacer(10), descriptionField);
+        descContainer.setAlignment(Pos.CENTER);
+
+        var dateContainer = new HBox(new Label("Start Date"), new Spacer(10), datePicker);
+        dateContainer.setAlignment(Pos.CENTER);
+
+        var durationContainer = new HBox(new Label("Duration"), new Spacer(10), durationSpinner);
+        durationContainer.setAlignment(Pos.CENTER);
 
         this.root.getChildren().addAll(
                 new Spacer(Orientation.VERTICAL, 10),
-                descriptionField,
+                descContainer,
                 new Spacer(Orientation.VERTICAL, 10),
-                datePicker,
+                dateContainer,
                 new Spacer(Orientation.VERTICAL, 10),
-                timeContainer);
+                timeContainer,
+                new Spacer(Orientation.VERTICAL, 10),
+                durationContainer);
 
         this.setOnCloseRequest(e -> this.saveToCurrentTask());
 
@@ -88,10 +108,32 @@ public class TaskEditor extends Stage {
         this.setScene(scene);
     }
 
+    private static SpinnerValueFactory.@NotNull IntegerSpinnerValueFactory createDurationSpinnerFactory() {
+        var durationSpinnerFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1440, 0);
+        durationSpinnerFactory.setAmountToStepBy(5);
+        durationSpinnerFactory.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(Integer integer) {
+                int hours = integer / 60;
+                int minutes = integer % 60;
+                return String.format("%02d:%02d", hours, minutes);
+            }
+
+            @Override
+            public Integer fromString(String s) {
+                String[] splitMinutesAndHours = s.split(":");
+                int hours = Integer.valueOf(splitMinutesAndHours[0]);
+                int minutes = Integer.valueOf(splitMinutesAndHours[1]);
+                return hours*60 + minutes;
+            }
+        });
+        return durationSpinnerFactory;
+    }
+
     private void saveToCurrentTask() {
         this.currentTask.descriptionProperty().set(this.descriptionField.getText());
-        this.currentTask.completionDateProperty().set(this.datePicker.getValue());
-        this.currentTask.completionTimeProperty().set(LocalTime.of(hoursSpinner.getValue(), minutesSpinner.getValue()));
+        this.currentTask.startDateProperty().set(this.datePicker.getValue());
+        this.currentTask.startTimeProperty().set(LocalTime.of(hoursSpinner.getValue(), minutesSpinner.getValue()));
 
         var index = TaskView.getTaskList().getItems().indexOf(this.currentTask);
         TaskView.getTaskList().getItems().remove(this.currentTask);
@@ -142,20 +184,20 @@ public class TaskEditor extends Stage {
         this.setX(winPosX);
         this.setY(winPosY);
 
-        this.descriptionField.setText(this.currentTask.getDescription());
-        if (this.currentTask.completionDateProperty().get() == null) {
-            this.datePicker.setValue(this.currentTask.getCreationDate());
+        this.descriptionField.setText(this.currentTask.descriptionProperty().get());
+        if (this.currentTask.startDateProperty().get() == null) {
+            this.datePicker.setValue(this.currentTask.creationDateProperty().get());
         } else {
-            this.datePicker.setValue(this.currentTask.getCompletionDate());
+            this.datePicker.setValue(this.currentTask.startDateProperty().get());
         }
 
         int hours, minutes;
-        if (this.currentTask.completionTimeProperty().get() == null) {
-            hours = this.currentTask.getCreationTime().getHour();
-            minutes = this.currentTask.getCreationTime().getMinute();
+        if (this.currentTask.startTimeProperty().get() == null) {
+            hours = this.currentTask.creationTimeProperty().get().getHour();
+            minutes = this.currentTask.creationTimeProperty().get().getMinute();
         } else {
-            hours = this.currentTask.getCompletionTime().getHour();
-            minutes = this.currentTask.getCompletionTime().getMinute();
+            hours = this.currentTask.startTimeProperty().get().getHour();
+            minutes = this.currentTask.startTimeProperty().get().getMinute();
         }
         this.hoursSpinner.getValueFactory().setValue(hours);
         this.minutesSpinner.getValueFactory().setValue(minutes);

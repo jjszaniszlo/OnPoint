@@ -2,40 +2,46 @@ package com.ateam.onpoint.gui.components;
 
 
 import com.ateam.onpoint.core.Task;
+import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.TextFieldListCell;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
 import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 public class TaskList extends ListView<Task> {
-    public final static Set<Integer> exitingTaskIds = new HashSet<>();
-
     public TaskList() {
         super();
     }
 
     public static class TaskCell extends ListCell<Task> {
-        private final HBox root;
-        private final TextField descriptionField;
-        private final CheckBox checkBox;
+        private ImageView clockImage = new ImageView(Objects.requireNonNull(getClass().getResource("/img/clock_48.png")).toString());
+        private final HBox root = new HBox();
+        private final Label description = new Label();
+        private final CheckBox checkBox = new CheckBox();
+        private final Label dateLabel = new Label("dd/mm/yyyy hh:mm");
         private final ContextMenu contextMenu;
 
         public TaskCell() {
             super();
 
-            this.root = new HBox();
+            this.clockImage.setFitWidth(20);
+            this.clockImage.setFitHeight(20);
 
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
             setAlignment(Pos.CENTER);
 
-            this.checkBox = new CheckBox();
             this.checkBox.setOnMouseClicked(e -> this.getItem().isCompletedProperty().set(this.checkBox.isSelected()));
 
-            this.descriptionField = createTextField();
+            this.description.setStyle("-fx-font-weight: 600;");
+            this.description.setMaxWidth(200);
+
             this.contextMenu = createContextMenu();
 
             this.root.setAlignment(Pos.CENTER_LEFT);
@@ -46,7 +52,7 @@ public class TaskList extends ListView<Task> {
 
             setupDragAndDrop();
 
-            this.root.getChildren().addAll(this.checkBox, this.descriptionField);
+            this.root.getChildren().addAll(this.checkBox, this.description, new Spacer(), this.clockImage, new Spacer(5), this.dateLabel);
         }
 
         private void setupDragAndDrop() {
@@ -133,42 +139,17 @@ public class TaskList extends ListView<Task> {
             return contextMenu;
         }
 
-        private @NotNull TextField createTextField() {
-            final var descriptionField = new TextField();
-
-            // save description on enter.
-            descriptionField.setOnKeyPressed(e -> {
-                if (e.getCode() == KeyCode.ENTER) {
-                    descriptionField.setEditable(false);
-                    descriptionField.setMouseTransparent(true);
-                    this.getItem().descriptionProperty().set(descriptionField.getText());
-                }
-            });
-
-            // save description if clicked off
-            descriptionField.setOnMouseClicked(e -> {
-                this.getItem().descriptionProperty().set(descriptionField.getText());
-                this.getListView().getSelectionModel().select(this.getItem());
-            });
-
-            descriptionField.setStyle("-fx-font-weight: 600;");
-            descriptionField.setPrefWidth(350);
-
-            return descriptionField;
-        }
-
         @Override
         protected void updateItem(Task task, boolean empty) {
             super.updateItem(task, empty);
 
             if (task == null || empty) {
-                this.descriptionField.setText(null);
+                this.description.setText(null);
                 this.setGraphic(null);
             } else {
-                Platform.runLater(descriptionField::requestFocus);
-
-                this.descriptionField.setText(task.descriptionProperty().get());
+                this.description.setText(task.descriptionProperty().get());
                 this.checkBox.setSelected(task.isCompletedProperty().get());
+
                 this.setGraphic(this.root);
             }
         }

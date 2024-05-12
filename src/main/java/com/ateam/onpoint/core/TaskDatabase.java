@@ -1,5 +1,6 @@
 package com.ateam.onpoint.core;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /*
@@ -9,7 +10,7 @@ public class TaskDatabase {
     private static TaskDatabase instance;
     private TaskDatabase() {}
 
-    private ObservableList<Task> tasks;
+    private ObservableList<Task> tasks = FXCollections.observableArrayList();
 
     public TaskDatabase getInstance() {
         if (instance == null) {

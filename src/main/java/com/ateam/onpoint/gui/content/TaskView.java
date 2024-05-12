@@ -1,6 +1,7 @@
 package com.ateam.onpoint.gui.content;
 
 import com.ateam.onpoint.core.Task;
+import com.ateam.onpoint.gui.components.TaskEditor;
 import com.ateam.onpoint.gui.components.TaskList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -52,18 +53,15 @@ public class TaskView extends VBox implements IContent {
         newButton.setPadding(new Insets(1, 1, 1, 1));
 
         EventHandler<ActionEvent> addTaskButtonEventHandler = e -> {
-            // generate unique ID.
-            Random random = new Random();
-            int tid;
-            do {
-                tid = 10000 + random.nextInt(0, 90000);
-            } while (TaskList.exitingTaskIds.contains(tid));
-
             LocalDate creationDate = LocalDate.now();
             LocalTime creationTime = LocalTime.now();
 
-            taskList.getItems().add(new Task(tid, creationDate, creationTime));
+            Task task = new Task(creationDate, creationTime);
+
+            taskList.getItems().add(task);
             taskList.getSelectionModel().selectLast();
+
+            TaskEditor.getInstance().openTaskEditor(getScene().getWindow(), task);
         };
 
         newButton.setOnAction(addTaskButtonEventHandler);

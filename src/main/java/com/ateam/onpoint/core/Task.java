@@ -3,45 +3,33 @@ package com.ateam.onpoint.core;
 import javafx.beans.Observable;
 import javafx.beans.property.*;
 import javafx.util.Callback;
+import javafx.util.Duration;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Task {
-    private IntegerProperty taskID;
     private ObjectProperty<LocalDate> creationDate;
     private ObjectProperty<LocalTime> creationTime;
-    private ObjectProperty<LocalDate> completionDate;
-    private ObjectProperty<LocalTime> completionTime;
+    private ObjectProperty<LocalDate> startDate;
+    private ObjectProperty<LocalTime> startTime;
+    private ObjectProperty<Duration> duration;
     private StringProperty description;
     private BooleanProperty isComplete;
 
-    public Task(int tid, LocalDate date, LocalTime time) {
-        taskIDProperty().set(tid);
+    public Task(LocalDate date, LocalTime time) {
         creationDateProperty().set(date);
         creationTimeProperty().set(time);
     }
 
     public static Callback<Task, Observable[]> extractor() {
         return (Task t) -> new Observable[]{
-                t.taskIDProperty(),
-                t.completionDateProperty(),
+                t.startDateProperty(),
                 t.creationTimeProperty(),
-                t.completionDateProperty(),
-                t.completionTimeProperty(),
+                t.startDateProperty(),
+                t.startTimeProperty(),
                 t.descriptionProperty(),
                 t.isCompletedProperty()};
-    }
-
-    public IntegerProperty taskIDProperty() {
-        if (taskID == null) {
-            taskID = new SimpleIntegerProperty();
-        }
-        return taskID;
-    }
-
-    public int getTaskID() {
-        return taskID.get();
     }
 
     public ObjectProperty<LocalDate> creationDateProperty() {
@@ -66,26 +54,37 @@ public class Task {
         return creationTime.get();
     }
 
-    public ObjectProperty<LocalDate> completionDateProperty() {
-        if (completionDate == null) {
-            completionDate = new SimpleObjectProperty<>();
+    public ObjectProperty<LocalDate> startDateProperty() {
+        if (startDate == null) {
+            startDate = new SimpleObjectProperty<>();
         }
-        return completionDate;
+        return startDate;
     }
 
-    public LocalDate getCompletionDate() {
-        return completionDate.get();
+    public LocalDate getStartDate() {
+        return startDate.get();
     }
 
-    public ObjectProperty<LocalTime> completionTimeProperty() {
-        if (completionTime == null) {
-            completionTime = new SimpleObjectProperty<>();
+    public ObjectProperty<LocalTime> startTimeProperty() {
+        if (startTime == null) {
+            startTime = new SimpleObjectProperty<>();
         }
-        return completionTime;
+        return startTime;
     }
 
-    public LocalTime getCompletionTime() {
-        return completionTime.get();
+    public LocalTime getStartTime() {
+        return startTime.get();
+    }
+
+    public Duration getDuration() {
+        return duration.get();
+    }
+
+    public ObjectProperty<Duration> durationProperty() {
+        if (duration == null) {
+            duration = new SimpleObjectProperty<>();
+        }
+        return duration;
     }
 
     public StringProperty descriptionProperty() {
