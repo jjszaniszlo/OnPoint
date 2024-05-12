@@ -2,6 +2,7 @@ package com.ateam.onpoint.gui.content;
 
 import com.ateam.onpoint.core.Task;
 import com.ateam.onpoint.core.TaskDatabase;
+import com.ateam.onpoint.gui.OnPointGUI;
 import com.ateam.onpoint.gui.components.TaskCell;
 import com.ateam.onpoint.gui.components.TaskEditor;
 import javafx.collections.ObservableList;
@@ -10,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Control;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
@@ -29,8 +31,13 @@ public class TaskView extends VBox implements IContent {
     public TaskView() {
         super();
 
+
+
         taskListView.setCellFactory(p -> new TaskCell());
         taskListView.setItems(TaskDatabase.getInstance().getTasksList());
+        taskListView.setPrefWidth(OnPointGUI.CONTENT_VIEW_WIDTH * 0.9);
+        taskListView.setMinWidth(Control.USE_PREF_SIZE);
+        taskListView.setMinHeight(Control.USE_PREF_SIZE);
 
         this.setPadding(new Insets(0, 0, 0, 10));
 
@@ -54,9 +61,8 @@ public class TaskView extends VBox implements IContent {
             Task task = new Task(creationDate, creationTime);
 
             TaskDatabase.getInstance().addTask(task);
-            taskListView.getSelectionModel().selectLast();
-
             TaskEditor.getInstance().openTaskEditor(getScene().getWindow(), task);
+            taskListView.getSelectionModel().selectLast();
         };
 
         newButton.setOnAction(addTaskButtonEventHandler);

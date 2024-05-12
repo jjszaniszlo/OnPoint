@@ -1,7 +1,6 @@
 package com.ateam.onpoint.gui.components;
 
 import com.ateam.onpoint.core.Task;
-import com.ateam.onpoint.gui.content.TaskView;
 import javafx.application.Platform;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -12,12 +11,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.StringConverter;
 import org.jetbrains.annotations.NotNull;
-
-import java.time.Duration;
 import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalUnit;
 
 public class TaskEditor extends Stage {
     final static int WINDOW_WIDTH = 600;
@@ -134,6 +128,8 @@ public class TaskEditor extends Stage {
         this.currentTask.descriptionProperty().set(this.descriptionField.getText());
         this.currentTask.startDateProperty().set(this.datePicker.getValue());
         this.currentTask.startTimeProperty().set(LocalTime.of(hoursSpinner.getValue(), minutesSpinner.getValue()));
+        this.currentTask.durationProperty().set(this.durationSpinner.getValue());
+        System.out.println(this.durationSpinner.getValue());
     }
 
     private static SpinnerValueFactory.@NotNull IntegerSpinnerValueFactory createMinutesSpinnerFactory() {
