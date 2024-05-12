@@ -90,7 +90,6 @@ public class ScheduleView extends VBox implements IContent {
 
     }
 
-
     @Override
     public Parent getContentView() {
         return this;

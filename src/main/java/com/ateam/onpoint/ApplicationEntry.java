@@ -26,7 +26,7 @@ public class ApplicationEntry extends Application {
         Application.setUserAgentStylesheet(Objects.requireNonNull(getClass().getResource("/css/cupertino-dark.css")).toString());
         stage.setTitle("OnPoint");
 
-        WindowPane guiHandle = new WindowPane();
+        var guiHandle = new WindowPane();
 
         stage.setScene(new Scene(guiHandle, WindowPane.MIN_WINDOW_WIDTH, WindowPane.MIN_WINDOW_HEIGHT));
         stage.setWidth(WindowPane.MIN_WINDOW_WIDTH);
