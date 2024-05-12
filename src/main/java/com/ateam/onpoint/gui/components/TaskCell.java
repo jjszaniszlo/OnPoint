@@ -23,7 +23,7 @@ public class TaskCell extends ListCell<Task> {
     private final Label description = new Label();
     private final CheckBox checkBox = new CheckBox();
     private final Label dateLabel = new Label("yyyy/mm/dd hh:mm");
-    private final Label durationLabel = new Label("0h 0m");
+    private final Label durationLabel = new Label("00h 00m");
     private final ContextMenu contextMenu;
 
     public TaskCell() {
