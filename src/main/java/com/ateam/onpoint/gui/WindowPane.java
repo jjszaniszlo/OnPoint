@@ -9,7 +9,7 @@ import javafx.scene.layout.StackPane;
  */
 public class WindowPane extends AnchorPane {
     public static final int MIN_WINDOW_WIDTH = 800;
-    public static final int MIN_WINDOW_HEIGHT = 590;
+    public static final int MIN_WINDOW_HEIGHT = 600;
     public static final int SIDEBAR_WIDTH = 200;
 
     public WindowPane() {
