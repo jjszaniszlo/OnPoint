@@ -2,11 +2,11 @@ package com.ateam.onpoint.gui.content;
 
 
 // Package refs (com.ateam.onpoint.gui)
+import com.ateam.onpoint.gui.OnPointGUI;
 import com.ateam.onpoint.gui.components.Spacer;
 
 import com.ateam.onpoint.core.Task;
 import com.ateam.onpoint.core.TaskDatabase;
-
 
 // javafx
 import com.ateam.onpoint.gui.components.TaskCell;
@@ -14,6 +14,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
@@ -21,8 +22,16 @@ import javafx.scene.layout.VBox;
 
 // To manage Date and Time calculations
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 
+// To use all helper classes
+import com.ateam.onpoint.core.helpers.*;
+
+/**
+ * The main component in charge of hosting our windows, being sorted by their respective dates
+ * and application!
+ */
 public class ScheduleView extends VBox implements IContent {
 
     private static ListView<Task> scheduleLVToday;
@@ -37,6 +46,10 @@ public class ScheduleView extends VBox implements IContent {
         ListView<Task> lv = new ListView<Task>();
         lv.setCellFactory(p -> new TaskCell());
         lv.setItems(lt);
+        lv.setPrefWidth(OnPointGUI.CONTENT_VIEW_WIDTH * 0.3);
+        lv.setMinWidth(Control.USE_PREF_SIZE);
+        lv.setMinHeight(Control.USE_PREF_SIZE);
+
         //lv.setItems(TaskDatabase.getInstance().getTasksList());
         //System.out.println("Successfully initialized " + tl.toString() + "!");
         return lv;
@@ -71,9 +84,9 @@ public class ScheduleView extends VBox implements IContent {
         this.setAlignment(Pos.TOP_CENTER);
 
         ContentHeader header = new ContentHeader("Schedule");
-        Label todayLabel = new Label("Today");
-        Label tomorrowLabel = new Label("Tomorrow");
-        Label upcomingLabel = new Label("Upcoming");
+        Label todayLabel = new Label("Today:");
+        Label tomorrowLabel = new Label("Tomorrow:");
+        Label upcomingLabel = new Label("Upcoming:");
 
         HBox datesContainer = new HBox();
         datesContainer.getChildren().addAll(todayLabel, new Spacer(), tomorrowLabel, new Spacer(), upcomingLabel);
@@ -89,7 +102,7 @@ public class ScheduleView extends VBox implements IContent {
 
     public void handleTLSync()
     {
-        System.out.println("Beginning sync");
+        //System.out.println("Beginning sync");
         ObservableList<Task> collection = TaskDatabase.getInstance().getTasksList();
 
         LocalDate todayDate = LocalDate.now();
@@ -103,6 +116,8 @@ public class ScheduleView extends VBox implements IContent {
     public void scanAndAssign(ListView<Task> lv, ObservableList<Task> tl, LocalDate ld)
     {
         ObservableList<Task> toAdd = tl.filtered(x -> x.startDateProperty().getValue().equals(ld));
+        //Collections.sort(toAdd, new SortByTime());
+        lv.getItems().clear();
         lv.getItems().addAll(toAdd);
     }
 
@@ -110,7 +125,13 @@ public class ScheduleView extends VBox implements IContent {
     {
         // Remove all from today and tomorrow
         ObservableList<Task> toAdd = tl.filtered(x -> !x.startDateProperty().getValue().equals(ignore[0]));
-        toAdd = tl.filtered(x -> !x.startDateProperty().getValue().equals(ignore[1]));
+        toAdd = toAdd.filtered(x -> !x.startDateProperty().getValue().equals(ignore[1]));
+
+        // Sort date and time here
+        //Collections.sort(toAdd, new SortByDate());
+        //Collections.sort(toAdd, new SortByTime());
+
+        lv.getItems().clear();
         lv.getItems().addAll(toAdd);
     }
 
