@@ -31,8 +31,6 @@ public class TaskView extends VBox implements IContent {
     public TaskView() {
         super();
 
-
-
         taskListView.setCellFactory(p -> new TaskCell());
         taskListView.setItems(TaskDatabase.getInstance().getTasksList());
         taskListView.setPrefWidth(OnPointGUI.CONTENT_VIEW_WIDTH * 0.9);

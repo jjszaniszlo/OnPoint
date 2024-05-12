@@ -181,11 +181,9 @@ public class TaskCell extends ListCell<Task> {
             }
 
             final var duration = this.getItem().durationProperty().get();
-            if (duration != null) {
-                final int minutes = duration % 60;
-                final int hours = duration / 60;
-                this.durationLabel.setText(String.format("%02dh %02dm", hours, minutes));
-            }
+            final int minutes = duration % 60;
+            final int hours = duration / 60;
+            this.durationLabel.setText(String.format("%02dh %02dm", hours, minutes));
 
             this.setGraphic(this.root);
         }

@@ -4,11 +4,11 @@ import com.ateam.onpoint.ApplicationConfig;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 /*
  * Handles saving tasks alongside other kinds of data to a local file format.
@@ -19,8 +19,6 @@ public class TaskDatabase {
 
     private TaskDatabase() {
         ensureDatabaseFileExists();
-
-        final var parser = new TaskDatabaseFileParser();
     }
 
     private static void ensureDatabaseFileExists() {
@@ -52,5 +50,24 @@ public class TaskDatabase {
 
     public ObservableList<Task> getTasksList() {
         return tasksList;
+    }
+
+    public void saveDatabase() {
+        final var dbFile = new File(ApplicationConfig.DATABASE_FILE);
+        try (final var ostream = new ObjectOutputStream(new FileOutputStream(dbFile))) {
+            ostream.writeObject(new ArrayList<>(this.tasksList));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void loadDatabase() {
+        final var dbFile = new File(ApplicationConfig.DATABASE_FILE);
+        try (final var istream = new ObjectInputStream(new FileInputStream(dbFile))) {
+            List<Task> loaded = (List<Task>)istream.readObject();
+            this.tasksList.setAll(loaded);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.ateam.onpoint;
 
+import com.ateam.onpoint.core.TaskDatabase;
 import com.ateam.onpoint.gui.WindowPane;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -32,6 +33,12 @@ public class ApplicationEntry extends Application {
         stage.setWidth(WindowPane.MIN_WINDOW_WIDTH);
         stage.setHeight(WindowPane.MIN_WINDOW_HEIGHT);
         stage.setResizable(false);
+
+        TaskDatabase.getInstance().loadDatabase();
+
+        stage.setOnCloseRequest(e -> {
+            TaskDatabase.getInstance().saveDatabase();
+        });
 
         Platform.runLater(() -> {
             stage.show();
