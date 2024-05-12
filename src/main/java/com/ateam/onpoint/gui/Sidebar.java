@@ -1,10 +1,8 @@
 package com.ateam.onpoint.gui;
 
 import com.ateam.onpoint.gui.components.NavTree;
-import com.ateam.onpoint.gui.components.Spacer;
 import com.ateam.onpoint.gui.content.IContent;
 import javafx.collections.ObservableList;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
@@ -61,7 +59,7 @@ public class Sidebar extends VBox {
             this.openProfile.getStyleClass().add("flat");
             this.openProfile.setStyle("-fx-underline: false");
 
-            ImageView img = new ImageView(Objects.requireNonNull(getClass().getResource("/img/placeholder.png")).toExternalForm());
+            var img = new ImageView(Objects.requireNonNull(getClass().getResource("/img/placeholder.png")).toExternalForm());
             img.setPreserveRatio(true);
             img.fitWidthProperty().bind(this.openProfile.widthProperty().divide(6));
             this.openProfile.setGraphic(img);

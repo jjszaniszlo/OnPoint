@@ -1,11 +1,9 @@
 package com.ateam.onpoint.gui.content;
 
 import com.ateam.onpoint.gui.components.Spacer;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -17,13 +15,14 @@ public class ScheduleView extends VBox implements IContent {
         this.setPrefWidth(400);
         this.setAlignment(Pos.TOP_CENTER);
 
-        ContentHeader header = new ContentHeader("Schedule");
-        Button prevDate = new Button("Yesterday");
-        Label today = new Label("Today");
-        Button nextDate = new Button("Tomorrow");
+        final var header = new ContentHeader("Schedule");
 
-        HBox datesContainer = new HBox();
-        datesContainer.getChildren().addAll(prevDate, new Spacer(), today, new Spacer(), nextDate);
+        final var prevDateButton = new Button("Yesterday");
+        final var todayLabel = new Label("Today");
+        final var nextDateButton = new Button("Tomorrow");
+
+        final var datesContainer = new HBox();
+        datesContainer.getChildren().addAll(prevDateButton, new Spacer(), todayLabel, new Spacer(), nextDateButton);
 
         this.getChildren().addAll(header, datesContainer);
     }

@@ -18,6 +18,8 @@ import java.util.Objects;
  * ApplicationView contains the panel where all the application's functionality will dynamically be made available through the sidebar.
  */
 public class OnPointGUI {
+    public static final int CONTENT_VIEW_WIDTH = WindowPane.MIN_WINDOW_WIDTH - WindowPane.SIDEBAR_WIDTH;
+
     public static final Class<? extends IContent> DEFAULT_CONTENT = TaskView.class;
     private final NavTree.NavItem navTreeRoot;
     private final ReadOnlyObjectWrapper<Class<? extends IContent>> selectedContent = new ReadOnlyObjectWrapper<>();
