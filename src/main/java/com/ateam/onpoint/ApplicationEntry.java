@@ -29,7 +29,6 @@ public class ApplicationEntry extends Application {
         stage.setTitle("OnPoint");
         stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResource("/img/logo-black.png")).toString()));
 
-
         var guiHandle = new WindowPane();
 
         stage.setScene(new Scene(guiHandle, WindowPane.MIN_WINDOW_WIDTH, WindowPane.MIN_WINDOW_HEIGHT));
