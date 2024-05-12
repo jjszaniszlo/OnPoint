@@ -3,17 +3,19 @@ package com.ateam.onpoint.core;
 import javafx.beans.Observable;
 import javafx.beans.property.*;
 import javafx.util.Callback;
+
+import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Task {
-    private ObjectProperty<LocalDate> creationDate;
-    private ObjectProperty<LocalTime> creationTime;
-    private ObjectProperty<LocalDate> startDate;
-    private ObjectProperty<LocalTime> startTime;
-    private ObjectProperty<Integer> duration;
-    private StringProperty description;
-    private BooleanProperty isComplete;
+public class Task implements Serializable {
+    private transient ObjectProperty<LocalDate> creationDate = new SimpleObjectProperty<>(null);
+    private transient ObjectProperty<LocalTime> creationTime = new SimpleObjectProperty<>(null);
+    private transient ObjectProperty<LocalDate> startDate = new SimpleObjectProperty<>(null);
+    private transient ObjectProperty<LocalTime> startTime = new SimpleObjectProperty<>(null);
+    private transient IntegerProperty duration = new SimpleIntegerProperty(0);
+    private transient StringProperty description = new SimpleStringProperty("");
+    private transient BooleanProperty isComplete = new SimpleBooleanProperty(false);
 
     public Task(LocalDate date, LocalTime time) {
         creationDateProperty().set(date);
@@ -32,51 +34,53 @@ public class Task {
     }
 
     public ObjectProperty<LocalDate> creationDateProperty() {
-        if (creationDate == null) {
-            creationDate = new SimpleObjectProperty<>();
-        }
         return creationDate;
     }
 
     public ObjectProperty<LocalTime> creationTimeProperty() {
-        if (creationTime == null) {
-            creationTime = new SimpleObjectProperty<>();
-        }
         return creationTime;
     }
 
     public ObjectProperty<LocalDate> startDateProperty() {
-        if (startDate == null) {
-            startDate = new SimpleObjectProperty<>();
-        }
         return startDate;
     }
 
     public ObjectProperty<LocalTime> startTimeProperty() {
-        if (startTime == null) {
-            startTime = new SimpleObjectProperty<>();
-        }
         return startTime;
     }
 
-    public ObjectProperty<Integer> durationProperty() {
-        if (duration == null) {
-            duration = new SimpleObjectProperty<>();
-        }
+    public IntegerProperty durationProperty() {
         return duration;
     }
 
     public StringProperty descriptionProperty() {
-        if (description == null) {
-            description = new SimpleStringProperty();
-        }
         return description;
     }
 
     public  BooleanProperty isCompletedProperty() {
-        if (isComplete == null) {
-            isComplete = new SimpleBooleanProperty();
-        }
         return isComplete;
+    }
+
+    @Serial
+    private void writeObject(ObjectOutputStream ostream) throws IOException {
+        ostream.defaultWriteObject();
+        ostream.writeObject(creationDateProperty().get());
+        ostream.writeObject(creationTimeProperty().get());
+        ostream.writeObject(startDateProperty().get());
+        ostream.writeObject(startTimeProperty().get());
+        ostream.writeInt(durationProperty().get());
+        ostream.writeUTF(descriptionProperty().get());
+        ostream.writeBoolean(isCompletedProperty().get());
+    }
+
+    @Serial
+    private void readObject(ObjectInputStream istream) throws IOException, ClassNotFoundException {
+        this.creationDate = new SimpleObjectProperty<>((LocalDate) istream.readObject());
+        this.creationTime = new SimpleObjectProperty<>((LocalTime) istream.readObject());
+        this.startDate = new SimpleObjectProperty<>((LocalDate) istream.readObject());
+        this.startTime = new SimpleObjectProperty<>((LocalTime) istream.readObject());
+        this.duration = new SimpleIntegerProperty(istream.readInt());
+        this.description = new SimpleStringProperty(istream.readUTF());
+        this.isComplete = new SimpleBooleanProperty(istream.readBoolean());
     }
 }

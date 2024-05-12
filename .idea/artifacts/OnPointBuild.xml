@@ -1,0 +1,20 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="OnPointBuild">
+    <output-path>$PROJECT_DIR$/out/artifacts/OnPointBuild</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="com.ateam.onpoint.ApplicationEntry" />
+        <option name="convertCss2Bin" value="true" />
+        <option name="description" value="A task manager application." />
+        <option name="height" value="600" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="nativeBundle" value="exe" />
+        <option name="title" value="OnPoint" />
+        <option name="vendor" value="TeamA" />
+        <option name="version" value="" />
+        <option name="width" value="800" />
+      </options>
+    </properties>
+    <root id="root" />
+  </artifact>
+</component>
