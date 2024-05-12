@@ -129,7 +129,6 @@ public class TaskEditor extends Stage {
         this.currentTask.startDateProperty().set(this.datePicker.getValue());
         this.currentTask.startTimeProperty().set(LocalTime.of(hoursSpinner.getValue(), minutesSpinner.getValue()));
         this.currentTask.durationProperty().set(this.durationSpinner.getValue());
-        System.out.println(this.durationSpinner.getValue());
     }
 
     private static SpinnerValueFactory.@NotNull IntegerSpinnerValueFactory createMinutesSpinnerFactory() {
