@@ -15,8 +15,9 @@ import java.util.List;
  */
 public class TaskDatabase {
     private static TaskDatabase instance;
+    private static ObservableList<Task> tasksList;
     public TaskDatabase() {
-        //ensureDatabaseFileExists();
+        ensureDatabaseFileExists();
     }
 
     private static void ensureDatabaseFileExists() {
