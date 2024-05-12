@@ -72,6 +72,15 @@ public class TaskView extends VBox implements IContent {
         archiveButton.setPrefSize(24, 24);
         archiveButton.setPadding(new Insets(1, 1, 1 , 1));
 
+        EventHandler<ActionEvent> removeTaskButtonEventHandler = e -> {
+            LocalDate creationDate = LocalDate.now();
+            LocalTime creationTime = LocalTime.now();
+
+            TaskDatabase.getInstance().removeTask(taskListView.getSelectionModel().getSelectedItem());
+        };
+
+        archiveButton.setOnAction(removeTaskButtonEventHandler);
+
         toolbar.getItems().addAll(newButton, archiveButton);
 
         this.getChildren().addAll(header, toolbar, taskListView);

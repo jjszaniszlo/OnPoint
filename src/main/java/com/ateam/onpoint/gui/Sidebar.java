@@ -51,7 +51,7 @@ public class Sidebar extends VBox {
         public Header() {
             super();
 
-            this.openProfile = new Button("YOUR NAME");
+            this.openProfile = new Button("Welcome back!");
             this.openProfile.setContentDisplay(ContentDisplay.LEFT);
             this.openProfile.setAlignment(Pos.BASELINE_LEFT);
             this.openProfile.setPrefWidth(WindowPane.SIDEBAR_WIDTH);
@@ -59,9 +59,9 @@ public class Sidebar extends VBox {
             this.openProfile.getStyleClass().add("flat");
             this.openProfile.setStyle("-fx-underline: false");
 
-            var img = new ImageView(Objects.requireNonNull(getClass().getResource("/img/placeholder.png")).toExternalForm());
+            var img = new ImageView(Objects.requireNonNull(getClass().getResource("/img/user_avatar_128.png")).toExternalForm());
             img.setPreserveRatio(true);
-            img.fitWidthProperty().bind(this.openProfile.widthProperty().divide(6));
+            img.fitWidthProperty().bind(this.openProfile.widthProperty().divide(4));
             this.openProfile.setGraphic(img);
 
             this.getChildren().add(this.openProfile);
