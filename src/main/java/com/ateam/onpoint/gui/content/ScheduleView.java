@@ -1,17 +1,12 @@
 package com.ateam.onpoint.gui.content;
 
-
-// Package refs (com.ateam.onpoint.gui)
 import com.ateam.onpoint.gui.OnPointGUI;
+import com.ateam.onpoint.gui.components.ContentHeader;
+import com.ateam.onpoint.gui.components.ScheduleCell;
 import com.ateam.onpoint.gui.components.Spacer;
-
 import com.ateam.onpoint.core.Task;
 import com.ateam.onpoint.core.TaskDatabase;
-
-// javafx
-import com.ateam.onpoint.gui.components.TaskCell;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Control;
@@ -19,125 +14,89 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
-// To manage Date and Time calculations
-import java.util.Collections;
 import java.time.LocalDate;
-import java.time.LocalTime;
-
-// To use all helper classes
-import com.ateam.onpoint.core.helpers.*;
 
 /**
  * The main component in charge of hosting our windows, being sorted by their respective dates
  * and application!
  */
 public class ScheduleView extends VBox implements IContent {
+    private final static String LIST_VIEW_HEADING_STYLE = "-fx-font-weight: 800; -fx-font-size: 13;";
 
-    private static ListView<Task> scheduleListViewToday;
-    private static ObservableList<Task> scheduleListTaskToday;
-    private static ListView<Task> scheduleListViewTomorrow;
-    private static ObservableList<Task> scheduleListTaskTomorrow;
-    private static ListView<Task> scheduleListViewUpcoming;
-    private static ObservableList<Task> scheduleListTaskUpcoming;
+    private final static ListView<Task> scheduleListViewToday = initializeListView();
+    private final static ListView<Task> scheduleListViewTomorrow = initializeListView();
+    private final static ListView<Task> scheduleListViewUpcoming = initializeListView();
 
-    public ListView<Task> initializeListView(ObservableList<Task> lt)
+    private static ListView<Task> initializeListView()
     {
-        ListView<Task> lv = new ListView<Task>();
-        lv.setCellFactory(p -> new TaskCell());
-        lv.setItems(lt);
-        lv.setPrefWidth(OnPointGUI.CONTENT_VIEW_WIDTH * 0.3);
-        lv.setMinWidth(Control.USE_PREF_SIZE);
-        lv.setMinHeight(Control.USE_PREF_SIZE);
+        ListView<Task> listView = new ListView<>();
+        listView.setCellFactory(p -> new ScheduleCell());
+        listView.setPrefWidth(OnPointGUI.CONTENT_VIEW_WIDTH * 0.3);
+        listView.setMinWidth(Control.USE_PREF_SIZE);
+        listView.setMinHeight(Control.USE_PREF_SIZE);
 
-        //lv.setItems(TaskDatabase.getInstance().getTasksList());
-        //System.out.println("Successfully initialized " + tl.toString() + "!");
-        return lv;
+        return listView;
     }
 
     public ScheduleView() {
         super();
 
-        // Initialize the respective static TaskLists
-        if(scheduleListViewToday == null)
-        {
-            scheduleListTaskToday = FXCollections.observableArrayList(Task.extractor());
-            scheduleListViewToday = initializeListView(scheduleListTaskToday);
-        }
-        if(scheduleListViewTomorrow == null)
-        {
-            scheduleListTaskTomorrow = FXCollections.observableArrayList(Task.extractor());
-            scheduleListViewTomorrow = initializeListView(scheduleListTaskTomorrow);
-        }
-        if(scheduleListViewUpcoming == null)
-        {
-            scheduleListTaskUpcoming = FXCollections.observableArrayList(Task.extractor());
-            scheduleListViewUpcoming = initializeListView(scheduleListTaskUpcoming);
-        }
+        final var header = new ContentHeader("Schedule");
 
         this.setPrefWidth(400);
         this.setAlignment(Pos.TOP_CENTER);
 
-        ContentHeader header = new ContentHeader("Schedule");
-        String todayDateString = LocalDate.now().getMonth().toString() + " " + LocalDate.now().getDayOfMonth();
-        String tomorrowDateString = LocalDate.now().plusDays(1).getMonth().toString() + " " + LocalDate.now().plusDays(1).getDayOfMonth();
-        Label todayLabel = new Label("Today - " + todayDateString);
-        Label tomorrowLabel = new Label("Tomorrow - " + tomorrowDateString);
-        Label upcomingLabel = new Label("Upcoming:");
+        setupListViews();
 
-        VBox todayContainer = new VBox();
+        // create month and day strings
+        String todayDateString = String.format("Today: %s, %d", LocalDate.now().getMonth().toString(), LocalDate.now().getDayOfMonth());
+        String tomorrowDateString = String.format("Tomorrow: %s, %d", LocalDate.now().plusDays(1).getMonth().toString(), LocalDate.now().plusDays(1).getDayOfMonth());
+
+        final var todayLabel = new Label(todayDateString);
+        todayLabel.setStyle(LIST_VIEW_HEADING_STYLE);
+
+        final var tomorrowLabel = new Label(tomorrowDateString);
+        tomorrowLabel.setStyle(LIST_VIEW_HEADING_STYLE);
+
+        final var upcomingLabel = new Label("Upcoming");
+        upcomingLabel.setStyle(LIST_VIEW_HEADING_STYLE);
+
+        final var todayContainer = new VBox();
         todayContainer.getChildren().addAll(todayLabel, scheduleListViewToday);
+        todayContainer.setAlignment(Pos.CENTER);
 
-        VBox tomorrowContainer = new VBox();
+        final var tomorrowContainer = new VBox();
         tomorrowContainer.getChildren().addAll(tomorrowLabel, scheduleListViewTomorrow);
+        tomorrowContainer.setAlignment(Pos.CENTER);
 
-        VBox upcomingContainer = new VBox();
+        final var upcomingContainer = new VBox();
         upcomingContainer.getChildren().addAll(upcomingLabel, scheduleListViewUpcoming);
-
-        /*
-        HBox datesContainer = new HBox();
-        datesContainer.getChildren().addAll(todayLabel, new Spacer(), tomorrowLabel, new Spacer(), upcomingLabel);
-        */
+        upcomingContainer.setAlignment(Pos.CENTER);
 
         // Content lists (similar to TaskView.java)
-        HBox listViewContainers = new HBox();
+        final var listViewContainers = new HBox();
         listViewContainers.getChildren().addAll(todayContainer, new Spacer(), tomorrowContainer, new Spacer(), upcomingContainer);
-
-        handleTLSync();
+        listViewContainers.setPadding(new Insets(0, 0, 0, 10));
 
         this.getChildren().addAll(header, listViewContainers);
     }
 
-    public void handleTLSync()
-    {
-        //System.out.println("Beginning sync");
-        ObservableList<Task> collection = TaskDatabase.getInstance().getTasksList();
-
+    private void setupListViews() {
         LocalDate todayDate = LocalDate.now();
         LocalDate tomorrowDate = LocalDate.now().plusDays(1);
-        LocalDate[] ignore = new LocalDate[] { todayDate, tomorrowDate };
-        scanAndAssign(scheduleListViewToday, collection, todayDate);
-        scanAndAssign(scheduleListViewTomorrow, collection, tomorrowDate);
-        scanAndAssignUpcoming(scheduleListViewUpcoming, collection, ignore);
-    }
 
-    public void scanAndAssign(ListView<Task> lv, ObservableList<Task> tl, LocalDate ld)
-    {
-        ObservableList<Task> toAdd = tl.filtered(x -> x.startDateProperty().getValue().equals(ld));
-        //FXCollections.sort(toAdd, new SortByTime());
-        lv.getItems().setAll(toAdd);
-    }
+        scheduleListViewToday.setItems(TaskDatabase.getInstance().getTasksList()
+                .filtered(task -> task.startDateProperty().get().equals(todayDate))
+                .sorted(new Task.SortByTime()));
 
-    public void scanAndAssignUpcoming(ListView<Task> lv, ObservableList<Task> tl, LocalDate[] ignore)
-    {
-        // Remove all from today and tomorrow
-        ObservableList<Task> toAdd = tl.filtered(x -> !x.startDateProperty().getValue().equals(ignore[0]));
-        toAdd = toAdd.filtered(x -> !x.startDateProperty().getValue().equals(ignore[1]));
+        scheduleListViewTomorrow.setItems(TaskDatabase.getInstance().getTasksList()
+                .filtered(task -> task.startDateProperty().get().equals(tomorrowDate))
+                .sorted(new Task.SortByTime()));
 
-        // Sort date and time here
-        //FXCollections.sort(toAdd, new SortByDate());
-        //FXCollections.sort(toAdd, new SortByTime());
-        lv.getItems().setAll(toAdd);
+        scheduleListViewUpcoming.setItems(TaskDatabase.getInstance().getTasksList()
+                .filtered(task -> !task.startDateProperty().get().equals(todayDate))
+                .filtered(task -> !task.startDateProperty().get().equals(tomorrowDate))
+                .sorted(new Task.SortByTime()));
     }
 
     @Override

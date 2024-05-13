@@ -22,6 +22,8 @@ public class Task implements Serializable {
     public Task(LocalDate date, LocalTime time) {
         creationDateProperty().set(date);
         creationTimeProperty().set(time);
+        startDateProperty().set(date);
+        startTimeProperty().set(time);
     }
 
     public static Callback<Task, Observable[]> extractor() {
@@ -86,17 +88,20 @@ public class Task implements Serializable {
         this.isComplete = new SimpleBooleanProperty(istream.readBoolean());
     }
 
-    public static class SortByDate implements Comparator<Task> {
-        @Override
-        public int compare(Task o1, Task o2) {
-            return 0;
-        }
-    }
-
     public static class SortByTime implements Comparator<Task> {
         @Override
-        public int compare(Task o1, Task o2) {
-            return 0;
+        public int compare(Task t1, Task t2) {
+            final var t1Time = t1.startTimeProperty().get();
+            final var t2Time = t2.startTimeProperty().get();
+            final var t1AfterT2 = t1Time.isAfter(t2Time);
+            final var t1BeforeT2 = t1Time.isBefore(t2Time);
+            if (t1AfterT2) {
+                return 1;
+            } else if (t1BeforeT2) {
+                return -1;
+            } else {
+                return 0;
+            }
         }
     }
 }
