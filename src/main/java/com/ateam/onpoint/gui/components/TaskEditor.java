@@ -120,8 +120,14 @@ public class TaskEditor extends Stage {
             @Override
             public Integer fromString(String s) {
                 String[] splitMinutesAndHours = s.split(":");
-                int hours = Integer.valueOf(splitMinutesAndHours[0]);
-                int minutes = Integer.valueOf(splitMinutesAndHours[1]);
+                int hours, minutes;
+                try {
+                    hours = Integer.parseInt(splitMinutesAndHours[0]);
+                    minutes = Integer.parseInt(splitMinutesAndHours[1]);
+                } catch (Exception e) {
+                    hours = 0;
+                    minutes = 0;
+                }
                 return hours*60 + minutes;
             }
         });
@@ -145,7 +151,13 @@ public class TaskEditor extends Stage {
 
             @Override
             public Integer fromString(String s) {
-                return Integer.valueOf(s);
+                int i;
+                try {
+                    i = Integer.parseInt(s);
+                } catch (Exception e) {
+                    i = 0;
+                }
+                return i;
             }
         });
         minutesSpinnerFactory.setWrapAround(true);
@@ -154,7 +166,7 @@ public class TaskEditor extends Stage {
 
     private static SpinnerValueFactory.@NotNull IntegerSpinnerValueFactory createHoursSpinnerFactory() {
         var hoursSpinnerFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 24, 0, 1);
-        hoursSpinnerFactory.setConverter(new StringConverter<Integer>() {
+        hoursSpinnerFactory.setConverter(new StringConverter<>() {
             @Override
             public String toString(Integer integer) {
                 return String.format("%02d", integer);
@@ -162,7 +174,13 @@ public class TaskEditor extends Stage {
 
             @Override
             public Integer fromString(String s) {
-                return Integer.valueOf(s);
+                int i;
+                try {
+                    i = Integer.parseInt(s);
+                } catch (Exception e) {
+                    i = 0;
+                }
+                return i;
             }
         });
         hoursSpinnerFactory.setWrapAround(true);
