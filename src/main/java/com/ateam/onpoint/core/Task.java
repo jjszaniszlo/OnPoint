@@ -88,13 +88,6 @@ public class Task implements Serializable {
         this.isComplete = new SimpleBooleanProperty(istream.readBoolean());
     }
 
-    public static class SortByDate implements Comparator<Task> {
-        @Override
-        public int compare(Task o1, Task o2) {
-            return 0;
-        }
-    }
-
     public static class SortByTime implements Comparator<Task> {
         @Override
         public int compare(Task t1, Task t2) {
