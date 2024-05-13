@@ -17,7 +17,7 @@ public class TaskDatabase {
     private static TaskDatabase instance;
     private final ObservableList<Task> tasksList = FXCollections.observableArrayList(Task.extractor());
 
-    public TaskDatabase() {
+    private TaskDatabase() {
         TaskDatabase.ensureDatabaseFileExists();
     }
 

@@ -55,11 +55,6 @@ public class ScheduleView extends VBox implements IContent {
         return lv;
     }
 
-    public TaskDatabase initializeDB()
-    {
-        return new TaskDatabase();
-    }
-
     public ScheduleView() {
         super();
 
