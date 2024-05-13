@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class TaskCell extends Cell {
-    private final Label description = new Label();
     private final Label dateLabel = new Label("yyyy/mm/dd hh:mm");
     private final Label durationLabel = new Label("00h 00m");
 

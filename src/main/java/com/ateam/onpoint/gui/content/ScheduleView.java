@@ -1,6 +1,7 @@
 package com.ateam.onpoint.gui.content;
 
 import com.ateam.onpoint.gui.OnPointGUI;
+import com.ateam.onpoint.gui.components.ScheduleCell;
 import com.ateam.onpoint.gui.components.Spacer;
 import com.ateam.onpoint.core.Task;
 import com.ateam.onpoint.core.TaskDatabase;
@@ -29,7 +30,7 @@ public class ScheduleView extends VBox implements IContent {
     private static ListView<Task> initializeListView()
     {
         ListView<Task> listView = new ListView<>();
-        listView.setCellFactory(p -> new TaskCell());
+        listView.setCellFactory(p -> new ScheduleCell());
         listView.setPrefWidth(OnPointGUI.CONTENT_VIEW_WIDTH * 0.3);
         listView.setMinWidth(Control.USE_PREF_SIZE);
         listView.setMinHeight(Control.USE_PREF_SIZE);
