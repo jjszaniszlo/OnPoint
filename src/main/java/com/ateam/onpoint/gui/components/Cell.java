@@ -10,7 +10,6 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -20,6 +19,9 @@ public abstract class Cell extends ListCell<Task> {
     protected final Label description = new Label();
     protected final ContextMenu contextMenu = new ContextMenu();
     protected final CheckBox checkBox = new CheckBox();
+    protected final Label dateLabel = new Label("yyyy/mm/dd");
+    protected final Label timeLabel = new Label("hh:mm");
+    protected final Label durationLabel = new Label("00h 00m");
 
     public Cell() {
         super();

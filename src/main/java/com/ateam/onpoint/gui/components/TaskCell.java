@@ -19,9 +19,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class TaskCell extends Cell {
-    private final Label dateLabel = new Label("yyyy/mm/dd hh:mm");
-    private final Label durationLabel = new Label("00h 00m");
-
     public TaskCell() {
         super();
 
@@ -60,7 +57,9 @@ public class TaskCell extends Cell {
                 new Spacer(5),
                 clockImage,
                 new Spacer(5),
-                this.dateLabel
+                this.dateLabel,
+                new Spacer(5),
+                this.timeLabel
         );
     }
 
@@ -80,9 +79,13 @@ public class TaskCell extends Cell {
 
             if (date != null && time != null) {
                 this.dateLabel.setText(String.format(
-                        "%d/%02d/%02d %02d:%02d",
-                        date.getYear(), date.getMonthValue(), date.getDayOfMonth(), time.getHour(), time.getMinute())
+                        "%d/%02d/%02d",
+                        date.getYear(), date.getMonthValue(), date.getDayOfMonth())
                 );
+                this.timeLabel.setText(String.format(
+                        "%02d:%02d",
+                        time.getHour(), time.getMinute()
+                ));
             }
 
             final var duration = this.getItem().durationProperty().get();

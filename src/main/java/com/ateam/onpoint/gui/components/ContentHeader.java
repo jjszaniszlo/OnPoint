@@ -1,4 +1,4 @@
-package com.ateam.onpoint.gui.content;
+package com.ateam.onpoint.gui.components;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;

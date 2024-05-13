@@ -59,7 +59,7 @@ class ApplicationEntryTest {
         //VerifyClass(curPath = "com.ateam.onpoint.gui.components.NavTree", FAIL_GUI + curPath);
 
         // ~/content
-        VerifyClass(curPath = "com.ateam.onpoint.gui.content.ContentHeader", FAIL_GUI + curPath);
+        VerifyClass(curPath = "com.ateam.onpoint.gui.components.ContentHeader", FAIL_GUI + curPath);
         VerifyClass(curPath = "com.ateam.onpoint.gui.content.ScheduleView", FAIL_GUI + curPath);
         VerifyClass(curPath = "com.ateam.onpoint.gui.content.TaskView", FAIL_GUI + curPath);
         System.out.println("ApplicationEntry.java GUI dependencies are successfully installed!");

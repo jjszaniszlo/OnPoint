@@ -1,13 +1,12 @@
 package com.ateam.onpoint.gui.content;
 
 import com.ateam.onpoint.gui.OnPointGUI;
+import com.ateam.onpoint.gui.components.ContentHeader;
 import com.ateam.onpoint.gui.components.ScheduleCell;
 import com.ateam.onpoint.gui.components.Spacer;
 import com.ateam.onpoint.core.Task;
 import com.ateam.onpoint.core.TaskDatabase;
-import com.ateam.onpoint.gui.components.TaskCell;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Control;
@@ -41,32 +40,40 @@ public class ScheduleView extends VBox implements IContent {
     public ScheduleView() {
         super();
 
-        ContentHeader header = new ContentHeader("Schedule");
+        final var header = new ContentHeader("Schedule");
 
         this.setPrefWidth(400);
         this.setAlignment(Pos.TOP_CENTER);
 
         setupListViews();
 
-        // create layout
+        // create month and day strings
         String todayDateString = LocalDate.now().getMonth().toString() + " " + LocalDate.now().getDayOfMonth();
         String tomorrowDateString = LocalDate.now().plusDays(1).getMonth().toString() + " " + LocalDate.now().plusDays(1).getDayOfMonth();
-        Label todayLabel = new Label("Today - " + todayDateString);
-        Label tomorrowLabel = new Label("Tomorrow - " + tomorrowDateString);
-        Label upcomingLabel = new Label("Upcoming:");
 
-        VBox todayContainer = new VBox();
+        final var todayLabel = new Label("Today - " + todayDateString);
+        todayLabel.setStyle("-fx-font-weight: 800; -fx-font-size: 15;");
+        final var tomorrowLabel = new Label("Tomorrow - " + tomorrowDateString);
+        tomorrowLabel.setStyle("-fx-font-weight: 800; -fx-font-size: 15;");
+        final var upcomingLabel = new Label("Upcoming");
+        upcomingLabel.setStyle("-fx-font-weight: 800; -fx-font-size: 15;");
+
+        final var todayContainer = new VBox();
         todayContainer.getChildren().addAll(todayLabel, scheduleListViewToday);
+        todayContainer.setAlignment(Pos.CENTER);
 
-        VBox tomorrowContainer = new VBox();
+        final var tomorrowContainer = new VBox();
         tomorrowContainer.getChildren().addAll(tomorrowLabel, scheduleListViewTomorrow);
+        tomorrowContainer.setAlignment(Pos.CENTER);
 
-        VBox upcomingContainer = new VBox();
+        final var upcomingContainer = new VBox();
         upcomingContainer.getChildren().addAll(upcomingLabel, scheduleListViewUpcoming);
+        upcomingContainer.setAlignment(Pos.CENTER);
 
         // Content lists (similar to TaskView.java)
-        HBox listViewContainers = new HBox();
+        final var listViewContainers = new HBox();
         listViewContainers.getChildren().addAll(todayContainer, new Spacer(), tomorrowContainer, new Spacer(), upcomingContainer);
+        listViewContainers.setPadding(new Insets(0, 0, 0, 10));
 
         this.getChildren().addAll(header, listViewContainers);
     }
