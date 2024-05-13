@@ -34,9 +34,6 @@ public class TaskCell extends Cell {
         arrowImage.setFitWidth(20);
         arrowImage.setFitHeight(20);
 
-        setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-        setAlignment(Pos.CENTER);
-
         this.checkBox.setOnMouseClicked(e -> this.getItem().isCompletedProperty().set(this.checkBox.isSelected()));
 
         this.description.setStyle("-fx-font-weight: 600;");

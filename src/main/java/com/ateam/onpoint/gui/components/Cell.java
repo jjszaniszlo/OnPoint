@@ -2,11 +2,9 @@ package com.ateam.onpoint.gui.components;
 
 import com.ateam.onpoint.core.Task;
 import com.ateam.onpoint.core.TaskDatabase;
+import javafx.geometry.Pos;
 import javafx.scene.SnapshotParameters;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
@@ -23,6 +21,11 @@ public class Cell extends ListCell<Task> {
     protected final CheckBox checkBox = new CheckBox();
 
     public Cell() {
+        super();
+
+        setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+        setAlignment(Pos.CENTER);
+
         setupContextMenu();
         setupDragAndDrop();
     }
