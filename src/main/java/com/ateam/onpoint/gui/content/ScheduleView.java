@@ -21,7 +21,7 @@ import java.time.LocalDate;
  * and application!
  */
 public class ScheduleView extends VBox implements IContent {
-    private final static String LIST_VIEW_HEADING_STYLE = "-fx-font-weight: 800; -fx-font-size: 15;";
+    private final static String LIST_VIEW_HEADING_STYLE = "-fx-font-weight: 800; -fx-font-size: 13;";
 
     private final static ListView<Task> scheduleListViewToday = initializeListView();
     private final static ListView<Task> scheduleListViewTomorrow = initializeListView();
