@@ -21,6 +21,7 @@ import java.time.LocalDate;
  * and application!
  */
 public class ScheduleView extends VBox implements IContent {
+    private final static String LIST_VIEW_HEADING_STYLE = "-fx-font-weight: 800; -fx-font-size: 15;";
 
     private final static ListView<Task> scheduleListViewToday = initializeListView();
     private final static ListView<Task> scheduleListViewTomorrow = initializeListView();
@@ -48,15 +49,17 @@ public class ScheduleView extends VBox implements IContent {
         setupListViews();
 
         // create month and day strings
-        String todayDateString = LocalDate.now().getMonth().toString() + " " + LocalDate.now().getDayOfMonth();
-        String tomorrowDateString = LocalDate.now().plusDays(1).getMonth().toString() + " " + LocalDate.now().plusDays(1).getDayOfMonth();
+        String todayDateString = String.format("Today: %s, %d", LocalDate.now().getMonth().toString(), LocalDate.now().getDayOfMonth());
+        String tomorrowDateString = String.format("Tomorrow: %s, %d", LocalDate.now().plusDays(1).getMonth().toString(), LocalDate.now().plusDays(1).getDayOfMonth());
 
-        final var todayLabel = new Label("Today - " + todayDateString);
-        todayLabel.setStyle("-fx-font-weight: 800; -fx-font-size: 15;");
-        final var tomorrowLabel = new Label("Tomorrow - " + tomorrowDateString);
-        tomorrowLabel.setStyle("-fx-font-weight: 800; -fx-font-size: 15;");
+        final var todayLabel = new Label(todayDateString);
+        todayLabel.setStyle(LIST_VIEW_HEADING_STYLE);
+
+        final var tomorrowLabel = new Label(tomorrowDateString);
+        tomorrowLabel.setStyle(LIST_VIEW_HEADING_STYLE);
+
         final var upcomingLabel = new Label("Upcoming");
-        upcomingLabel.setStyle("-fx-font-weight: 800; -fx-font-size: 15;");
+        upcomingLabel.setStyle(LIST_VIEW_HEADING_STYLE);
 
         final var todayContainer = new VBox();
         todayContainer.getChildren().addAll(todayLabel, scheduleListViewToday);
