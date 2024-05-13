@@ -1,5 +1,6 @@
 com.ateam.onpoint
 com.ateam.onpoint.core
+com.ateam.onpoint.core.helpers
 com.ateam.onpoint.gui
 com.ateam.onpoint.gui.components
 com.ateam.onpoint.gui.content
