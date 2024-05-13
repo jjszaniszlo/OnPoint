@@ -15,8 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Cell extends ListCell<Task> {
+public abstract class Cell extends ListCell<Task> {
     protected final HBox root = new HBox();
+    protected final Label description = new Label();
     protected final ContextMenu contextMenu = new ContextMenu();
     protected final CheckBox checkBox = new CheckBox();
 
