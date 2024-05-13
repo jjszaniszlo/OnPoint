@@ -30,8 +30,6 @@ public class TaskCell extends Cell {
         arrowImage.setFitWidth(20);
         arrowImage.setFitHeight(20);
 
-        this.checkBox.setOnMouseClicked(e -> this.getItem().isCompletedProperty().set(this.checkBox.isSelected()));
-
         this.description.setStyle("-fx-font-weight: 600;");
         this.description.setPrefWidth(OnPointGUI.CONTENT_VIEW_WIDTH * 0.4);
         this.description.setMinWidth(Control.USE_PREF_SIZE);
@@ -42,8 +40,6 @@ public class TaskCell extends Cell {
         this.root.setAlignment(Pos.CENTER_LEFT);
         this.root.prefHeight(15);
         this.root.prefWidth(450);
-
-        this.root.setOnContextMenuRequested(e -> this.contextMenu.show(this.root.getScene().getWindow(), e.getScreenX(), e.getScreenY()));
 
         this.dateLabel.setPadding(new Insets(0, 5, 0,0));
 

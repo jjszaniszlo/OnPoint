@@ -2,6 +2,7 @@ package com.ateam.onpoint.gui.components;
 
 import com.ateam.onpoint.core.Task;
 import com.ateam.onpoint.core.TaskDatabase;
+import javafx.animation.FadeTransition;
 import javafx.geometry.Pos;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
@@ -9,6 +10,7 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
+import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +31,22 @@ public abstract class Cell extends ListCell<Task> {
         setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         setAlignment(Pos.CENTER);
 
+        this.checkBox.setOnMouseClicked(e -> {
+            this.getItem().isCompletedProperty().set(this.checkBox.isSelected());
+            final var transition = new FadeTransition(Duration.millis(250), this);
+            transition.setFromValue(1);
+            transition.setToValue(0);
+            transition.setOnFinished(e2 -> {
+                TaskDatabase.getInstance().removeTask(this.getItem());
+                this.setOpacity(1);
+            });
+            transition.play();
+        });
+
         setupContextMenu();
         setupDragAndDrop();
+
+        this.root.setOnContextMenuRequested(e -> this.contextMenu.show(this.root.getScene().getWindow(), e.getScreenX(), e.getScreenY()));
     }
 
     protected void setupDragAndDrop() {
@@ -102,7 +118,7 @@ public abstract class Cell extends ListCell<Task> {
         setOnDragDone(DragEvent::consume);
     }
 
-    protected @NotNull void setupContextMenu() {
+    protected void setupContextMenu() {
         final var editTaskMenuItem = new MenuItem("Edit Task");
         editTaskMenuItem.setOnAction(e -> {
             TaskEditor.getInstance().openTaskEditor(getScene().getWindow(), this.getItem());
