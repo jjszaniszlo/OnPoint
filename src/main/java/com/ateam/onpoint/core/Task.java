@@ -2,11 +2,13 @@ package com.ateam.onpoint.core;
 
 import javafx.beans.Observable;
 import javafx.beans.property.*;
+import javafx.collections.FXCollections;
 import javafx.util.Callback;
 
 import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Comparator;
 
 public class Task implements Serializable {
     private transient ObjectProperty<LocalDate> creationDate = new SimpleObjectProperty<>(null);
@@ -82,5 +84,19 @@ public class Task implements Serializable {
         this.duration = new SimpleIntegerProperty(istream.readInt());
         this.description = new SimpleStringProperty(istream.readUTF());
         this.isComplete = new SimpleBooleanProperty(istream.readBoolean());
+    }
+
+    public static class SortByDate implements Comparator<Task> {
+        @Override
+        public int compare(Task o1, Task o2) {
+            return 0;
+        }
+    }
+
+    public static class SortByTime implements Comparator<Task> {
+        @Override
+        public int compare(Task o1, Task o2) {
+            return 0;
+        }
     }
 }
